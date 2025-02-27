@@ -3,21 +3,21 @@ import React, { useEffect, useState } from "react";
 import { EmblaOptionsType } from "embla-carousel";
 import useEmblaCarousel from "embla-carousel-react";
 import AutoScroll from "embla-carousel-auto-scroll";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { Button } from "../ui/button";
 
 const carouselOptions: EmblaOptionsType = { loop: true, dragFree: true };
 
 interface EmblaCarouselProps {
   CardComponent: React.ComponentType<any>;
-  items: any;
+  items: any[];
 }
+
 const EmblaCarousel: React.FC<EmblaCarouselProps> = ({
   CardComponent,
   items,
 }) => {
-  const [prevBtnDisabled, setPrevBtnDisabled] = useState(true);
-  const [nextBtnDisabled, setNextBtnDisabled] = useState(true);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
 
   const [emblaRef, emblaApi] = useEmblaCarousel(carouselOptions, [
     AutoScroll({
@@ -33,55 +33,68 @@ const EmblaCarousel: React.FC<EmblaCarouselProps> = ({
     if (!emblaApi) return;
 
     const onSelect = () => {
-      setPrevBtnDisabled(!emblaApi.canScrollPrev());
-      setNextBtnDisabled(!emblaApi.canScrollNext());
+      setSelectedIndex(emblaApi.selectedScrollSnap());
+    };
+
+    const onResize = () => {
+      setScrollSnaps(emblaApi.scrollSnapList());
     };
 
     emblaApi.on("select", onSelect);
+    emblaApi.on("reInit", onSelect);
+    emblaApi.on("reInit", onResize);
+    emblaApi.on("resize", onResize);
+
     onSelect();
+    onResize();
 
     return () => {
       emblaApi.off("select", onSelect);
+      emblaApi.off("reInit", onSelect);
+      emblaApi.off("reInit", onResize);
+      emblaApi.off("resize", onResize);
     };
   }, [emblaApi]);
 
-  const scrollPrev = () => {
-    if (emblaApi) {
-      emblaApi.scrollPrev();
-      const autoScroll = emblaApi.plugins()?.autoScroll;
-      autoScroll?.stop();
-      setTimeout(() => autoScroll?.play(), 5000);
-    }
-  };
+  const scrollTo = (index: number) => {
+    if (!emblaApi) return;
 
-  const scrollNext = () => {
-    if (emblaApi) {
-      emblaApi.scrollNext();
-      const autoScroll = emblaApi.plugins()?.autoScroll;
-      autoScroll?.stop();
-      setTimeout(() => autoScroll?.play(), 5000);
+    emblaApi.scrollTo(index);
+
+    const autoScroll = emblaApi.plugins()?.autoScroll;
+    if (autoScroll) {
+      autoScroll.stop();
+      setTimeout(() => autoScroll.play(), 5000);
     }
   };
 
   return (
-    <div>
+    <div className="relative">
       <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex touch-pan-y touch-pinch-zoom items-center -ml-4 md:-ml-8">
-          {items.map((item: any, index: number) => (
-            <div key={index} className="pl-4 md:pl-8">
-              <CardComponent {...item} />
-            </div>
-          ))}
+        <div className="flex touch-pan-y ml-0">
+          {items &&
+            items.length > 0 &&
+            items.map((item, index) => (
+              <div key={index} className="flex-[0_0_33%] min-w-0 pl-4 md:pl-8 py-8">
+                <CardComponent {...item} />
+              </div>
+            ))}
         </div>
       </div>
 
-      <div className="space-y-4 space-x-2">
-        <Button onClick={scrollPrev} disabled={prevBtnDisabled}>
-          <IoIosArrowBack size={30} />
-        </Button>
-        <Button onClick={scrollNext} disabled={nextBtnDisabled}>
-          <IoIosArrowForward size={30} />
-        </Button>
+      <div className="flex justify-center mt-4 gap-2">
+        {scrollSnaps.map((_, index) => (
+          <button
+            key={index}
+            className={`w-3 h-3 rounded-full ${
+              index === selectedIndex
+                ? "bg-primary"
+                : "bg-gray-300 hover:bg-gray-400"
+            }`}
+            onClick={() => scrollTo(index)}
+            aria-label={`Go to slide ${index + 1}`}
+          />
+        ))}
       </div>
     </div>
   );

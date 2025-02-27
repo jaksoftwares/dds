@@ -1,5 +1,11 @@
 import EmblaCarousel from "embla-carousel";
 import Footer from "./core/Footer";
+import LinkAsLoadingButton from "./core/LinkAsLoadingButton";
+import LoadingButton from "./core/LoadingButton";
+import Header from "./core/Header";
+import SitePreviewIframe from "./core/SitePreviewIframe";
+import SectionHeader from "./core/SectionHeader";
+import NavLinkContainer from "./core/NavLinkContainer";
 import AboutUs from "./home/AboutUs";
 import Explore from "./home/Explore";
 import Portfolio from "./home/Portfolio";
@@ -7,8 +13,6 @@ import HeroSection from "./home/HeroSection";
 import Process from "./home/Process";
 import Services from "./home/Services";
 import Testimonials from "./home/Testimonials";
-import LoadingButton from "./core/LoadingButton";
-import Header from "./core/Header";
 import ScheduleConsulation from "./home/ScheduleConsulation";
 
 export {
@@ -17,6 +21,10 @@ export {
   LoadingButton,
   Header,
   Footer,
+  NavLinkContainer,
+  LinkAsLoadingButton,
+  SectionHeader,
+  SitePreviewIframe,
   // home
   HeroSection,
   Services,
