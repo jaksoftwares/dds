@@ -10,10 +10,12 @@ const Header = () => {
         <ul className="flex justify-between items-center">
           <li className="flex gap-x-2">
             <SiteLogo className="grayscale" />
-            <div>
+            {/*
+             <div>
               <h1 className="text-xl font-bold">DOVEPEAK</h1>
               <h1>Digital Solutions</h1>
             </div>
+             */}
           </li>
           <NavLinkContainer />
           <LoadingButton>Get a quote</LoadingButton>

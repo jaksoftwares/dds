@@ -8,8 +8,6 @@ import { testimonials } from "@/lib/constants";
 import EmblaCarousel from "../core/EmblaCarousel";
 
 const Testimonials = () => {
-  // Sample testimonial data
-
   return (
     <div className="py-12 px-4">
       <SectionHeader
@@ -17,7 +15,7 @@ const Testimonials = () => {
         label="TESTIMONIALS"
         title="What our clients say about us"
       />
-      <div className="flex justify-center mt-8">
+      <div className="flex justify-center mt-8 overflow-hidden">
         <EmblaCarousel
           items={testimonials}
           CardComponent={TestimonialItemCard}
