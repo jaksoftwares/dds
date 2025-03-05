@@ -75,7 +75,7 @@ const EmblaCarousel: React.FC<EmblaCarouselProps> = ({
           {items &&
             items.length > 0 &&
             items.map((item, index) => (
-              <div key={index} className="flex-[0_0_33%] min-w-0 pl-4 md:pl-8 py-8">
+              <div key={index} className="flex-[0_0_25%] min-w-0 pl-4 md:pl-8 py-8">
                 <CardComponent {...item} />
               </div>
             ))}

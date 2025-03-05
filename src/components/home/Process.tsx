@@ -7,14 +7,13 @@ import { processes } from "@/lib/constants";
 
 const Process = () => {
   return (
-    <div className="relative mx-64 flex items-center flex-col justify-center">
+    <div className="relative mx-80 flex items-center  flex-col">
       <SectionHeader
         title="Our Working Process"
         label="PROCESS"
         href={URLS.process}
       />
-      {/* Modified this line only to limit its width */}
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 w-[80%] h-0.5 bg-[repeating-linear-gradient(to_right,_black_0px,_black_30px,_transparent_30px,_transparent_50px)] -z-10" />
+      <div className="absolute top-[55%] left-1/2 transform -translate-x-1/2 w-[80%] h-0.5 bg-[repeating-linear-gradient(to_right,_black_0px,_black_30px,_transparent_30px,_transparent_50px)] -z-10" />
       <ul className="flex justify-between">
         {processes.map((p) => (
           <ProcessItem key={p.imgUrl} process={p} />

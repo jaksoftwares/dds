@@ -1,7 +1,6 @@
-import Image from "next/image";
-import React from "react";
-import LinkAsLoadingButton from "../core/LinkAsLoadingButton";
 import URLS from "@/lib/urls";
+import Image from "next/image";
+import LinkAsLoadingButton from "../core/LinkAsLoadingButton";
 
 const HeroSection = () => {
   return (
@@ -41,8 +40,8 @@ const HeroSection = () => {
         <div className="flex gap-x-4 items-center justify-center">
           <LinkAsLoadingButton
             href={URLS.portfolio}
-            variant={"secondary"}
-            className="px-8"
+            variant={"outline"}
+            className="px-8 border-primary text-primary hover:bg-primary hover:text-white transition duration-300"
           >
             View our work
           </LinkAsLoadingButton>

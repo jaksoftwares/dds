@@ -9,7 +9,7 @@ import EmblaCarousel from "../core/EmblaCarousel";
 
 const Testimonials = () => {
   return (
-    <div className="py-12 px-4">
+    <div className="py-12 px-4 flex flex-col items-center relative">
       <SectionHeader
         href={URLS.testimonials}
         label="TESTIMONIALS"
@@ -21,6 +21,14 @@ const Testimonials = () => {
           CardComponent={TestimonialItemCard}
         />
       </div>
+
+      <Image
+        src={"/portfolio/diced-squares.png"}
+        alt={"Decoration"}
+        width={200}
+        height={200}
+        className="absolute right-[0] bottom-0 -z-10"
+      />
     </div>
   );
 };

@@ -5,15 +5,17 @@ import React from "react";
 
 interface SiteLogoProps {
   className?: string;
+  width?: number;
+  height?: number;
 }
 
-const SiteLogo: React.FC<SiteLogoProps> = ({ className }) => {
+const SiteLogo: React.FC<SiteLogoProps> = ({ className, width, height }) => {
   return (
     <Image
       src={SITE_CONFIG.logoUrls.base}
       alt={`${SITE_CONFIG.name}'s Logo`}
-      width={80}
-      height={80}
+      width={width}
+      height={height}
       className={cn(className, "w-auto h-auto py-2 ")}
     />
   );

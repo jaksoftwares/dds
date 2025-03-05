@@ -9,7 +9,7 @@ import LoadingButton from "./LoadingButton";
 
 const Footer = () => {
   return (
-    <footer className="px-64 py-32 bg-blue-950 text-white flex justify-between">
+    <footer className="px-64 py-32 bg-customBlueExtraDark text-white flex justify-between mt-32">
       <div className="w-2/5 space-y-8">
         <h2 className="text-4xl font-semibold">DovePeak Digital Solutions</h2>
         <p>
@@ -22,10 +22,7 @@ const Footer = () => {
           <h2 className="text-xl font-semibold">Got a Question?</h2>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
 
-          <LinkAsLoadingButton
-            href={URLS.contactUs}
-            className="text-2xl py-8 px-12"
-          >
+          <LinkAsLoadingButton href={URLS.contactUs} className="text-2xl px-8">
             <MessageCircleQuestion />
             <span>Contact us</span>
           </LinkAsLoadingButton>

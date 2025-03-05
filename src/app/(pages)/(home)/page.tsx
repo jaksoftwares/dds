@@ -12,16 +12,19 @@ import React from "react";
 
 const HomePage = () => {
   return (
-    <>
+    <main className="space-y-4">
       <HeroSection />
-      <Services />
-      <AboutUs />
-      <Portfolio />
-      <Process />
-      <Testimonials />
-      <ScheduleConsulation />
-      <Explore />
-    </>
+
+      <div className="space-y-32">
+        <Services />
+        <AboutUs />
+        <Portfolio />
+        <Process />
+        <Testimonials />
+        <ScheduleConsulation />
+        <Explore />
+      </div>
+    </main>
   );
 };
 
