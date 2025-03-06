@@ -22,8 +22,8 @@ const HomePage = () => {
         <Process />
         <Testimonials />
         <ScheduleConsulation />
-        <Explore />
       </div>
+      <Explore />
     </main>
   );
 };

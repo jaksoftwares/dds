@@ -20,7 +20,7 @@ const SitePreviewIframe: React.FC<SitePreviewIframeProps> = ({
     <>
       {/* Main Preview Card */}
       <div
-        className={`border rounded-lg shadow-md overflow-hidden ${className}`}
+        className={`border rounded-lg shadow-md overflow-hidden ${className} bg-white`}
       >
         <div className="relative">
           {/* Iframe for site preview */}

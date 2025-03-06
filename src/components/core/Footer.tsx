@@ -9,7 +9,7 @@ import LoadingButton from "./LoadingButton";
 
 const Footer = () => {
   return (
-    <footer className="px-64 py-32 bg-customBlueExtraDark text-white flex justify-between mt-32">
+    <footer className="px-64 py-32 bg-customBlueExtraDark text-white flex justify-between">
       <div className="w-2/5 space-y-8">
         <h2 className="text-4xl font-semibold">DovePeak Digital Solutions</h2>
         <p>

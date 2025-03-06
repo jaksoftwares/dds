@@ -12,7 +12,7 @@ const AboutUs = () => {
         alt={"A flower shurieken"}
         width={250}
         height={250}
-        className="absolute right-[10%] top-0"
+        className="absolute right-[5%] top-0"
       />
 
       <Image

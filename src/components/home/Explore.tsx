@@ -9,14 +9,14 @@ import { blogs } from "@/lib/constants";
 
 const Explore = () => {
   return (
-    <div className="flex flex-col items-center relative">
-      {/* <Image
+    <div className="flex flex-col items-center relative py-32">
+      <Image
         src={"/explore/arc.png"}
         alt={"Decoration"}
-        width={200}
-        height={200}
-        className="absolute left-0 bottom-20 -rotate-[30deg]"
-      /> */}
+        width={100}
+        height={100}
+        className="absolute left-0 bottom-0 -z-10"
+      />
 
       <SectionHeader label="EXPLORE" title="Blogs and News" href={URLS.blogs} />
 
