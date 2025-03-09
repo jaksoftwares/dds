@@ -1,6 +1,6 @@
-import { MoveRight } from "lucide-react";
 import React from "react";
 import LinkAsLoadingButton from "./LinkAsLoadingButton";
+import RightArrow from "./RightArrow";
 
 interface SectionHeaderProps extends SectionTitleLinkAsLoadingButtonProps {
   title: string;
@@ -35,10 +35,10 @@ const SectionTitleLinkAsLoadingButton: React.FC<
   return (
     <LinkAsLoadingButton
       href={href}
-      className="px-12 transition duration-300 rounded-4xl bg-customBlueLight text-customBlueDark font-semibold hover:bg-customBlueDark hover:text-customBlueLight rounded-md"
+      className="transition px-4 duration-300 rounded-full bg-customBlueLight text-customBlueDark font-semibold hover:bg-customBlueBase hover:text-customBlueLight"
     >
       <div>{label}</div>
-      <MoveRight />
+      <RightArrow />
     </LinkAsLoadingButton>
   );
 };

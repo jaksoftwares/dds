@@ -4,6 +4,7 @@ import LinkAsLoadingButton from "./core/LinkAsLoadingButton";
 import LoadingButton from "./core/LoadingButton";
 import Header from "./core/Header";
 import SitePreviewIframe from "./core/SitePreviewIframe";
+import RightArrow from "./core/RightArrow";
 import SectionHeader from "./core/SectionHeader";
 import NavLinkContainer from "./core/NavLinkContainer";
 import AboutUs from "./home/AboutUs";
@@ -25,6 +26,7 @@ export {
   LinkAsLoadingButton,
   SectionHeader,
   SitePreviewIframe,
+  RightArrow,
   // home
   HeroSection,
   Services,

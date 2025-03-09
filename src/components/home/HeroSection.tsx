@@ -4,7 +4,7 @@ import LinkAsLoadingButton from "../core/LinkAsLoadingButton";
 
 const HeroSection = () => {
   return (
-    <div className="relative p-64">
+    <div className="relative p-56">
       <Image
         src={"/hero-section/star.png"}
         alt="Star"
@@ -32,7 +32,7 @@ const HeroSection = () => {
       <div className="space-y-16">
         <div className="text-center">
           <p>We transform your vision into a digital masterpiece</p>
-          <p className="text-5xl font-semibold">
+          <p className="text-6xl font-semibold">
             Growth through Smart Solutions
           </p>
         </div>

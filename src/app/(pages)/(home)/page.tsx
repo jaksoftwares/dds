@@ -12,7 +12,7 @@ import React from "react";
 
 const HomePage = () => {
   return (
-    <main className="space-y-4">
+    <main>
       <HeroSection />
 
       <div className="space-y-32">

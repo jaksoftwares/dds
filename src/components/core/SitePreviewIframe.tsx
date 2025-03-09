@@ -26,7 +26,7 @@ const SitePreviewIframe: React.FC<SitePreviewIframeProps> = ({
           {/* Iframe for site preview */}
           <iframe
             src={siteUrl}
-            className="w-full h-72 border-b"
+          className="w-full h-96 border-b"
             sandbox="allow-same-origin allow-scripts"
           />
         </div>

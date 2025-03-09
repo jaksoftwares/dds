@@ -9,7 +9,7 @@ import EmblaCarousel from "../core/EmblaCarousel";
 
 const Testimonials = () => {
   return (
-    <div className="py-12 px-4 flex flex-col items-center relative">
+    <div className="py-12 px-4 flex flex-col items-center relative overflow-hidden">
       <SectionHeader
         href={URLS.testimonials}
         label="TESTIMONIALS"
