@@ -1,7 +1,7 @@
 import React from "react";
 import SectionHeader from "../core/SectionHeader";
 import URLS from "@/lib/urls";
-import { I_Blog } from "@/lib/types";
+import { I_Blog } from "@/lib/interfaces";
 import Image from "next/image";
 import Link from "next/link";
 import { FaArrowRightLong } from "react-icons/fa6";
@@ -37,7 +37,7 @@ interface BlogItemCardProps {
 
 const BlogItemCard: React.FC<BlogItemCardProps> = ({ blog }) => {
   return (
-    <li>
+    <li className="shadow-md rounded-xl p-4">
       <Image
         src={blog.imageUrl}
         alt={`Image for ${blog.title}`}

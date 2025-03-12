@@ -2,7 +2,7 @@
 import React from "react";
 import SectionHeader from "../core/SectionHeader";
 import URLS from "@/lib/urls";
-import { I_Testimonial } from "@/lib/types";
+import { I_Testimonial } from "@/lib/interfaces";
 import Image from "next/image";
 import { testimonials } from "@/lib/constants";
 import EmblaCarousel from "../core/EmblaCarousel";
@@ -19,6 +19,7 @@ const Testimonials = () => {
         <EmblaCarousel
           items={testimonials}
           CardComponent={TestimonialItemCard}
+          visibleSlides={5}
         />
       </div>
 

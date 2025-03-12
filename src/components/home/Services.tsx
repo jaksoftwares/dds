@@ -1,5 +1,5 @@
 import { services } from "@/lib/constants";
-import { I_ItemWithImage } from "@/lib/types";
+import { I_ItemWithImage } from "@/lib/interfaces";
 import URLS from "@/lib/urls";
 import Image from "next/image";
 import React from "react";

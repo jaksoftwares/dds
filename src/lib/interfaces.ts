@@ -1,5 +1,5 @@
 import { LucideProps } from "lucide-react";
-import { ForwardRefExoticComponent, ReactNode, RefAttributes } from "react";
+import { ForwardRefExoticComponent, RefAttributes } from "react";
 
 export interface I_NavLink {
   label: string;
@@ -26,4 +26,20 @@ export interface I_SocialLink {
     Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
   >;
   href: string;
+}
+
+export interface I_Project {
+  link: string;
+  title: string;
+  overview: string;
+  challenge: string;
+  solution: string;
+  testimonial: {
+    words: string;
+    founder: {
+      name: string;
+      position: string;
+      company: string;
+    };
+  };
 }

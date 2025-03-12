@@ -7,11 +7,13 @@ import { Maximize, ExternalLink, X } from "lucide-react";
 interface SitePreviewIframeProps {
   siteUrl: string;
   className?: string;
+  iframeHeight?: string;
 }
 
 const SitePreviewIframe: React.FC<SitePreviewIframeProps> = ({
   siteUrl,
   className,
+  iframeHeight = "h-96",
 }) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const isExternal = siteUrl.startsWith("http");
@@ -26,7 +28,7 @@ const SitePreviewIframe: React.FC<SitePreviewIframeProps> = ({
           {/* Iframe for site preview */}
           <iframe
             src={siteUrl}
-          className="w-full h-96 border-b"
+            className={`w-full border-b ${iframeHeight}`}
             sandbox="allow-same-origin allow-scripts"
           />
         </div>

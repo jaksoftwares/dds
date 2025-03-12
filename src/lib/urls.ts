@@ -3,7 +3,7 @@ const URLS = {
   home: "/",
   aboutUs: "/#about-us",
   services: "/#services",
-  portfolio: "/#portfolio",
+  portfolio: "/portfolio",
   pricing: "/#pricing",
   testimonials: "/#testimonials",
   contactUs: "/#contact-us",

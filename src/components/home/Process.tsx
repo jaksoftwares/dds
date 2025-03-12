@@ -1,7 +1,7 @@
 import React from "react";
 import SectionHeader from "../core/SectionHeader";
 import URLS from "@/lib/urls";
-import { I_ItemWithImage } from "@/lib/types";
+import { I_ItemWithImage } from "@/lib/interfaces";
 import Image from "next/image";
 import { processes } from "@/lib/constants";
 
