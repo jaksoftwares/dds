@@ -1,19 +1,38 @@
-import React from "react";
-import SiteLogo from "./SiteLogo";
-import NavLinkContainer from "./NavLinkContainer";
+"use client";
+
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Menu } from "lucide-react";
 import LoadingButton from "./LoadingButton";
+import NavLinksContainer from "./NavLinksContainer";
+import SiteLogo from "./SiteLogo";
 
 const Header = () => {
   return (
-    <header className="px-16">
-      <nav>
-        <ul className="flex justify-between items-center">
-          <li className="flex gap-x-2">
-            <SiteLogo className="grayscale" width={250} height={250} />
-          </li>
-          <NavLinkContainer />
-          <LoadingButton>Get a quote</LoadingButton>
+    <header className="px-6 md:px-16 py-4 bg-white shadow fixed top-0 left-0 w-full z-50">
+      <nav className="flex justify-between items-center">
+        {/* Logo */}
+        <SiteLogo className="grayscale" width={150} height={150} />
+
+        {/* Desktop Navigation - Visible only on lg screens and above */}
+        <ul className="hidden lg:flex gap-x-12">
+          <NavLinksContainer />
         </ul>
+
+        {/* CTA Button - Visible only on lg screens and above */}
+        <div className="hidden lg:block">
+          <LoadingButton>Get a quote</LoadingButton>
+        </div>
+
+        {/* Mobile Menu Button (ShadCN Sheet Trigger) */}
+        <Sheet>
+          <SheetTrigger className="lg:hidden p-2">
+            <Menu size={24} />
+          </SheetTrigger>
+          <SheetContent side="right" className="p-6 flex flex-col gap-4">
+            <NavLinksContainer />
+            <LoadingButton className="w-full">Get a quote</LoadingButton>
+          </SheetContent>
+        </Sheet>
       </nav>
     </header>
   );

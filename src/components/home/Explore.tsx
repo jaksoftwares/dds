@@ -9,7 +9,7 @@ import { blogs } from "@/lib/constants";
 
 const Explore = () => {
   return (
-    <div className="flex flex-col items-center relative py-32">
+    <div className="flex flex-col items-center relative py-32 mx-4">
       <Image
         src={"/explore/arc.png"}
         alt={"Decoration"}

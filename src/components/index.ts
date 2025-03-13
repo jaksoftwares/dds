@@ -6,7 +6,7 @@ import Header from "./core/Header";
 import SitePreviewIframe from "./core/SitePreviewIframe";
 import RightArrow from "./core/RightArrow";
 import SectionHeader from "./core/SectionHeader";
-import NavLinkContainer from "./core/NavLinkContainer";
+import NavLinkContainer from "./core/NavLinksContainer";
 import AboutUs from "./home/AboutUs";
 import Explore from "./home/Explore";
 import Portfolio from "./home/Portfolio";
