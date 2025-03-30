@@ -17,7 +17,7 @@ export const navLinks: I_NavLink[] = [
   { label: "Portfolio", href: URLS.portfolio },
   // { label: "Pricing", href: URLS.pricing },
   // { label: "Contact us", href: URLS.contactUs },
-  { label: "Blogs", href: URLS.blogs },
+  // { label: "Blogs", href: URLS.blogs },
 ];
 
 export const testimonials: I_Testimonial[] = [
