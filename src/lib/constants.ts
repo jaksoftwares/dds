@@ -122,22 +122,82 @@ export const services: I_ItemWithImage[] = [
 
 export const projects: I_Project[] = [
   {
-    title: "Kids Beyond Limit",
-    slug: "kids-beyond-limit",
-    link: "https://kids-beyond-limit.vercel.app/",
+    title: "DDS Consulting",
+    slug: "dds-consulting",
+    link: "https://dds-consulting.vercel.app/",
     overview:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet.",
+      "A professional consulting website showcasing services, expertise, and client success stories. Designed to establish credibility and attract potential clients in the consulting industry.",
     challenge:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Lorem ipsum dolor sit amet.",
+      "Creating a sophisticated yet approachable digital presence that effectively communicates complex consulting services to diverse audiences.",
     solution:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi.",
+      "Developed a clean, professional design with clear service breakdowns, case studies, and an intuitive contact system to facilitate client engagement.",
     testimonial: {
       words:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.",
+        "The website perfectly captures our professional ethos while making our services accessible to potential clients. It's been instrumental in our digital growth.",
       founder: {
-        name: "John Doe",
+        name: "Jane Smith",
+        position: "Managing Partner",
+        company: "DDS Consulting",
+      },
+    },
+  },
+  {
+    title: "Living Spot",
+    slug: "living-spot",
+    link: "https://livingspot.vercel.app/",
+    overview:
+      "A modern real estate platform connecting homeowners with potential buyers and renters, featuring property listings with high-quality visuals and detailed information.",
+    challenge:
+      "Building an engaging platform that makes property searching intuitive while handling high-resolution images efficiently.",
+    solution:
+      "Implemented a responsive design with optimized image loading, advanced filtering options, and a user-friendly interface for seamless property browsing.",
+    testimonial: {
+      words:
+        "Our conversion rates improved significantly after launching this platform. The clean design and fast performance keep users engaged.",
+      founder: {
+        name: "Michael Johnson",
+        position: "CEO",
+        company: "Living Spot",
+      },
+    },
+  },
+  {
+    title: "Study Room",
+    slug: "study-room",
+    link: "https://studyroom-sepia.vercel.app/",
+    overview:
+      "An educational platform offering virtual study spaces, resource sharing, and collaborative tools for students and educators.",
+    challenge:
+      "Creating a digital environment that fosters focus and collaboration among remote learners.",
+    solution:
+      "Developed virtual study rooms with real-time collaboration features, resource libraries, and productivity tracking to enhance the online learning experience.",
+    testimonial: {
+      words:
+        "This platform has transformed how our students interact and study together online. The features are perfectly tailored to academic needs.",
+      founder: {
+        name: "Sarah Williams",
+        position: "Director",
+        company: "Study Room",
+      },
+    },
+  },
+  {
+    title: "AutoStore",
+    slug: "autostore",
+    link: "https://autostore-q6v3.vercel.app/",
+    overview:
+      "An e-commerce platform specializing in automotive parts and accessories, featuring comprehensive product catalogs and seamless purchasing.",
+    challenge:
+      "Managing a complex inventory system while maintaining fast performance and an intuitive shopping experience.",
+    solution:
+      "Built a robust e-commerce solution with advanced search, detailed product specifications, and integrated payment processing tailored for automotive enthusiasts.",
+    testimonial: {
+      words:
+        "Our sales have doubled since launching this platform. The intuitive design makes it easy for customers to find exactly what they need.",
+      founder: {
+        name: "David Brown",
         position: "Founder",
-        company: "Kids Beyond Limit",
+        company: "AutoStore",
       },
     },
   },
@@ -146,14 +206,14 @@ export const projects: I_Project[] = [
     slug: "kids-beyond-limit",
     link: "https://kids-beyond-limit.vercel.app/",
     overview:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet.",
+      "An educational initiative focused on providing exceptional learning opportunities for children with special needs.",
     challenge:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Lorem ipsum dolor sit amet.",
+      "Creating an inclusive digital platform that communicates effectively with both parents and educators while being accessible to all users.",
     solution:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi.",
+      "Developed a warm, welcoming interface with clear information architecture, accessibility features, and resources for different learning needs.",
     testimonial: {
       words:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.",
+        "This website has helped us reach so many families who need our services. It represents our mission perfectly while being easy to navigate.",
       founder: {
         name: "John Doe",
         position: "Founder",
@@ -166,38 +226,18 @@ export const projects: I_Project[] = [
     slug: "kellian-autogarage",
     link: "https://kellian-autogarage.vercel.app",
     overview:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet.",
+      "A premium automotive service center website showcasing repair services, maintenance packages, and customer testimonials.",
     challenge:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Lorem ipsum dolor sit amet.",
+      "Building trust online for a service-based business where customers need confidence in technical expertise.",
     solution:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi.",
+      "Created a professional site highlighting certifications, service details, and customer success stories to establish credibility and transparency.",
     testimonial: {
       words:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.",
+        "Our appointment bookings increased by 40% after launching this website. Customers appreciate being able to see our work before visiting.",
       founder: {
-        name: "John Doe",
-        position: "Founder",
-        company: "Kids Beyond Limit",
-      },
-    },
-  },
-  {
-    title: "Kellian Autogarage",
-    slug: "kellian-autogarage",
-    link: "https://kellian-autogarage.vercel.app",
-    overview:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet.",
-    challenge:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Lorem ipsum dolor sit amet.",
-    solution:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi.",
-    testimonial: {
-      words:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.",
-      founder: {
-        name: "John Doe",
-        position: "Founder",
-        company: "Kids Beyond Limit",
+        name: "Robert Kellian",
+        position: "Owner",
+        company: "Kellian Autogarage",
       },
     },
   },
