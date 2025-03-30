@@ -1,8 +1,14 @@
+"use client";
+
+import { useContactUsDialog } from "@/context/useContactUsModal";
 import URLS from "@/lib/urls";
 import Image from "next/image";
 import LinkAsLoadingButton from "../core/LinkAsLoadingButton";
+import LoadingButton from "../core/LoadingButton";
 
 const HeroSection = () => {
+  const { openContactUsDialog } = useContactUsDialog();
+
   return (
     <div className="relative py-16 px-6 md:py-32 md:px-20 lg:p-56">
       {/* Decorative Images - Maintain Relative Positioning */}
@@ -50,9 +56,9 @@ const HeroSection = () => {
           >
             View our work
           </LinkAsLoadingButton>
-          <LinkAsLoadingButton href={URLS.contactUs} className="px-6 py-2">
+          <LoadingButton className="px-6 py-2" onClick={openContactUsDialog}>
             Get in Touch
-          </LinkAsLoadingButton>
+          </LoadingButton>
         </div>
       </div>
 

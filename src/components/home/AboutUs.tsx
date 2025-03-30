@@ -6,7 +6,7 @@ import SectionHeader from "../core/SectionHeader";
 
 const AboutUs = () => {
   return (
-    <div className="px-4 md:px-8 lg:mx-80">
+    <div className="px-4 md:px-8 lg:mx-80" id="about-us">
       {/* Flower Image - Visible on all screens */}
       <div className="relative">
         <Image

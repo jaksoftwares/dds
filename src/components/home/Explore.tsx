@@ -1,11 +1,8 @@
-import React from "react";
-import SectionHeader from "../core/SectionHeader";
-import URLS from "@/lib/urls";
+import { blogs } from "@/lib/constants";
 import { I_Blog } from "@/lib/interfaces";
 import Image from "next/image";
-import Link from "next/link";
-import { FaArrowRightLong } from "react-icons/fa6";
-import { blogs } from "@/lib/constants";
+import React from "react";
+import SectionHeader from "../core/SectionHeader";
 
 const Explore = () => {
   return (
@@ -18,7 +15,7 @@ const Explore = () => {
         className="absolute left-0 bottom-0 -z-10"
       />
 
-      <SectionHeader label="EXPLORE" title="Blogs and News" href={URLS.blogs} />
+      <SectionHeader label="EXPLORE" title="Blogs and News" href={""} />
 
       <div className="max-w-screen-xl mx-auto">
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
@@ -46,13 +43,13 @@ const BlogItemCard: React.FC<BlogItemCardProps> = ({ blog }) => {
       />
       <p className="text-xl font-semibold">{blog.title}</p>
 
-      <Link
+      {/* <Link
         href={blog.href}
         className="flex gap-x-2 items-center text-customBlueBase hover:text-customBlueDark hover:underline"
       >
         <span>READ MORE</span>
         <FaArrowRightLong />
-      </Link>
+      </Link> */}
     </li>
   );
 };

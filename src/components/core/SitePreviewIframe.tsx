@@ -66,7 +66,7 @@ const SitePreviewIframe: React.FC<SitePreviewIframeProps> = ({
         </div>
       </div>
 
-      {/* Fullscreen Modal */}
+      {/* Fullscreen Dialog */}
       {isFullscreen && (
         <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
           <div className="relative w-full h-full">

@@ -5,6 +5,14 @@ const nextConfig = {
     removeConsole:
       process.env.NODE_ENV === "production" ? { exclude: ["error"] } : false,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "source.unsplash.com",
+      },
+    ],
+  },
 };
 
 export default nextConfig;

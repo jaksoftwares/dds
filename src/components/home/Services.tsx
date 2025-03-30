@@ -7,7 +7,7 @@ import SectionHeader from "../core/SectionHeader";
 
 const Services = () => {
   return (
-    <div className="max-w-screen-lg mx-auto px-6 space-y-12">
+    <div className="max-w-screen-lg mx-auto px-6 space-y-12" id="services">
       <SectionHeader
         title="What's in it for you?"
         href={URLS.services}

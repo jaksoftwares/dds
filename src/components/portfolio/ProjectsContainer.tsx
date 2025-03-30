@@ -1,81 +1,57 @@
 "use client";
 
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardTitle,
+} from "@/components/ui/card";
 import { projects } from "@/lib/constants";
-import { I_Project } from "@/lib/interfaces";
+import { I_Project as ProjectCardProps } from "@/lib/interfaces";
+import URLS from "@/lib/urls";
+import Link from "next/link";
 import React from "react";
-import EmblaCarousel from "../core/EmblaCarousel";
+import { FaArrowRightLong } from "react-icons/fa6";
 import SitePreviewIframe from "../core/SitePreviewIframe";
+import { Button } from "../ui/button";
 
 const ProjectsContainer = () => {
   return (
-    <EmblaCarousel
-      items={projects}
-      CardComponent={ProjectCard}
-      autoplay={false}
-      visibleSlides={1}
-    />
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {projects.map((project) => (
+        <ProjectCard key={project.title} {...project} />
+      ))}
+    </div>
   );
 };
-``;
-interface ProjectCardProps extends I_Project {}
 
+/** Minimal Project Card for Listing Page */
 const ProjectCard: React.FC<ProjectCardProps> = ({
-  challenge,
-  link,
-  overview,
-  solution,
-  testimonial,
   title,
+  overview,
+  slug,
+  link,
 }) => {
   return (
     <Card className="shadow-lg rounded-lg p-4">
-      {/* Project Image */}
-      <SitePreviewIframe siteUrl={link} iframeHeight="h-[500px]" />
+      {/* Project Thumbnail */}
+      <SitePreviewIframe siteUrl={link} iframeHeight="h-[250px]" />
 
       {/* Project Content */}
-      <CardContent>
-        <CardTitle className="text-4xl font-semibold">{title}</CardTitle>
+      <CardContent className="w-full overflow-hidden">
+        <CardTitle className="text-xl font-semibold">{title}</CardTitle>
+        <CardDescription>{overview}</CardDescription>
 
-        {/* Project Overview */}
-        <div className="mt-4">
-          <h4 className="text-xl text-primary">Project Overview</h4>
-          <p className="text-gray-700 text-sm">{overview}</p>
-        </div>
-
-        {/* Challenge */}
-        {challenge && (
-          <div className="mt-4">
-            <h4 className="text-xl text-primary">Challenge</h4>
-            <p className="text-gray-700 text-sm">{challenge}</p>
-          </div>
-        )}
-
-        {/* Solution */}
-        {solution && (
-          <div className="mt-4">
-            <h4 className="text-xl text-primary">Solution</h4>
-            <p className="text-gray-700 text-sm">{solution}</p>
-          </div>
-        )}
-
-        {/* Testimonial */}
-        {testimonial && (
-          <blockquote className="mt-6 border-l-4 border-x-[#758BFB] bg-customBlueLight pl-4 italic text-gray-600">
-            "{testimonial.words}"{/* Founder Info */}
-            {testimonial?.founder && (
-              <p className="mt-2 text-xl text-primary">
-                <span className="text-gray-900">
-                  {testimonial.founder.name}
-                </span>{" "}
-                <br />
-                <span className="text-gray-500">
-                  {testimonial.founder.position}, {testimonial.founder.company}
-                </span>
-              </p>
-            )}
-          </blockquote>
-        )}
+        {/* View Details Button */}
+        <Button className="my-4 w-full">
+          <Link
+            href={URLS.projectSlug(slug)}
+            className="text-center font-medium flex gap-x-2 items-center"
+          >
+            <span>View Details</span>
+            <FaArrowRightLong />
+          </Link>
+        </Button>
       </CardContent>
     </Card>
   );

@@ -1,13 +1,15 @@
+"use client";
+
+import { useContactUsDialog } from "@/context/useContactUsModal";
 import { navLinks, socialLinks } from "@/lib/constants";
-import Link from "next/link";
-import React from "react";
-import LinkAsLoadingButton from "./LinkAsLoadingButton";
-import URLS from "@/lib/urls";
 import { Mail, MessageCircleQuestion } from "lucide-react";
+import Link from "next/link";
 import { Input } from "../ui/input";
 import LoadingButton from "./LoadingButton";
 
 const Footer = () => {
+  const { openContactUsDialog } = useContactUsDialog();
+
   return (
     <footer className="px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 py-8 md:py-16 lg:py-24 xl:py-32 bg-customBlueExtraDark text-white flex flex-col md:flex-row flex-wrap gap-8 md:justify-between">
       <div className="w-full md:w-1/2 lg:w-2/5 space-y-8">
@@ -22,13 +24,13 @@ const Footer = () => {
         <div className="space-y-2">
           <h2 className="text-xl font-semibold">Got a Question?</h2>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
-          <LinkAsLoadingButton
-            href={URLS.contactUs}
-            className="text-lg md:text-xl lg:text-2xl px-4 md:px-6 lg:px-8"
+          <LoadingButton
+            className="text-lg md:text-xl lg:text-2xl px-4 md:px-6 lg:px-8 flex items-center gap-x-4"
+            onClick={openContactUsDialog}
           >
-            <MessageCircleQuestion />
+            <MessageCircleQuestion className="inline-flex" />
             <span>Contact us</span>
-          </LinkAsLoadingButton>
+          </LoadingButton>
         </div>
       </div>
 

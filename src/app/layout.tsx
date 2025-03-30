@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 
-import "./globals.css";
 import { Footer, Header } from "@/components";
+import ContactUsDialog from "@/components/home/ContactUsDialog";
+import { ContactUsDialogProvider } from "@/context/useContactUsModal";
+import "./globals.css";
 
 const geistSans = localFont({
   src: "./../fonts/GeistVF.woff",
@@ -30,9 +32,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header />
-        <main className="mt-32">{children}</main>
-        <Footer />
+        <ContactUsDialogProvider>
+          <ContactUsDialog />
+          <Header />
+          <main className="mt-32">{children}</main>
+          <Footer />
+        </ContactUsDialogProvider>
       </body>
     </html>
   );

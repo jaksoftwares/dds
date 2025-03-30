@@ -1,26 +1,35 @@
-import URLS from "@/lib/urls";
+"use client";
+
+import { useContactUsDialog } from "@/context/useContactUsModal";
 import Image from "next/image";
 import { PiStarFourFill } from "react-icons/pi";
-import { LinkAsLoadingButton } from "..";
+import { LoadingButton } from "..";
 
 const ScheduleConsulation = () => {
+  const { openContactUsDialog } = useContactUsDialog();
+
   return (
     <div className="bg-custom-gradient text-white py-8">
       {/* Mobile layout */}
       <div className="lg:hidden px-4 md:px-8 flex flex-col items-center">
         <div className="space-y-4 text-center">
-          <h3 className="text-3xl md:text-4xl">Ready to bring your ideas to life?</h3>
+          <h3 className="text-3xl md:text-4xl">
+            Ready to bring your ideas to life?
+          </h3>
           <p className="text-base md:text-lg">
             Let&apos;s see how custom solutions can help you reach your business
             goals
           </p>
-          <LinkAsLoadingButton
-            href={URLS.contactUs}
+
+          <LoadingButton
+            onClick={openContactUsDialog}
             className="flex items-center justify-center gap-2 group mx-auto"
           >
-            <PiStarFourFill className="text-xl md:text-2xl transition-transform duration-500 group-hover:animate-spin" />
-            <span className="text-base md:text-lg">Schedule a free consultation</span>
-          </LinkAsLoadingButton>
+            <PiStarFourFill className="text-xl md:text-2xl transition-transform duration-500 group-hover:animate-spin inline-flex" />
+            <span className="text-base md:text-lg">
+              Schedule a free consultation
+            </span>
+          </LoadingButton>
         </div>
         <div className="mt-8">
           <Image
@@ -41,13 +50,16 @@ const ScheduleConsulation = () => {
             Let&apos;s see how custom solutions can help you reach your business
             goals
           </p>
-          <LinkAsLoadingButton
-            href={URLS.contactUs}
-            className="flex items-center gap-2 group"
+
+          <LoadingButton
+            onClick={openContactUsDialog}
+            className="flex items-center justify-center gap-2 group"
           >
-            <PiStarFourFill className="text-2xl transition-transform duration-500 group-hover:animate-spin" />
-            <span className="text-lg">Schedule a free consultation</span>
-          </LinkAsLoadingButton>
+            <PiStarFourFill className="text-xl md:text-2xl transition-transform duration-500 group-hover:animate-spin inline-flex" />
+            <span className="text-base md:text-lg">
+              Schedule a free consultation
+            </span>
+          </LoadingButton>
         </div>
         <Image
           src={"/schedule-consultation/market-launch.png"}

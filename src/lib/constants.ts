@@ -1,11 +1,12 @@
-import { Facebook, Instagram, Linkedin, Mail } from "lucide-react";
+import { Facebook, Linkedin, Mail } from "lucide-react";
+import { PiTiktokLogo } from "react-icons/pi";
 import {
-  I_NavLink,
-  I_ItemWithImage,
-  I_Testimonial,
   I_Blog,
-  I_SocialLink,
+  I_ItemWithImage,
+  I_NavLink,
   I_Project,
+  I_SocialLink,
+  I_Testimonial,
 } from "./interfaces";
 import URLS from "./urls";
 
@@ -14,8 +15,8 @@ export const navLinks: I_NavLink[] = [
   { label: "About us", href: URLS.aboutUs },
   { label: "Services", href: URLS.services },
   { label: "Portfolio", href: URLS.portfolio },
-  { label: "Pricing", href: URLS.pricing },
-  { label: "Contact us", href: URLS.contactUs },
+  // { label: "Pricing", href: URLS.pricing },
+  // { label: "Contact us", href: URLS.contactUs },
   { label: "Blogs", href: URLS.blogs },
 ];
 
@@ -121,7 +122,8 @@ export const services: I_ItemWithImage[] = [
 
 export const projects: I_Project[] = [
   {
-    title: "Kids Beyond Limit Website",
+    title: "Kids Beyond Limit",
+    slug: "kids-beyond-limit",
     link: "https://kids-beyond-limit.vercel.app/",
     overview:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet.",
@@ -140,7 +142,8 @@ export const projects: I_Project[] = [
     },
   },
   {
-    title: "Kids Beyond Limit Website",
+    title: "Kids Beyond Limit",
+    slug: "kids-beyond-limit",
     link: "https://kids-beyond-limit.vercel.app/",
     overview:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet.",
@@ -160,6 +163,7 @@ export const projects: I_Project[] = [
   },
   {
     title: "Kellian Autogarage",
+    slug: "kellian-autogarage",
     link: "https://kellian-autogarage.vercel.app",
     overview:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet.",
@@ -179,6 +183,7 @@ export const projects: I_Project[] = [
   },
   {
     title: "Kellian Autogarage",
+    slug: "kellian-autogarage",
     link: "https://kellian-autogarage.vercel.app",
     overview:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet.",
@@ -233,40 +238,39 @@ export const processes: I_ItemWithImage[] = [
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero",
   },
 ];
-
 export const blogs: I_Blog[] = [
   {
-    href: URLS.blogs,
-    imageUrl: "/blogs/blog-1.png",
-    title: "Latest Technology trends you should know about",
+    href: "/blogs/agentic-ai-reshaping-industries",
+    imageUrl: "https://source.unsplash.com/600x400/?technology,ai",
+    title: "Agentic AI: Reshaping Industries in 2025",
   },
   {
-    href: URLS.blogs,
-    imageUrl: "/blogs/blog-1.png",
-    title: "Latest Technology trends you should know about",
+    href: "/blogs/quantum-computing-breakthroughs",
+    imageUrl: "https://source.unsplash.com/600x400/?technology,quantum",
+    title: "Quantum Computing Breakthroughs: What to Expect",
   },
   {
-    href: URLS.blogs,
-    imageUrl: "/blogs/blog-1.png",
-    title: "Latest Technology trends you should know about",
+    href: "/blogs/5g-advanced-transforming-connectivity",
+    imageUrl: "https://source.unsplash.com/600x400/?technology,5g",
+    title: "5G-Advanced: Transforming Connectivity in 2025",
   },
 ];
 
 export const socialLinks: I_SocialLink[] = [
   {
     icon: Facebook,
-    href: "",
+    href: "https://www.facebook.com/profile.php?id=61572925386626",
   },
   {
-    icon: Instagram,
-    href: "",
+    icon: PiTiktokLogo,
+    href: "https://www.tiktok.com/@dovepeakdigital?lang=en",
   },
   {
     icon: Mail,
-    href: "",
+    href: "dds@gmail.com",
   },
   {
     icon: Linkedin,
-    href: "",
+    href: "https://www.linkedin.com/in/dovepeak-digital-solutions/",
   },
 ];

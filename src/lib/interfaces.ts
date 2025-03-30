@@ -1,5 +1,6 @@
 import { LucideProps } from "lucide-react";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
+import { IconType } from "react-icons/lib";
 
 export interface I_NavLink {
   label: string;
@@ -22,14 +23,17 @@ export interface I_Testimonial extends I_ItemWithImage {
 }
 
 export interface I_SocialLink {
-  icon: ForwardRefExoticComponent<
-    Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
-  >;
+  icon:
+    | ForwardRefExoticComponent<
+        Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
+      >
+    | IconType;
   href: string;
 }
 
 export interface I_Project {
   link: string;
+  slug: string;
   title: string;
   overview: string;
   challenge: string;
