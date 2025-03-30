@@ -1,4 +1,4 @@
-import { LucideProps } from "lucide-react";
+import { LucideIcon, LucideProps } from "lucide-react";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
 import { IconType } from "react-icons/lib";
 
@@ -46,4 +46,10 @@ export interface I_Project {
       company: string;
     };
   };
+}
+
+export interface I_OurService {
+  title: string;
+  description: string;
+  icon: LucideIcon;
 }

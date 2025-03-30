@@ -1,9 +1,19 @@
-import { Facebook, Linkedin, Mail } from "lucide-react";
+import {
+  Facebook,
+  Linkedin,
+  Mail,
+  MessageCircleCode,
+  Paintbrush,
+  Percent,
+  SquareCode,
+  TvMinimal,
+} from "lucide-react";
 import { PiTiktokLogo } from "react-icons/pi";
 import {
   I_Blog,
   I_ItemWithImage,
   I_NavLink,
+  I_OurService,
   I_Project,
   I_SocialLink,
   I_Testimonial,
@@ -16,7 +26,7 @@ export const navLinks: I_NavLink[] = [
   { label: "Services", href: URLS.services },
   { label: "Portfolio", href: URLS.portfolio },
   // { label: "Pricing", href: URLS.pricing },
-  // { label: "Contact us", href: URLS.contactUs },
+  { label: "Contact us", href: URLS.contactUs },
   // { label: "Blogs", href: URLS.blogs },
 ];
 
@@ -312,5 +322,38 @@ export const socialLinks: I_SocialLink[] = [
   {
     icon: Linkedin,
     href: "https://www.linkedin.com/in/dovepeak-digital-solutions/",
+  },
+];
+
+export const ourServices: I_OurService[] = [
+  {
+    title: "Custom Website Development",
+    description:
+      "From corporate sites to e-commerce stores, we design and develop high-performing, user-friendly websites tailored to your brand.",
+    icon: SquareCode,
+  },
+  {
+    title: "Digital Platform Development",
+    description:
+      "Powerful Online Platforms for Business GrowthWe build robust platforms like e-commerce systems, LMS, CRM, and marketplaces to drive business efficiency and engagement.",
+    icon: TvMinimal,
+  },
+  {
+    title: "UI/UX Design & Branding",
+    description:
+      "From corporate sites to e-commerce stores, we design and develop high-performing, user-friendly websites tailored to your brand.",
+    icon: Paintbrush,
+  },
+  {
+    title: "Digital Marketing & SEO",
+    description:
+      "From corporate sites to e-commerce stores, we design and develop high-performing, user-friendly websites tailored to your brand.",
+    icon: Percent,
+  },
+  {
+    title: "Training & Consultancy",
+    description:
+      "From corporate sites to e-commerce stores, we design and develop high-performing, user-friendly websites tailored to your brand.",
+    icon: MessageCircleCode,
   },
 ];

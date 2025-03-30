@@ -8,16 +8,16 @@ import {
   Services,
   Testimonials,
 } from "@/components";
-import React from "react";
+import OurServices from "@/components/home/OurServices";
 
 const HomePage = () => {
   return (
     <main>
       <HeroSection />
-
       <div className="space-y-32">
         <Services />
         <AboutUs />
+        <OurServices />
         <Portfolio />
         <Process />
         <Testimonials />
