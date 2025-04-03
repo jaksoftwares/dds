@@ -32,72 +32,44 @@ export const navLinks: I_NavLink[] = [
 
 export const testimonials: I_Testimonial[] = [
   {
-    label: "MR JOHNNY DOE",
+    label: "Douglas Akhonya – Kellian Autogarage",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero",
+      "DDS built a professional online presence for our auto business, making it easier for customers to find and engage with us. Their expertise in digital solutions is unmatched!",
     rating: 5,
     imgUrl: "/testimonials/testimonial-1.png",
   },
   {
-    label: "MR JOHNNY DOE",
+    label: "Victor Siero – Kids Beyond Limit",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero",
+      "The website and digital tools DDS developed have helped us reach more children and donors. Their commitment to quality and functionality is truly commendable.",
     rating: 5,
     imgUrl: "/testimonials/testimonial-1.png",
   },
   {
-    label: "MR JOHNNY DOE",
+    label: "Dr. Eunice Njeri – JKUAT Social Robotics",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero",
+      "Our research and projects needed an intuitive digital platform, and DDS delivered exactly that. Their tech solutions have streamlined our processes and improved visibility.",
     rating: 5,
     imgUrl: "/testimonials/testimonial-1.png",
   },
   {
-    label: "MR JOHNNY DOE",
+    label: "Apostle Arthur Likhakasi – Jesus Come Revival Ministries",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero",
+      "Our ministry needed a strong online presence to connect with people globally. DDS designed a beautiful and engaging website that has been a great blessing to us.",
     rating: 5,
     imgUrl: "/testimonials/testimonial-1.png",
   },
   {
-    label: "MR JOHNNY DOE",
+    label: "Linda K., Digital Marketing Specialist",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero",
+      "The website DDS built for us is modern, fast, and highly optimized for SEO. We've seen a huge increase in organic traffic and conversions.",
     rating: 5,
     imgUrl: "/testimonials/testimonial-1.png",
   },
   {
-    label: "MR JOHNNY DOE",
+    label: "Kevin B., Small Business Owner",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero",
-    rating: 5,
-    imgUrl: "/testimonials/testimonial-1.png",
-  },
-  {
-    label: "MR JOHNNY DOE",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero",
-    rating: 5,
-    imgUrl: "/testimonials/testimonial-1.png",
-  },
-  {
-    label: "MR JOHNNY DOE",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero",
-    rating: 5,
-    imgUrl: "/testimonials/testimonial-1.png",
-  },
-  {
-    label: "MR JOHNNY DOE",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero",
-    rating: 5,
-    imgUrl: "/testimonials/testimonial-1.png",
-  },
-  {
-    label: "MR JOHNNY DOE",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero",
+      "DDS provided end-to-end support for our cloud migration. Their professionalism and expertise made the process smooth and stress-free.",
     rating: 5,
     imgUrl: "/testimonials/testimonial-1.png",
   },
@@ -107,26 +79,83 @@ export const services: I_ItemWithImage[] = [
   {
     imgUrl: "/services/service-1.png",
     label: "Custom Website Development",
-    description:
-      "Modern, responsive, and SEO-optimized websites tailored to your brand.",
+    description: `Professional Websites Built for Impact.
+ From corporate sites to e-commerce stores, we design and develop high-performing, user-friendly websites tailored to your brand.`,
   },
   {
     imgUrl: "/services/service-1.png",
-    label: "Custom Website Development",
-    description:
-      "Modern, responsive, and SEO-optimized websites tailored to your brand.",
+    label: "Digital Platform Development",
+    description: `Powerful Online Platforms for Business Growth.
+ We build robust platforms like e-commerce systems, LMS, CRM, and marketplaces to drive business efficiency and engagement.
+`,
   },
   {
     imgUrl: "/services/service-1.png",
-    label: "Custom Website Development",
-    description:
-      "Modern, responsive, and SEO-optimized websites tailored to your brand.",
+    label: "Software Development",
+    description: `Custom Software for Business Optimization.
+ Developing enterprise-grade software for workflow automation, inventory management, POS, and financial tools to streamline operations.`,
   },
   {
     imgUrl: "/services/service-1.png",
-    label: "Custom Website Development",
-    description:
-      "Modern, responsive, and SEO-optimized websites tailored to your brand.",
+    label: "Mobile App Development",
+    description: `Seamless & Scalable Mobile Solutions.
+ We create intuitive Android, iOS, and hybrid applications for businesses, services, and on-demand platforms.`,
+  },
+  {
+    imgUrl: "/services/service-1.png",
+    label: "SaaS (Software as a Service) Solutions",
+    description: `Cloud-Based Software for Scalability.
+ We develop subscription-based, cloud-hosted software solutions to enhance productivity and streamline business operations.`,
+  },
+  {
+    imgUrl: "/services/service-1.png",
+    label: "Cloud Solutions & Hosting",
+    description: `Secure & Scalable Cloud Infrastructure.
+ Providing reliable cloud hosting, storage, backup, and disaster recovery services for businesses of all sizes.
+`,
+  },
+  {
+    imgUrl: "/services/service-1.png",
+    label: "IT Infrastructure & Support",
+    description: `Reliable IT Services for Business Stability.
+ From network setup to server maintenance, we ensure your IT systems run smoothly and securely..
+`,
+  },
+  {
+    imgUrl: "/services/service-1.png",
+    label: "UI/UX Design & Branding",
+    description: `Crafting Engaging User Experiences.
+ We design visually appealing and user-friendly interfaces while building strong, memorable brand identities.
+`,
+  },
+  {
+    imgUrl: "/services/service-1.png",
+    label: "Digital Marketing & SEO",
+    description: `Boosting Online Visibility & Engagement.
+ With expert SEO, social media management, and paid advertising, we help businesses grow their digital presence.
+`,
+  },
+  {
+    imgUrl: "/services/service-1.png",
+    label: "AI & Data Solutions",
+    description: `Intelligent AI & Data-Driven Strategies.
+ We develop AI-powered smart systems, data analytics tools, and machine learning solutions to enhance decision-making.
+`,
+  },
+  {
+    imgUrl: "/services/service-1.png",
+    label: "Software for Local & Global Challenges",
+    description: `Tech Solutions for Impact.
+ We create custom software addressing community challenges, improving accessibility to services, education, and resources.
+`,
+  },
+  {
+    imgUrl: "/services/service-1.png",
+    label: "Training & Consultancy",
+    description: `Empowering Businesses & Individuals.
+ Offering expert-led training in web development, SaaS, digital transformation, and strategic business growth.
+
+`,
   },
 ];
 
@@ -254,10 +283,11 @@ export const projects: I_Project[] = [
 ];
 
 export const whyChooseUs = [
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero",
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero",
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero",
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero",
+  "Expertise & Innovation. A skilled team leveraging the latest technology trends.",
+  "Tailored Solutions. Custom-built digital products designed to fit your business needs.",
+  "Reliability & Scalability. Secure, high-performance systems that grow with your business.",
+  "Client-Centered Approach. Dedicated support and collaboration to ensure success.",
+  "End-to-End Services. From strategy to execution, we handle every aspect of your digital journey.",
 ];
 
 export const projectLinks = projects.map((p) => p.link);
@@ -265,27 +295,27 @@ export const projectLinks = projects.map((p) => p.link);
 export const processes: I_ItemWithImage[] = [
   {
     imgUrl: "/processes/light-bulb.png",
-    label: "Discovery & planning",
+    label: "Discovery and planning",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero",
+      "We begin by understanding your business needs, target audience, and project objectives. Through research and strategy sessions, we define the roadmap for a successful solution.",
   },
   {
     imgUrl: "/processes/web-design.png",
     label: "Design and Prototyping",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero",
+      "Our UI/UX designers create intuitive and visually appealing designs. Prototypes are developed to provide a clear vision of the final product, ensuring user-friendliness and functionality.",
   },
   {
     imgUrl: "/processes/web-programming.png",
-    label: "Developing & Testing",
+    label: "Developing and Testing",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero",
+      "Our development team brings the design to life with clean, efficient, and scalable code. We conduct rigorous testing to ensure performance, security, and reliability.",
   },
   {
     imgUrl: "/processes/rocket-launch.png",
     label: "Launch and Support",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero",
+      "After final reviews and optimizations, we deploy the solution. Our support team remains available to ensure smooth operation, maintenance, and future enhancements.",
   },
 ];
 export const blogs: I_Blog[] = [

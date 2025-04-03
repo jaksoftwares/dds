@@ -17,13 +17,14 @@ const Footer = () => {
           DovePeak Digital Solutions
         </h2>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec
-          odio. Praesent libero. Lorem ipsum dolor sit amet, consectetur
-          adipiscing elit. Integer nec odio. Praesent libero Mr Johnny Doe
+          Dovepeak Digital Solutions – Delivering innovative, reliable, and
+          scalable digital solutions to drive business success in a rapidly
+          evolving world. From custom software to AI-powered systems, we empower
+          businesses with technology that works.
         </p>
         <div className="space-y-2">
           <h2 className="text-xl font-semibold">Got a Question?</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+          <p>Reach out to us today!</p>
           <LoadingButton
             className="text-lg md:text-xl lg:text-2xl px-4 md:px-6 lg:px-8 flex items-center gap-x-4"
             onClick={openContactUsDialog}
@@ -48,7 +49,7 @@ const Footer = () => {
       <div className="w-full md:w-auto lg:w-1/4 space-y-8 md:space-y-12">
         <div className="space-y-4">
           <h2 className="text-xl font-semibold">Sign up for our Newsletter</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+          <p>Sign up to stay up to date with DDS</p>
           <div className="flex gap-x-2">
             <Input placeholder="Email" className="bg-white" />
             <LoadingButton className="bg-white text-xl">

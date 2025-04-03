@@ -1,11 +1,11 @@
 "use client";
-import React from "react";
-import SectionHeader from "../core/SectionHeader";
-import URLS from "@/lib/urls";
-import { I_Testimonial } from "@/lib/interfaces";
-import Image from "next/image";
 import { testimonials } from "@/lib/constants";
+import { I_Testimonial as TestimonialItemProps } from "@/lib/interfaces";
+import URLS from "@/lib/urls";
+import Image from "next/image";
+import React from "react";
 import EmblaCarousel from "../core/EmblaCarousel";
+import SectionHeader from "../core/SectionHeader";
 
 const Testimonials = () => {
   return (
@@ -20,6 +20,7 @@ const Testimonials = () => {
           items={testimonials}
           CardComponent={TestimonialItemCard}
           visibleSlides={5}
+          
         />
       </div>
 
@@ -34,8 +35,6 @@ const Testimonials = () => {
   );
 };
 
-interface TestimonialItemProps extends I_Testimonial {}
-
 const TestimonialItemCard: React.FC<TestimonialItemProps> = ({
   description,
   imgUrl,
@@ -43,7 +42,7 @@ const TestimonialItemCard: React.FC<TestimonialItemProps> = ({
   rating,
 }) => {
   return (
-    <div className="bg-white rounded-3xl shadow-lg p-6 max-w-md text-center">
+    <div className="bg-white rounded-3xl shadow-lg p-6 max-w-md h-96 text-center">
       <div className="flex justify-center mb-4">
         <div className="w-24 h-24 relative rounded-full overflow-hidden bg-gray-800">
           <Image src={imgUrl} alt={label} fill style={{ objectFit: "cover" }} />

@@ -1,7 +1,7 @@
 import { whyChooseUs } from "@/lib/constants";
 import URLS from "@/lib/urls";
-import { FaCheck } from "react-icons/fa";
 import Image from "next/image";
+import { FaCheck } from "react-icons/fa";
 import SectionHeader from "../core/SectionHeader";
 
 const AboutUs = () => {
@@ -39,12 +39,11 @@ const AboutUs = () => {
             label="ABOUT US"
           />
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec
-            odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla
-            quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent
-            mauris. Fusce nec tellus sed augue semper porta. Mauris massa.
-            Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad
-            litora torquent per conubia nostra,
+            We stand out by delivering high-quality, tailored
+            solutions that meet the unique needs of businesses and
+            organizations. Our expertise, innovation, and commitment to
+            excellence ensure that our clients receive the best possible service
+            and results.
           </p>
           <ul className="space-y-4">
             {whyChooseUs.map((w) => (

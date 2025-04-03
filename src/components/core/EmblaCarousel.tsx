@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -22,7 +23,7 @@ const EmblaCarousel: React.FC<EmblaCarouselProps> = ({
     loop: true,
     align: "start",
     containScroll: "trimSnaps",
-    dragFree: false,
+    dragFree: true,
   };
 
   const plugins = autoplay

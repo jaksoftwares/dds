@@ -36,7 +36,7 @@ interface ProcessItemProps {
   index: number;
 }
 
-const ProcessItem: React.FC<ProcessItemProps> = ({ process, index }) => {
+const ProcessItem: React.FC<ProcessItemProps> = ({ process }) => {
   return (
     <li className="flex flex-row lg:flex-col items-center md:items-center text-left lg:text-center gap-4 lg:gap-0 relative">
       {/* Process step icon */}

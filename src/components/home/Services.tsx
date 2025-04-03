@@ -7,14 +7,14 @@ import SectionHeader from "../core/SectionHeader";
 
 const Services = () => {
   return (
-    <div className="max-w-screen-lg mx-auto px-6 space-y-12" id="services">
+    <div className="max-w-screen-lg lg:max-w-screen-xl mx-auto px-6 space-y-12" id="services">
       <SectionHeader
         title="What's in it for you?"
         href={URLS.services}
         label="SERVICES"
       />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {services.map((s) => (
           <ServiceCard service={s} key={s.imgUrl} />
         ))}
@@ -36,7 +36,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
         width={100}
         height={100}
       />
-      <h3 className="text-xl sm:text-2xl font-semibold mt-4">
+      <h3 className="text-xl sm:text-2xl font-semibold mt-4 text-center">
         {service.label}
       </h3>
       <p className="w-full sm:w-3/4 lg:w-1/2 text-center mt-2">
