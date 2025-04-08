@@ -63,7 +63,7 @@ const GetInTouch = () => {
   };
 
   return (
-    <div id="contact-us" className="px-5 lg:px-32">
+    <div id="contact-us" className="px-5 lg:px-32 my-24">
       <SectionHeader
         title="Get in touch with us"
         description="Got questions or comments? Reach out to us and someone from our team
