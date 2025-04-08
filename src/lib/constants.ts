@@ -17,6 +17,7 @@ import {
   I_Project,
   I_SocialLink,
   I_Testimonial,
+  I_WorkingHour,
 } from "./interfaces";
 import URLS from "./urls";
 
@@ -385,5 +386,20 @@ export const ourServices: I_OurService[] = [
     description:
       "From corporate sites to e-commerce stores, we design and develop high-performing, user-friendly websites tailored to your brand.",
     icon: MessageCircleCode,
+  },
+];
+
+export const workingHours: I_WorkingHour[] = [
+  {
+    day: "Mon to Fri",
+    time: "8:00 AM - 5:00 PM",
+  },
+  {
+    day: "Saturday",
+    time: "9:00 AM - 5:00 PM",
+  },
+  {
+    day: "Sun",
+    time: "Closed",
   },
 ];

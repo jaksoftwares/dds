@@ -35,7 +35,7 @@ export default function RootLayout({
         <ContactUsDialogProvider>
           <ContactUsDialog />
           <Header />
-          <main className="mt-32">{children}</main>
+          <main className="mt-32 md:mt-0">{children}</main>
           <Footer />
         </ContactUsDialogProvider>
       </body>

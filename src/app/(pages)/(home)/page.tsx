@@ -1,13 +1,12 @@
 import {
   AboutUs,
-  Explore,
   HeroSection,
   Portfolio,
   Process,
   ScheduleConsulation,
-  Services,
-  Testimonials,
+  Testimonials
 } from "@/components";
+import ContactUs from "@/components/home/ContactUs";
 import OurServices from "@/components/home/OurServices";
 
 const HomePage = () => {
@@ -15,7 +14,6 @@ const HomePage = () => {
     <main>
       <HeroSection />
       <div className="space-y-32">
-        <Services />
         <AboutUs />
         <OurServices />
         <Portfolio />
@@ -23,7 +21,8 @@ const HomePage = () => {
         <Testimonials />
         <ScheduleConsulation />
       </div>
-      <Explore />
+      {/* <Explore /> */}
+      <ContactUs />
     </main>
   );
 };

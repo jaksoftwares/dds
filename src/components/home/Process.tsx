@@ -1,58 +1,56 @@
+import { processes } from "@/lib/constants";
+import { I_ItemWithImage } from "@/lib/interfaces";
+import URLS from "@/lib/urls";
+import Image from "next/image";
 import React from "react";
 import SectionHeader from "../core/SectionHeader";
-import URLS from "@/lib/urls";
-import { I_ItemWithImage } from "@/lib/interfaces";
-import Image from "next/image";
-import { processes } from "@/lib/constants";
 
 const Process = () => {
   return (
-    <div className="relative mx-4 lg:mx-80 flex items-center flex-col">
-      {/* Section header with title and link */}
+    <div className="relative mx-4 lg:mx-80 flex flex-col items-center">
+      {/* Section header */}
       <SectionHeader
         title="Our Working Process"
         label="PROCESS"
         href={URLS.process}
       />
 
-      {/* Dashed horizontal line for large screens (hidden on small screens) */}
-      <div className="absolute top-[50%] left-1/2 transform -translate-x-1/2 w-[80%] h-0.5 bg-[repeating-linear-gradient(to_right,_black_0px,_black_30px,_transparent_30px,_transparent_50px)] -z-10 lg:block hidden" />
+      {/* Process timeline container */}
+      <div className="relative w-full mt-12">
+        {/* Horizontal line (desktop) */}
+        <div className="absolute top-[50px] left-0 right-0 h-[2px] bg-[repeating-linear-gradient(to_right,black_0px,black_6px,transparent_6px,transparent_10px)] hidden lg:block w-4/5 mx-auto" />
 
-      {/* Dashed vertical line for small screens */}
-      <div className="lg:hidden absolute top-[20%] bottom-[10%] left-[13%] md:left-[28%] w-0.5 bg-[repeating-linear-gradient(to_bottom,_black_0px,_black_30px,_transparent_30px,_transparent_50px)] -z-10" />
+        {/* Vertical line (mobile) */}
+        <div className="absolute top-[50px] bottom-[50px] left-[50px] w-[2px] bg-[repeating-linear-gradient(to_bottom,black_0px,black_6px,transparent_6px,transparent_10px)] lg:hidden" />
 
-      {/* Process steps */}
-      <ul className="flex flex-col lg:flex-row justify-between items-center lg:items-start gap-8">
-        {processes.map((p, index) => (
-          <ProcessItem key={p.imgUrl} process={p} index={index} />
-        ))}
-      </ul>
+        {/* Process items */}
+        <ul className="grid grid-cols-1 lg:grid-cols-4 gap-y-12 lg:gap-x-4">
+          {processes.map((process) => (
+            <ProcessItem key={process.imgUrl} process={process} />
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
 
-interface ProcessItemProps {
-  process: I_ItemWithImage;
-  index: number;
-}
-
-const ProcessItem: React.FC<ProcessItemProps> = ({ process }) => {
+const ProcessItem: React.FC<{ process: I_ItemWithImage }> = ({ process }) => {
   return (
-    <li className="flex flex-row lg:flex-col items-center md:items-center text-left lg:text-center gap-4 lg:gap-0 relative">
-      {/* Process step icon */}
-      <div className="relative z-10 flex-shrink-0">
+    <li className="relative flex lg:flex-col items-start lg:items-center gap-4 lg:gap-0">
+      {/* Circle with icon */}
+      <div className="relative z-10 flex-shrink-0 w-[100px] h-[100px] rounded-full bg-white flex items-center justify-center">
         <Image
           src={process.imgUrl}
-          alt={`Image for ${process.label}`}
+          alt={process.label}
           width={100}
           height={100}
         />
       </div>
 
-      {/* Process step text */}
-      <div className="max-w-xs">
-        <h3 className="font-semibold">{process.label}</h3>
-        <p>{process.description}</p>
+      {/* Content */}
+      <div className="flex-1 lg:mt-6 lg:text-center max-w-[300px] lg:max-w-none">
+        <h3 className="text-lg font-bold">{process.label}</h3>
+        <p className="mt-2 text-sm lg:text-base">{process.description}</p>
       </div>
     </li>
   );

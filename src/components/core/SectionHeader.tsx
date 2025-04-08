@@ -17,7 +17,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
     <div className="space-y-2 w-fit">
       <SectionTitleLinkAsLoadingButton href={href} label={label} />
       <h2 className="text-4xl text-customBlueDark font-semibold">{title}</h2>
-      <p>{description}</p>
+      {description && <p>{description}</p>}
     </div>
   );
 };
@@ -26,12 +26,20 @@ export default SectionHeader;
 
 interface SectionTitleLinkAsLoadingButtonProps {
   label: string;
-  href: string;
+  href?: string;
 }
 
 const SectionTitleLinkAsLoadingButton: React.FC<
   SectionTitleLinkAsLoadingButtonProps
 > = ({ label, href }) => {
+  if (!href) {
+    return (
+      <div className="inline-flex items-center px-4 rounded-full bg-customBlueLight text-customBlueDark font-semibold">
+        {label}
+      </div>
+    );
+  }
+
   return (
     <LinkAsLoadingButton
       href={href}

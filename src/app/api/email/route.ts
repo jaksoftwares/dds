@@ -32,7 +32,7 @@ export const POST = async (request: Request) => {
     });
 
     const mailOptions = {
-      from: `"Kellian Enterprise Website" ${process.env.NEXT_PUBLIC_SITE_URL}`,
+      from: `"Dove Peak Digital Website" ${process.env.NEXT_PUBLIC_SITE_URL}`,
       to: process.env.EMAIL_USER,
       subject: `New Contact Form Submission from ${name}`,
       text: `

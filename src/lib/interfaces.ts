@@ -53,3 +53,8 @@ export interface I_OurService {
   description: string;
   icon: LucideIcon;
 }
+
+export interface I_WorkingHour {
+  day: string;
+  time: string;
+}

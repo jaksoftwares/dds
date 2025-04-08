@@ -11,7 +11,7 @@ const Footer = () => {
   const { openContactUsDialog } = useContactUsDialog();
 
   return (
-    <footer className="px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 py-8 md:py-16 lg:py-24 xl:py-32 bg-customBlueExtraDark text-white flex flex-col md:flex-row flex-wrap gap-8 md:justify-between">
+    <footer className="px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 py-8 md:py-16 lg:py-24 xl:py-32 bg-customBlueExtraDark text-white flex flex-col md:flex-row flex-wrap gap-8 md:justify-between mt-16">
       <div className="w-full md:w-1/2 lg:w-2/5 space-y-8">
         <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold">
           DovePeak Digital Solutions
