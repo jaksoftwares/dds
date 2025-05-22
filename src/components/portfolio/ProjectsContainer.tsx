@@ -30,7 +30,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   title,
   overview,
   slug,
-  link,
+  // link,
   imageUrl
 }) => {
   return (

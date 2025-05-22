@@ -297,7 +297,10 @@ export const whyChooseUs = [
   "End-to-End Services. From strategy to execution, we handle every aspect of your digital journey.",
 ];
 
-export const projectLinks = projects.map((p) => p.link);
+export const projectLinks = projects.map((p) => ({
+  siteUrl: p.link,
+  imageUrl: p.imageUrl,
+}));
 
 export const processes: I_ItemWithImage[] = [
   {
