@@ -6,6 +6,7 @@ import ContactUsDialog from "@/components/home/ContactUsDialog";
 import { ContactUsDialogProvider } from "@/context/useContactUsModal";
 import "./globals.css";
 
+// Load local fonts
 const geistSans = localFont({
   src: "./../fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -17,11 +18,13 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
+// Metadata
 export const metadata: Metadata = {
-  title: "Dove Peak Digital",
-  description: "",
+  title: "Dovepeak Digital Solutions",
+  description: "DovePeak Digital is a tech-forward digital agency delivering innovative web, software, and automation solutions. Empowering businesses to grow with smart, scalable, and modern digital strategies.",
 };
 
+// Layout component
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -35,7 +38,10 @@ export default function RootLayout({
         <ContactUsDialogProvider>
           <ContactUsDialog />
           <Header />
-          <main className="mt-32 md:mt-0">{children}</main>
+          
+          {/* Main content with consistent top padding */}
+          <main className="pt-32 lg:pt-36">{children}</main>
+
           <Footer />
         </ContactUsDialogProvider>
       </body>

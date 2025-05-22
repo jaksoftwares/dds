@@ -10,7 +10,9 @@ const HeroSection = () => {
   const { openContactUsDialog } = useContactUsDialog();
 
   return (
+    
     <div className="relative py-16 px-6 md:py-32 md:px-20 lg:p-56">
+      
       {/* Decorative Images - Maintain Relative Positioning */}
       <Image
         src="/hero-section/star.png"

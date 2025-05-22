@@ -1,7 +1,7 @@
 const URLS = {
   // frontend
   home: "/",
-  aboutUs: "/#about-us",
+  aboutUs: "/about-us",
   services: "/services",
   portfolio: "/portfolio",
   projectSlug: (projectSlug: string) => `/portfolio/${projectSlug}`,

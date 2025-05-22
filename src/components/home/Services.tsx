@@ -1,3 +1,4 @@
+// components/Services.tsx
 import { services } from "@/lib/constants";
 import { I_ItemWithImage } from "@/lib/interfaces";
 import Image from "next/image";
@@ -5,16 +6,16 @@ import React from "react";
 
 const Services = () => {
   return (
-    <div
-      className="max-w-screen-lg lg:max-w-screen-xl mx-auto px-6 space-y-12"
+    <section
+      className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16"
       id="services"
     >
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {services.map((s) => (
-          <ServiceCard service={s} key={s.imgUrl} />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+        {services.map((s, i) => (
+          <ServiceCard service={s} key={i} />
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 
@@ -24,17 +25,20 @@ interface ServiceCardProps {
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
   return (
-    <div className="flex flex-col items-center border-2 border-black border-dashed py-12 sm:py-24">
-      <Image
-        src={service.imgUrl}
-        alt={`Image for ${service.label}`}
-        width={100}
-        height={100}
-      />
-      <h3 className="text-xl sm:text-2xl font-semibold mt-4 text-center">
+    <div className="group bg-white rounded-2xl shadow-md border border-gray-200 hover:shadow-xl transition-shadow duration-300 flex flex-col items-center text-center p-8 space-y-4">
+      <div className="bg-customBlueLight p-4 rounded-full">
+        <Image
+          src={service.imgUrl}
+          alt={service.label}
+          width={64}
+          height={64}
+          className="object-contain"
+        />
+      </div>
+      <h3 className="text-xl font-semibold text-gray-800 group-hover:text-customBlue transition duration-200">
         {service.label}
       </h3>
-      <p className="w-full sm:w-3/4 lg:w-1/2 text-center mt-2">
+      <p className="text-gray-600 text-sm leading-relaxed">
         {service.description}
       </p>
     </div>
