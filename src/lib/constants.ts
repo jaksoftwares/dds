@@ -29,6 +29,7 @@ export const navLinks: I_NavLink[] = [
   // { label: "Pricing", href: URLS.pricing },
   { label: "Contact us", href: URLS.contactUs },
   // { label: "Blogs", href: URLS.blogs },
+  { label: "News", href: URLS.news },
 ];
 
 export const testimonials: I_Testimonial[] = [
@@ -37,126 +38,117 @@ export const testimonials: I_Testimonial[] = [
     description:
       "DDS built a professional online presence for our auto business, making it easier for customers to find and engage with us. Their expertise in digital solutions is unmatched!",
     rating: 5,
-    imgUrl: "/testimonials/testimonial-1.png",
+    imgUrl: "/testimonials/douglas-akhonya.jpg",
   },
   {
     label: "Victor Siero – Kids Beyond Limit",
     description:
       "The website and digital tools DDS developed have helped us reach more children and donors. Their commitment to quality and functionality is truly commendable.",
     rating: 5,
-    imgUrl: "/testimonials/testimonial-1.png",
+    imgUrl: "/testimonials/victor-siero.jpg",
   },
   {
     label: "Dr. Eunice Njeri – JKUAT Social Robotics",
     description:
       "Our research and projects needed an intuitive digital platform, and DDS delivered exactly that. Their tech solutions have streamlined our processes and improved visibility.",
     rating: 5,
-    imgUrl: "/testimonials/testimonial-1.png",
+    imgUrl: "/testimonials/eunice-njeri.jpg",
   },
   {
     label: "Apostle Arthur Likhakasi – Jesus Come Revival Ministries",
     description:
       "Our ministry needed a strong online presence to connect with people globally. DDS designed a beautiful and engaging website that has been a great blessing to us.",
     rating: 5,
-    imgUrl: "/testimonials/testimonial-1.png",
+    imgUrl: "/testimonials/apostle-arthur.jpg",
   },
-  {
-    label: "Linda K., Digital Marketing Specialist",
-    description:
-      "The website DDS built for us is modern, fast, and highly optimized for SEO. We've seen a huge increase in organic traffic and conversions.",
-    rating: 5,
-    imgUrl: "/testimonials/testimonial-1.png",
-  },
-  {
-    label: "Kevin B., Small Business Owner",
-    description:
-      "DDS provided end-to-end support for our cloud migration. Their professionalism and expertise made the process smooth and stress-free.",
-    rating: 5,
-    imgUrl: "/testimonials/testimonial-1.png",
-  },
+  // {
+  //   label: "Linda K., Digital Marketing Specialist",
+  //   description:
+  //     "The website DDS built for us is modern, fast, and highly optimized for SEO. We've seen a huge increase in organic traffic and conversions.",
+  //   rating: 5,
+  //   imgUrl: "/testimonials/testimonial-1.png",
+  // },
+  // {
+  //   label: "Kevin B., Small Business Owner",
+  //   description:
+  //     "DDS provided end-to-end support for our cloud migration. Their professionalism and expertise made the process smooth and stress-free.",
+  //   rating: 5,
+  //   imgUrl: "/testimonials/testimonial-1.png",
+  // },
 ];
 
 export const services: I_ItemWithImage[] = [
   {
-    imgUrl: "/services/service-1.png",
+    imgUrl: "Globe",
     label: "Custom Website Development",
     description: `Professional Websites Built for Impact.
  From corporate sites to e-commerce stores, we design and develop high-performing, user-friendly websites tailored to your brand.`,
   },
   {
-    imgUrl: "/services/service-1.png",
+    imgUrl: "LayoutGrid",
     label: "Digital Platform Development",
     description: `Powerful Online Platforms for Business Growth.
- We build robust platforms like e-commerce systems, LMS, CRM, and marketplaces to drive business efficiency and engagement.
-`,
+ We build robust platforms like e-commerce systems, LMS, CRM, and marketplaces to drive business efficiency and engagement.`,
   },
   {
-    imgUrl: "/services/service-1.png",
+    imgUrl: "Code2",
     label: "Software Development",
     description: `Custom Software for Business Optimization.
  Developing enterprise-grade software for workflow automation, inventory management, POS, and financial tools to streamline operations.`,
   },
   {
-    imgUrl: "/services/service-1.png",
+    imgUrl: "Smartphone",
     label: "Mobile App Development",
     description: `Seamless & Scalable Mobile Solutions.
  We create intuitive Android, iOS, and hybrid applications for businesses, services, and on-demand platforms.`,
   },
   {
-    imgUrl: "/services/service-1.png",
+    imgUrl: "CloudCog",
     label: "SaaS (Software as a Service) Solutions",
     description: `Cloud-Based Software for Scalability.
  We develop subscription-based, cloud-hosted software solutions to enhance productivity and streamline business operations.`,
   },
   {
-    imgUrl: "/services/service-1.png",
+    imgUrl: "Server",
     label: "Cloud Solutions & Hosting",
     description: `Secure & Scalable Cloud Infrastructure.
- Providing reliable cloud hosting, storage, backup, and disaster recovery services for businesses of all sizes.
-`,
+ Providing reliable cloud hosting, storage, backup, and disaster recovery services for businesses of all sizes.`,
   },
   {
-    imgUrl: "/services/service-1.png",
+    imgUrl: "ShieldCheck",
     label: "IT Infrastructure & Support",
     description: `Reliable IT Services for Business Stability.
- From network setup to server maintenance, we ensure your IT systems run smoothly and securely..
-`,
+ From network setup to server maintenance, we ensure your IT systems run smoothly and securely.`,
   },
   {
-    imgUrl: "/services/service-1.png",
+    imgUrl: "Palette",
     label: "UI/UX Design & Branding",
     description: `Crafting Engaging User Experiences.
- We design visually appealing and user-friendly interfaces while building strong, memorable brand identities.
-`,
+ We design visually appealing and user-friendly interfaces while building strong, memorable brand identities.`,
   },
   {
-    imgUrl: "/services/service-1.png",
+    imgUrl: "TrendingUp",
     label: "Digital Marketing & SEO",
     description: `Boosting Online Visibility & Engagement.
- With expert SEO, social media management, and paid advertising, we help businesses grow their digital presence.
-`,
+ With expert SEO, social media management, and paid advertising, we help businesses grow their digital presence.`,
   },
   {
-    imgUrl: "/services/service-1.png",
+    imgUrl: "BrainCircuit",
     label: "AI & Data Solutions",
     description: `Intelligent AI & Data-Driven Strategies.
- We develop AI-powered smart systems, data analytics tools, and machine learning solutions to enhance decision-making.
-`,
+ We develop AI-powered smart systems, data analytics tools, and machine learning solutions to enhance decision-making.`,
   },
   {
-    imgUrl: "/services/service-1.png",
+    imgUrl: "GlobeSearch",
     label: "Software for Local & Global Challenges",
     description: `Tech Solutions for Impact.
- We create custom software addressing community challenges, improving accessibility to services, education, and resources.
-`,
+ We create custom software addressing community challenges, improving accessibility to services, education, and resources.`,
   },
   {
-    imgUrl: "/services/service-1.png",
+    imgUrl: "GraduationCap",
     label: "Training & Consultancy",
     description: `Empowering Businesses & Individuals.
- Offering expert-led training in web development, SaaS, digital transformation, and strategic business growth.
-
-`,
+ Offering expert-led training in web development, SaaS, digital transformation, and strategic business growth.`,
   },
 ];
 
@@ -357,7 +349,7 @@ export const socialLinks: I_SocialLink[] = [
   },
   {
     icon: Mail,
-    href: "dds@gmail.com",
+    href: "#",
   },
   {
     icon: Linkedin,

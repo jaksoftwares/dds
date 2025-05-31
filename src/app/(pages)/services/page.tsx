@@ -2,6 +2,7 @@ import { Services } from "@/components";
 import Image from "next/image";
 import { BadgeCheck, BrainCircuit, Sparkles, Users } from "lucide-react";
 import Link from "next/link";
+import Process from "@/components/home/Process";
 
 const ServicesPage = () => {
   return (
@@ -36,7 +37,10 @@ const ServicesPage = () => {
       </section>
 
       {/* Our Process */}
-      <section className="bg-gray-50 py-20 px-6">
+      <Process />
+
+      {/* Testimonials Section */}
+      {/* <section className="bg-gray-50 py-20 px-6">
         <div className="max-w-6xl mx-auto text-center space-y-12">
           <h2 className="text-3xl font-bold">Our Process</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-left">
@@ -70,7 +74,7 @@ const ServicesPage = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Why Choose DDS */}
       <section className="max-w-6xl mx-auto px-6 space-y-10 text-center">

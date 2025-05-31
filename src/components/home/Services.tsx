@@ -1,7 +1,8 @@
-// components/Services.tsx
+"use client";
+
 import { services } from "@/lib/constants";
 import { I_ItemWithImage } from "@/lib/interfaces";
-import Image from "next/image";
+import * as Icons from "lucide-react";
 import React from "react";
 
 const Services = () => {
@@ -24,16 +25,18 @@ interface ServiceCardProps {
 }
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
+  const Icon = Icons[service.imgUrl as keyof typeof Icons];
+
+  const isValidIcon =
+    typeof Icon === "function" ||
+    (typeof Icon === "object" && Icon !== null && "render" in Icon);
+
   return (
     <div className="group bg-white rounded-2xl shadow-md border border-gray-200 hover:shadow-xl transition-shadow duration-300 flex flex-col items-center text-center p-8 space-y-4">
       <div className="bg-customBlueLight p-4 rounded-full">
-        <Image
-          src={service.imgUrl}
-          alt={service.label}
-          width={64}
-          height={64}
-          className="object-contain"
-        />
+        {isValidIcon && React.createElement(Icon as React.ElementType, {
+          className: "w-10 h-10 text-customBlueDark",
+        })}
       </div>
       <h3 className="text-xl font-semibold text-gray-800 group-hover:text-customBlue transition duration-200">
         {service.label}

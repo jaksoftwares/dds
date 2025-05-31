@@ -131,8 +131,7 @@ const GetInTouch = () => {
         </form>
 
         <div className="lg:w-1/2 flex flex-col self-stretch">
-          <RenderMap mapSrc="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d997.2036914770368!2d36.985791!3d-1.285111!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f6d53a862003d%3A0xa7e7826d4e52657f!2sKellian%20Enterprises!5e0!3m2!1sen!2ske!4v1731263157961!5m2!1sen!2ske" />
-
+          <RenderMap mapSrc="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.0782087455714!2d37.010848175738786!3d-1.10361193545534!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f475f31591ec5%3A0x372bedd06ee6a9ee!2sCk%20plaza!5e0!3m2!1sen!2ske!4v1748710297255!5m2!1sen!2ske" />
           <div className="flex flex-col gap-y-8 md:flex-row gap-x-5">
             <div className="border border-black rounded-md md:w-1/2 py-4 space-y-5">
               <div className="flex items-center justify-center gap-x-2">

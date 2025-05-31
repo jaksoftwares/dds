@@ -10,7 +10,7 @@ interface EmblaCarouselProps {
   CardComponent: React.ComponentType<any>;
   items: any[];
   autoplay?: boolean;
-  visibleSlides?: number;
+  visibleSlides?: number; // default for desktop
 }
 
 const EmblaCarousel: React.FC<EmblaCarouselProps> = ({
@@ -33,6 +33,22 @@ const EmblaCarousel: React.FC<EmblaCarouselProps> = ({
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
   const [emblaRef, emblaApi] = useEmblaCarousel(carouselOptions, plugins);
+
+  const [slidesToShow, setSlidesToShow] = useState(visibleSlides);
+
+  // Adjust slides based on screen width
+  useEffect(() => {
+    const updateSlides = () => {
+      const width = window.innerWidth;
+      if (width < 640) setSlidesToShow(1); // Mobile
+      else if (width < 1024) setSlidesToShow(2); // Tablet
+      else setSlidesToShow(visibleSlides); // Desktop
+    };
+
+    updateSlides();
+    window.addEventListener("resize", updateSlides);
+    return () => window.removeEventListener("resize", updateSlides);
+  }, [visibleSlides]);
 
   useEffect(() => {
     if (!emblaApi) return;
@@ -62,15 +78,14 @@ const EmblaCarousel: React.FC<EmblaCarouselProps> = ({
   };
 
   return (
-    <div className="relative">
-      {/* Embla Viewport */}
+    <div className="relative w-full">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex ml-0">
           {items.map((item, index) => (
             <div
               key={index}
-              className="px-4 md:px-8 py-8"
-              style={{ flex: `0 0 ${100 / visibleSlides}%` }}
+              className="px-1 sm:px-2 md:px-3 py-4"
+              style={{ flex: `0 0 ${100 / slidesToShow}%` }}
             >
               <CardComponent {...item} />
             </div>
@@ -78,12 +93,11 @@ const EmblaCarousel: React.FC<EmblaCarouselProps> = ({
         </div>
       </div>
 
-      {/* Dots Navigation */}
       <div className="flex justify-center mt-4 gap-2">
         {scrollSnaps.map((_, index) => (
           <button
             key={index}
-            className={`w-3 h-3 rounded-full ${
+            className={`w-3 h-3 rounded-full transition-colors duration-200 ${
               index === selectedIndex
                 ? "bg-primary"
                 : "bg-gray-300 hover:bg-gray-400"

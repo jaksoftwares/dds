@@ -1,11 +1,13 @@
 "use client";
 
+import { Handshake, Lightbulb, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import Process from "@/components/home/Process";
 
 const teamMembers = [
   {
-    name: "Alice Mwangi",
+    name: "Joseph Kirika",
     role: "Founder & CEO",
     bio: "Visionary leader driving innovation and strategic growth at Dove Peak Digital.",
     image: "/about/Joseph-Kirika.jpg",
@@ -14,80 +16,106 @@ const teamMembers = [
     name: "John Otieno",
     role: "Lead Developer",
     bio: "Expert full-stack developer specializing in scalable and robust web solutions.",
-    image: "/about/Joseph-Kirika.jpg",
+    image: "/about/lead-developer.jpg",
   },
   {
     name: "Grace Njeri",
     role: "UI/UX Designer",
     bio: "Crafting seamless user experiences and stunning interfaces for all our projects.",
-    image: "/about/Joseph-Kirika.jpg",
+    image: "/about/designer.jpg",
   },
   {
     name: "Samuel Kimani",
     role: "Digital Marketing Specialist",
     bio: "Driving brand awareness and digital campaigns that deliver measurable results.",
-    image: "/about/Joseph-Kirika.jpg",
+    image: "/about/marketing-dds.jpg",
   },
 ];
 
 const AboutUsPage = () => {
   return (
     <div className="space-y-20">
-      {/* Hero Section */}
-      <section
-        className="relative bg-cover bg-center text-white py-32 px-4"
-        style={{ backgroundImage: "url('/about/about-2.png')" }}
-      >
-        <div className="max-w-3xl mx-auto text-center space-y-4">
-          <h1 className="text-4xl sm:text-5xl font-bold">About Dove Peak Digital</h1>
-          <p className="text-lg sm:text-xl text-gray-200 max-w-xl mx-auto">
-            Empowering businesses with smart, scalable, and modern digital solutions that drive real growth.
-          </p>
-        </div>
-      </section>
+     {/* Hero Section */}
+    <section
+      className="relative bg-cover bg-center text-white py-32 px-4"
+      style={{ backgroundImage: "url('/about/about-2.png')" }}
+    >
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black/60 z-0" />
+
+      {/* Content */}
+      <div className="relative z-10 max-w-3xl mx-auto text-center space-y-4">
+        <h1 className="text-4xl sm:text-5xl font-bold">
+          About Dove Peak Digital
+        </h1>
+        <p className="text-lg sm:text-xl text-gray-200 max-w-xl mx-auto text-justify">
+          Empowering businesses with smart, scalable, and modern digital solutions that drive real growth.
+        </p>
+      </div>
+    </section>
 
       {/* Who We Are */}
-      <section className="px-6 lg:px-24 flex flex-col-reverse lg:flex-row items-center gap-10">
-        <div className="lg:w-1/2 space-y-6">
-          <h2 className="text-3xl font-bold text-customBlueDark">Who We Are</h2>
-          <p className="text-gray-700 text-lg">
-            Dove Peak Digital is a tech-forward digital agency delivering exceptional web, software, and automation solutions. We help businesses modernize their presence, automate operations, and scale with confidence.
-          </p>
-          <p className="text-gray-600">
-            Backed by a team of skilled developers, designers, and strategists, we work closely with our clients to deliver tailored results that make an impact.
-          </p>
-        </div>
-        <div className="lg:w-1/2">
-          <Image
-            src="/about/team.jpg"
-            alt="DDS team collaboration"
-            width={600}
-            height={400}
-            className="rounded-2xl shadow-xl object-cover w-full h-auto"
-          />
-        </div>
-      </section>
+<section className="px-6 lg:px-24 flex flex-col-reverse lg:flex-row items-center gap-10 py-20 bg-white">
+  <div className="lg:w-1/2 space-y-6">
+    <h2 className="text-3xl font-bold text-customBlueDark">Who We Are</h2>
+    <p className="text-gray-600 text-lg">
+      Dove Peak Digital Solutions is a tech-driven digital agency located Off-Thika Road, Juja, Nairobi, Kenya. We specialize in delivering smart, scalable digital solutions including web development, software systems, and process automation.
+    </p>
+    <p className="text-gray-600 text-lg">
+      We serve a broad client base and are well-equipped to handle both physical and remote engagements, ensuring flexibility and accessibility for businesses across different regions.
+    </p>
+    <p className="text-gray-600 text-lg">
+      Our team of experienced professionals is dedicated to understanding your unique business needs and delivering tailored solutions that enhance efficiency, drive growth, and foster innovation.
+      Our mission is to support business growth through innovative and efficient digital solutions in today’s evolving tech landscape.
+    </p>
+  </div>
+  <div className="lg:w-1/2">
+    <Image
+      src="/about/team.jpg"
+      alt="DDS team collaboration"
+      width={600}
+      height={400}
+      className="rounded-2xl shadow-xl object-cover w-full h-auto"
+    />
+  </div>
+</section>
+
 
       {/* What Drives Us */}
       <section className="bg-gray-100 py-20 px-6 lg:px-24">
         <div className="max-w-5xl mx-auto text-center space-y-12">
           <h2 className="text-3xl font-bold text-customBlueDark">What Drives Us</h2>
-          <div className="grid md:grid-cols-3 gap-10 text-left">
-            <div className="space-y-4">
+
+          <div className="grid md:grid-cols-3 gap-10 text-center">
+            {/* Innovation */}
+            <div className="space-y-4 bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition flex flex-col items-center">
+              <div className="text-customBlueDark mb-2">
+                <Lightbulb className="w-10 h-10 mx-auto" />
+              </div>
               <h3 className="text-xl font-semibold">Innovation</h3>
-              <p className="text-gray-600">
+              <p className="text-gray-600 text-justify">
                 We embrace creativity and technology to build futuristic solutions that solve today’s business challenges.
               </p>
             </div>
-            <div className="space-y-4">
+
+            {/* Excellence */}
+            <div className="space-y-4 bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition flex flex-col items-center">
+              <div className="text-customBlueDark mb-2">
+                <Star className="w-10 h-10 mx-auto" />
+              </div>
               <h3 className="text-xl font-semibold">Excellence</h3>
-              <p className="text-gray-600">
+              <p className="text-gray-600 text-justify">
                 We are obsessed with quality, ensuring everything we create is polished, purposeful, and results-driven.
               </p>
             </div>
-            <div className="space-y-4">
+
+            {/* Partnership */}
+            <div className="space-y-4 bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition flex flex-col items-center">
+              <div className="text-customBlueDark mb-2">
+                <Handshake className="w-10 h-10 mx-auto" />
+              </div>
               <h3 className="text-xl font-semibold">Partnership</h3>
-              <p className="text-gray-600">
+              <p className="text-gray-600 text-justify">
                 We believe in long-term collaborations, growing alongside our clients as trusted digital partners.
               </p>
             </div>
@@ -95,8 +123,13 @@ const AboutUsPage = () => {
         </div>
       </section>
 
+
       {/* Our Process */}
-      <section className="px-6 lg:px-24 space-y-16">
+      <Process />
+
+      {/* Testimonials */}
+
+      {/* <section className="px-6 lg:px-24 space-y-16">
         <div className="text-center space-y-4">
           <h2 className="text-3xl font-bold text-customBlueDark">Our Process</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -120,7 +153,7 @@ const AboutUsPage = () => {
             </div>
           ))}
         </div>
-      </section>
+      </section> */}
 
       {/* Our Team */}
       <section className="px-6 lg:px-24">
@@ -160,7 +193,7 @@ const AboutUsPage = () => {
             Partner with DDS to bring your vision to life with precision, creativity, and tech excellence.
           </p>
           <Link
-            href="/contact"
+            href="/#contact-us"
             className="inline-block bg-white text-customBlueDark font-medium px-6 py-3 rounded-full hover:bg-gray-100 transition"
           >
             Contact Us

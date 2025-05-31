@@ -19,7 +19,7 @@ const Testimonials = () => {
         <EmblaCarousel
           items={testimonials}
           CardComponent={TestimonialItemCard}
-          visibleSlides={5}
+          visibleSlides={4}
           
         />
       </div>
