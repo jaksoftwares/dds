@@ -429,7 +429,7 @@ export const newsArticles = [
   imageUrl: "/news/dovepeak-digital-challenge.png",
   date: "May 28, 2025",
   excerpt:
-    "The Dovepeak Digital Challenge is now live — offering two lucky businesses a free professionally designed website, domain, and hosting. All participants also get a 25% discount. Apply before June 20th!",
+    "The Dovepeak Digital Challenge is now live — offering two lucky businesses a free professionally designed website, domain, and hosting. All participants also get a 25% discount. Apply before June 30th!",
   content: `
     <p>The <strong>Dovepeak Digital Challenge 2025</strong> is Dovepeak’s latest initiative aimed at empowering small and growing businesses with the digital tools they need to thrive in today’s online-first economy.</p>
     <p>Through this challenge, <strong>two winners</strong> will receive:</p>
