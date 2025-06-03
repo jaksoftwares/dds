@@ -99,7 +99,7 @@ const NewsPage = () => {
           />
           <button
             type="submit"
-            className="bg-customBlue text-white px-6 py-3 rounded-lg font-medium hover:bg-customBlueDark transition"
+            className="bg-orange-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-orange-700 transition"
           >
             Subscribe
           </button>
