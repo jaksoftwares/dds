@@ -6,7 +6,7 @@ const URLS = {
   portfolio: "/portfolio",
   news: "/news",
   projectSlug: (projectSlug: string) => `/portfolio/${projectSlug}`,
-  pricing: "/#pricing",
+  pricing: "/pricing",
   testimonials: "/#testimonials",
   contactUs: "/#contact-us",
   blogs: "/blogs",

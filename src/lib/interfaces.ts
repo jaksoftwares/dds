@@ -59,3 +59,19 @@ export interface I_WorkingHour {
   day: string;
   time: string;
 }
+
+
+export interface IServicePackage {
+  name: string;
+  price: string;
+  description: string;
+  features: string[];
+  mostPopular?: boolean;
+}
+
+export interface IServiceWithPackages {
+  label: string;
+  description: string;
+  imgUrl: string;
+  packages: IServicePackage[];
+}

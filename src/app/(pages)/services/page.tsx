@@ -39,42 +39,7 @@ const ServicesPage = () => {
       {/* Our Process */}
       <Process />
 
-      {/* Testimonials Section */}
-      {/* <section className="bg-gray-50 py-20 px-6">
-        <div className="max-w-6xl mx-auto text-center space-y-12">
-          <h2 className="text-3xl font-bold">Our Process</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-left">
-            {[
-              {
-                step: "Discovery",
-                desc: "We understand your goals, pain points, and target market.",
-                icon: <BrainCircuit className="text-purple-600" size={32} />,
-              },
-              {
-                step: "Strategy",
-                desc: "We craft a custom digital strategy aligned with your vision.",
-                icon: <Sparkles className="text-purple-600" size={32} />,
-              },
-              {
-                step: "Execution",
-                desc: "Our expert team builds and implements your solution.",
-                icon: <BadgeCheck className="text-purple-600" size={32} />,
-              },
-              {
-                step: "Support",
-                desc: "We provide long-term maintenance, insights, and improvements.",
-                icon: <Users className="text-purple-600" size={32} />,
-              },
-            ].map(({ step, desc, icon }) => (
-              <div key={step} className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition space-y-4">
-                <div>{icon}</div>
-                <h4 className="text-xl font-semibold">{step}</h4>
-                <p className="text-gray-600 text-sm">{desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section> */}
+      
 
       {/* Why Choose DDS */}
       <section className="max-w-6xl mx-auto px-6 space-y-10 text-center">

@@ -2,19 +2,19 @@
 
 import { Button } from "@/components/ui/button";
 import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useContactUsDialog } from "@/context/useContactUsModal";
@@ -25,13 +25,39 @@ import { z } from "zod";
 // Local Storage Key
 const LOCAL_STORAGE_KEY = "contactFormData";
 
-// Zod Schema for Validation
+// Services options
+const SERVICES = [
+  "Web Development",
+  "Mobile App Development",
+  "Digital Platform Development",
+  "Software Development",
+  "SaaS Solutions",
+  "Cloud Solutions & Hosting",
+  "Digital Marketing & SEO",
+  "Training & Consultancy",
+  "AI & Data Solutions",
+  "IT Infrastructure & Support",
+];
+
+// Preferred contact methods
+const CONTACT_METHODS = ["Email", "Phone", "WhatsApp", "Other"];
+
+// Zod Schema for Validation with enhanced fields
 const contactFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email format"),
+  phone: z
+    .string()
+    .min(7, "Phone number must be valid")
+    .optional()
+    .or(z.literal("")),
   reason: z.enum(["general", "quote", "consultation"]),
+  service: z.string().optional(),
   budget: z.string().optional(),
-  date: z.string().optional(),
+  timeline: z.string().optional(),
+  urgency: z.enum(["low", "medium", "high"]).optional(),
+  preferredContactMethod: z.string().optional(),
+  preferredContactDetails: z.string().optional(),
   message: z.string().min(10, "Message must be at least 10 characters"),
 });
 
@@ -42,9 +68,15 @@ const ContactUsDialog = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    reason: "general",
-    budget: "",
     date: "",
+    phone: "",
+    reason: "general",
+    service: "",
+    budget: "",
+    timeline: "",
+    urgency: "medium",
+    preferredContactMethod: "Email",
+    preferredContactDetails: "",
     message: "",
   });
 
@@ -73,8 +105,8 @@ const ContactUsDialog = () => {
   };
 
   // Handle select change
-  const handleSelectChange = (value: string) => {
-    setFormData((prev) => ({ ...prev, reason: value }));
+  const handleSelectChange = (id: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
   // Handle form submission
@@ -107,7 +139,6 @@ const ContactUsDialog = () => {
         throw new Error(errorData.message || "Failed to send message");
       }
 
-      console.log("Form Submitted Successfully");
       toast.success("Your message has been sent!");
 
       // Clear local storage and reset form
@@ -115,9 +146,15 @@ const ContactUsDialog = () => {
       setFormData({
         name: "",
         email: "",
-        reason: "general",
-        budget: "",
         date: "",
+        phone: "",
+        reason: "general",
+        service: "",
+        budget: "",
+        timeline: "",
+        urgency: "medium",
+        preferredContactMethod: "Email",
+        preferredContactDetails: "",
         message: "",
       });
 
@@ -130,12 +167,14 @@ const ContactUsDialog = () => {
 
   return (
     <Dialog open={isContactUsDialogOpen} onOpenChange={closeContactUsDialog}>
-      <DialogContent className="max-w-lg">
+      <DialogContent
+        className="max-w-lg max-h-[80vh] overflow-y-auto p-6"
+        style={{ scrollbarGutter: "stable" }}
+      >
         <DialogHeader>
-          <DialogTitle>Contact Us</DialogTitle>
+          <DialogTitle>Get a Quote / Contact Us</DialogTitle>
         </DialogHeader>
 
-        {/* Contact Form */}
         <form className="space-y-6" onSubmit={handleSubmit}>
           {/* Name */}
           <div className="space-y-2">
@@ -147,12 +186,10 @@ const ContactUsDialog = () => {
               type="text"
               value={formData.name}
               onChange={handleChange}
-              placeholder="Enter your name"
+              placeholder="Enter your full name"
               required
             />
-            {errors.name && (
-              <p className="text-red-500 text-sm">{errors.name}</p>
-            )}
+            {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
           </div>
 
           {/* Email */}
@@ -168,78 +205,186 @@ const ContactUsDialog = () => {
               placeholder="Enter your email"
               required
             />
-            {errors.email && (
-              <p className="text-red-500 text-sm">{errors.email}</p>
-            )}
+            {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
           </div>
 
-          {/* Contact Reason */}
+          {/* Phone */}
+          <div className="space-y-2">
+            <Label htmlFor="phone">Phone Number (Optional)</Label>
+            <Input
+              id="phone"
+              type="tel"
+              value={formData.phone}
+              onChange={handleChange}
+              placeholder="Enter your phone number"
+            />
+            {errors.phone && <p className="text-red-500 text-sm">{errors.phone}</p>}
+          </div>
+
+          {/* Reason for Contact */}
           <div className="space-y-2">
             <Label htmlFor="reason">
               Reason for Contact <span className="text-red-500">*</span>
             </Label>
-            <Select value={formData.reason} onValueChange={handleSelectChange}>
+            <Select
+              value={formData.reason}
+              onValueChange={(value) => handleSelectChange("reason", value)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select a reason" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="general">General Inquiry</SelectItem>
                 <SelectItem value="quote">Request a Quote</SelectItem>
-                <SelectItem value="consultation">
-                  Schedule a Consultation
-                </SelectItem>
+                <SelectItem value="consultation">Schedule a Consultation</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
-          {/* Additional Fields Based on Selection */}
+          {/* Service Selection - shown only if quote is selected */}
           {formData.reason === "quote" && (
-            <div className="space-y-2">
-              <Label htmlFor="budget">
-                Estimated Budget <span className="text-red-500">*</span>
-              </Label>
-              <Input
-                id="budget"
-                type="text"
-                value={formData.budget}
-                onChange={handleChange}
-                placeholder="Enter your budget"
-                required
-              />
-              {errors.budget && (
-                <p className="text-red-500 text-sm">{errors.budget}</p>
+            <>
+              <div className="space-y-2">
+                <Label htmlFor="service">
+                  Service Interested In <span className="text-red-500">*</span>
+                </Label>
+                <Select
+                  value={formData.service}
+                  onValueChange={(value) => handleSelectChange("service", value)}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a service" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {SERVICES.map((service) => (
+                      <SelectItem key={service} value={service}>
+                        {service}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {errors.service && (
+                  <p className="text-red-500 text-sm">{errors.service}</p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="budget">
+                  Estimated Budget <span className="text-red-500">*</span>
+                </Label>
+                <Input
+                  id="budget"
+                  type="text"
+                  value={formData.budget}
+                  onChange={handleChange}
+                  placeholder="Enter your estimated budget (e.g., KES 50,000)"
+                  required
+                />
+                {errors.budget && (
+                  <p className="text-red-500 text-sm">{errors.budget}</p>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="timeline">
+                  Expected Project Timeline (Optional)
+                </Label>
+                <Input
+                  id="timeline"
+                  type="text"
+                  value={formData.timeline}
+                  onChange={handleChange}
+                  placeholder="E.g., 3 months, ASAP, Flexible"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="urgency">
+                  Project Urgency Level
+                </Label>
+                <Select
+                  value={formData.urgency}
+                  onValueChange={(value) => handleSelectChange("urgency", value)}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select urgency" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="low">Low</SelectItem>
+                    <SelectItem value="medium">Medium</SelectItem>
+                    <SelectItem value="high">High</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="preferredContactMethod">
+                  Preferred Contact Method
+                </Label>
+                <Select
+                  value={formData.preferredContactMethod}
+                  onValueChange={(value) =>
+                    handleSelectChange("preferredContactMethod", value)
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select contact method" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {CONTACT_METHODS.map((method) => (
+                      <SelectItem key={method} value={method}>
+                        {method}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {formData.preferredContactMethod !== "Email" && (
+                <div className="space-y-2">
+                  <Label htmlFor="preferredContactDetails">
+                    Preferred Contact Details
+                  </Label>
+                  <Input
+                    id="preferredContactDetails"
+                    type="text"
+                    value={formData.preferredContactDetails}
+                    onChange={handleChange}
+                    placeholder="Enter your contact details (e.g., phone number)"
+                  />
+                </div>
               )}
-            </div>
+            </>
           )}
 
+          {/* Consultation date */}
           {formData.reason === "consultation" && (
             <div className="space-y-2">
               <Label htmlFor="date">
-                Preferred Date <span className="text-red-500">*</span>
+                Preferred Consultation Date <span className="text-red-500">*</span>
               </Label>
               <Input
                 id="date"
                 type="date"
-                value={formData.date}
+                value={formData.date || ""}
                 onChange={handleChange}
                 required
               />
-              {errors.date && (
-                <p className="text-red-500 text-sm">{errors.date}</p>
-              )}
+              {errors.date && <p className="text-red-500 text-sm">{errors.date}</p>}
             </div>
           )}
 
           {/* Message */}
           <div className="space-y-2">
             <Label htmlFor="message">
-              Your Message <span className="text-red-500">*</span>
+              Additional Details / Message <span className="text-red-500">*</span>
             </Label>
             <Textarea
               id="message"
               value={formData.message}
               onChange={handleChange}
-              placeholder="Enter your message"
+              placeholder="Please provide any additional information..."
+              rows={5}
               required
             />
             {errors.message && (
@@ -247,7 +392,6 @@ const ContactUsDialog = () => {
             )}
           </div>
 
-          {/* Submit Button */}
           <Button type="submit" className="w-full">
             Send Message
           </Button>
