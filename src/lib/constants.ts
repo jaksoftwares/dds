@@ -26,8 +26,8 @@ export const navLinks: I_NavLink[] = [
   { label: "About us", href: URLS.aboutUs },
   { label: "Services", href: URLS.services },
   { label: "Portfolio", href: URLS.portfolio },
-  // { label: "Pricing", href: URLS.pricing },
-  { label: "Contact us", href: URLS.contactUs },
+  { label: "Pricing", href: URLS.pricing },
+  { label: "Contact us", href: URLS.contact },
   // { label: "Blogs", href: URLS.blogs },
   { label: "News", href: URLS.news },
 ];
@@ -61,20 +61,7 @@ export const testimonials: I_Testimonial[] = [
     rating: 5,
     imgUrl: "/testimonials/apostle-arthur.jpg",
   },
-  // {
-  //   label: "Linda K., Digital Marketing Specialist",
-  //   description:
-  //     "The website DDS built for us is modern, fast, and highly optimized for SEO. We've seen a huge increase in organic traffic and conversions.",
-  //   rating: 5,
-  //   imgUrl: "/testimonials/testimonial-1.png",
-  // },
-  // {
-  //   label: "Kevin B., Small Business Owner",
-  //   description:
-  //     "DDS provided end-to-end support for our cloud migration. Their professionalism and expertise made the process smooth and stress-free.",
-  //   rating: 5,
-  //   imgUrl: "/testimonials/testimonial-1.png",
-  // },
+
 ];
 
 export const services: I_ItemWithImage[] = [
@@ -153,6 +140,160 @@ export const services: I_ItemWithImage[] = [
 ];
 
 export const projects: I_Project[] = [
+  {
+  "title": "ConnectMtaani",
+  "slug": "connectmtaani",
+  "link": "https://connectmtaani.vercel.app",
+  "imageUrl": "/portfolio/connectmtaani.png",
+  "overview": "ConnectMtaani is Kenya’s premier platform connecting job seekers and employers in the informal sector. It simplifies hiring by providing access to a diverse network of skilled professionals across multiple industries, ensuring fast, affordable, and reliable connections.",
+  "challenge": "The informal labor market in Kenya is fragmented, making it difficult for employers to find reliable workers quickly and for job seekers to access consistent opportunities.",
+  "solution": "Developed a user-friendly platform that allows employers to post jobs for free and access a nationwide pool of qualified professionals. The platform handles background checks, insurance, and payments, offering a hassle-free experience for both employers and workers.",
+  "testimonial": {
+    "words": "ConnectMtaani helped us find skilled workers on short notice. The process was quick and the quality was excellent.",
+    "founder": {
+      "name": "Jane Muthoni",
+      "position": "HR Manager",
+      "company": "BuildRight Ltd"
+    }
+  }
+},
+{
+  "title": "Dovepeak Institute of Technology (DIT)",
+  "slug": "dovepeak-institute-of-technology",
+  "link": "https://dit-jak-devs-projects.vercel.app/",
+  "imageUrl": "/portfolio/dovepeak-institute.png",
+  "overview": "Dovepeak Institute of Technology (DIT) is a forward-thinking institution committed to nurturing the next generation of tech professionals. They provide high-quality, accessible, and practical IT education tailored to meet the evolving needs of the digital world. Their mission is to empower learners with relevant skills through flexible hybrid learning models, experienced tutors, and hands-on training.",
+  "challenge": "Bridging the gap between theoretical knowledge and practical skills in the rapidly evolving tech industry, while making education accessible and affordable.",
+  "solution": "Developed a comprehensive platform offering specialized courses in web development, UI/UX design, and website management. The curriculum emphasizes hands-on projects, real-world applications, and hybrid learning models to cater to diverse learning needs.",
+  "testimonial": {
+    "words": "DIT's approach to practical training has significantly boosted our students' confidence and employability. The hybrid model ensures flexibility without compromising on quality.",
+    "founder": {
+      "name": "Samuel Mwangi",
+      "position": "Director",
+      "company": "Dovepeak Institute of Technology"
+    }
+  }
+},
+{
+  "title": "SmartTraffic AI",
+  "slug": "smarttraffic-ai",
+  "link": "https://smarttraffic-ai.vercel.app/",
+  "imageUrl": "/portfolio/smarttraffic-ai.png",
+  "overview": "SmartTraffic AI is an intelligent traffic management platform that leverages artificial intelligence and real-time data to optimize urban mobility. It enhances traffic flow, reduces congestion, and improves road safety through adaptive traffic signals, real-time monitoring, and predictive analytics.",
+  "challenge": "Urban areas face increasing traffic congestion, leading to longer commute times, higher accident rates, and elevated carbon emissions. Traditional traffic management systems lack the adaptability to respond to real-time traffic conditions.",
+  "solution": "Implemented AI-powered traffic lights that dynamically adjust to current traffic conditions, integrated real-time monitoring through AI-enhanced cameras and sensors, and developed predictive analytics to forecast congestion and suggest optimized routes. These solutions collectively improve traffic flow, enhance safety, and reduce environmental impact.",
+  "testimonial": {
+    "words": "Since integrating SmartTraffic AI, our city's traffic flow has improved significantly, with noticeable reductions in commute times and accidents.",
+    "founder": {
+      "name": "Alex Johnson",
+      "position": "Director of Transportation",
+      "company": "Metro City Council"
+    }
+  }
+},
+{
+  "title": "Tripatite Interiors",
+  "slug": "tripatite-interiors",
+  "link": "https://tripatiteinteriors.vercel.app/",
+  "imageUrl": "/portfolio/tripatite-interiors.png",
+  "overview": "Tripatite Interiors is a premium interior design firm based in Kenya, specializing in transforming residential and commercial spaces into functional and aesthetically pleasing environments. Their services encompass residential and commercial interior design, interior styling and decor, custom furniture and finishes, renovations and remodeling, space optimization, 3D interior visualization, and consultations.",
+  "challenge": "Clients often struggle to find a comprehensive interior design solution that combines creativity, functionality, and personalized service to transform their spaces effectively.",
+  "solution": "Tripatite Interiors offers a holistic approach to interior design, providing end-to-end services from conceptualization to execution. Their team of experts works closely with clients to understand their needs and preferences, delivering customized solutions that enhance both the functionality and aesthetics of the space.",
+  "testimonial": {
+    "words": "Tripatite Interiors transformed our office space into something truly amazing. Their attention to detail and professionalism were top-notch.",
+    "founder": {
+      "name": "John Doe",
+      "position": "CEO",
+      "company": "XYZ Corp."
+    }
+  }
+},
+{
+  "title": "Lapi-Cure",
+  "slug": "lapi-cure",
+  "link": "https://lapicure.vercel.app/",
+  "imageUrl": "/portfolio/lapi-cure.png",
+  "overview": "Lapi-Cure is an affordable laptop insurance platform in Kenya, offering protection against theft, accidental damage, power surges, and liquid spills for just KES 100 per month. The platform simplifies the insurance process, making it accessible and straightforward for users.",
+  "challenge": "Many laptop owners in Kenya lack affordable and accessible insurance options, leaving their devices vulnerable to common risks like theft and accidental damage.",
+  "solution": "Developed a user-friendly platform that allows users to easily sign up, upload their laptop details, and get insured for a minimal monthly fee. The process is streamlined to encourage more users to protect their devices without the hassle of traditional insurance procedures.",
+  "testimonial": {
+    "words": "Lapi-Cure made it incredibly easy to insure my laptop. The peace of mind it offers for just KES 100 a month is unbeatable.",
+    "founder": {
+      "name": "Samuel Otieno",
+      "position": "Founder",
+      "company": "Lapi-Cure"
+    }
+  }
+},
+{
+  "title": "Helpicent",
+  "slug": "helpicent",
+  "link": "https://helpicent.vercel.app/",
+  "imageUrl": "/portfolio/helpicent.png",
+  "overview": "Helpicent is a global education fundraising platform that connects international donors with underprivileged children in Kenya. The platform facilitates secure donations, transparent impact tracking, and direct communication between donors and beneficiaries, aiming to transform lives through education.",
+  "challenge": "Bridging the gap between international donors and underprivileged children in Kenya, ensuring transparency, trust, and effective communication in the donation process.",
+  "solution": "Developed a user-friendly platform that offers secure donation processing, real-time impact updates, and direct communication channels. This approach fosters trust and ensures that donors can see the tangible effects of their contributions.",
+  "testimonial": {
+    "words": "Helpicent has transformed my child's future. The transparency and care they provide are unparalleled.",
+    "founder": {
+      "name": "Amina",
+      "position": "Parent",
+      "company": "Beneficiary Family"
+    }
+  }
+},
+{
+  "title": "Highrise School",
+  "slug": "highrise-school",
+  "link": "https://highrise-school.vercel.app/",
+  "imageUrl": "/portfolio/highrise-school.png",
+  "overview": "Highrise School is a private academic institution in Nairobi, Kenya, dedicated to fostering excellence in academics, discipline, and co-curricular activities. The school offers a supportive environment that nurtures students' growth, preparing them to become responsible and successful individuals.",
+  "challenge": "Establishing a strong academic foundation while instilling discipline and promoting co-curricular engagement in a supportive environment.",
+  "solution": "Developed a comprehensive educational program that emphasizes academic excellence, discipline, and co-curricular activities. The school provides a safe and inclusive environment that fosters student growth and development.",
+  "testimonial": {
+    "words": "Highrise School has provided me with an excellent education and a supportive environment to grow both academically and personally.",
+    "founder": {
+      "name": "John Doe",
+      "position": "Student",
+      "company": "Highrise School"
+    }
+  }
+},
+{
+  "title": "CompDock",
+  "slug": "compdock",
+  "link": "https://compdock.vercel.app/",
+  "imageUrl": "/portfolio/compdock.png",
+  "overview": "CompDock is a Kenyan-based e-commerce platform specializing in high-quality computer accessories, laptops, and tech essentials. The platform offers a curated selection of products, including gaming gear, monitors, and networking equipment, catering to tech enthusiasts and professionals alike.",
+  "challenge": "Navigating the crowded e-commerce landscape to provide a seamless shopping experience for tech products, ensuring product authenticity, competitive pricing, and timely delivery.",
+  "solution": "Developed a user-friendly online store with intuitive navigation, detailed product descriptions, and secure payment options. Implemented features like limited-time offers, customer testimonials, and brand partnerships to build trust and encourage purchases.",
+  "testimonial": {
+    "words": "CompDock made it so easy to find the right monitor for my coding setup. The quality and delivery were excellent!",
+    "founder": {
+      "name": "Jane M.",
+      "position": "Software Developer",
+      "company": "Freelancer"
+    }
+  }
+},
+{
+  "title": "Jasiri",
+  "slug": "jasiri",
+  "link": "https://jasiri.vercel.app/",
+  "imageUrl": "/portfolio/jasiri.png",
+  "overview": "Jasiri is a creative agency that empowers visionaries—students, entrepreneurs, NGOs, and startups—to craft compelling, fundable, and investor-ready projects. Through design, strategy, and storytelling, Jasiri transforms ideas into bold, bankable pitches.",
+  "challenge": "Many aspiring entrepreneurs and organizations struggle to present their ideas effectively to potential investors, donors, or stakeholders, often lacking the necessary tools and guidance to create impactful pitches.",
+  "solution": "Jasiri offers a suite of services including custom pitch deck creation, proposal writing, pitch training, brand identity development, and strategic mentorship. By providing tailored support, Jasiri helps clients articulate their visions clearly and confidently.",
+  "testimonial": {
+    "words": "Working with Jasiri was a game-changer. Their expertise turned our concept into a compelling pitch that resonated with investors.",
+    "founder": {
+      "name": "Alex Mwangi",
+      "position": "Founder",
+      "company": "GreenTech Innovations"
+    }
+  }
+},
+
   {
     title: "DDS Consulting",
     slug: "dds-consulting",
@@ -280,6 +421,135 @@ export const projects: I_Project[] = [
     },
   },
 ];
+
+export const newsArticles = [
+{
+  title: "Dovepeak Launches the Dovepeak Digital Challenge",
+  slug: "dovepeak-digital-challenge-2025",
+  imageUrl: "/news/dovepeak-digital-challenge.png",
+  date: "May 28, 2025",
+  excerpt:
+    "The Dovepeak Digital Challenge is now live — offering two lucky businesses a free professionally designed website, domain, and hosting. All participants also get a 25% discount. Apply before June 20th!",
+  content: `
+    <p>The <strong>Dovepeak Digital Challenge 2025</strong> is Dovepeak’s latest initiative aimed at empowering small and growing businesses with the digital tools they need to thrive in today’s online-first economy.</p>
+    <p>Through this challenge, <strong>two winners</strong> will receive:</p>
+    <ul>
+      <li>✅ A fully branded and responsive website</li>
+      <li>✅ Free domain name registration for 1 year</li>
+      <li>✅ One-year free hosting on a secure platform</li>
+    </ul>
+    <p><strong>Every applicant</strong> also benefits with an exclusive <strong>25% discount</strong> on our web packages — just for participating!</p>
+    <p>🗓️ <strong>Deadline:</strong> June 20, 2025<br />
+    🏆 <strong>Winners Announced:</strong> June 30, 2025</p>
+
+    <div style="margin: 30px 0; padding: 20px; background: #f0f8ff; border-left: 6px solid #007acc; border-radius: 8px;">
+      <h3 style="margin-top: 0;">🚀 Ready to Elevate Your Digital Presence?</h3>
+      <p style="font-size: 18px; margin: 10px 0;"><strong>Don't miss your chance to win a custom website for FREE!</strong></p>
+      <a href="https://forms.gle/PwQ2JrcWRLLWfHEG8" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 12px 24px; background-color: #007acc; color: #fff; font-weight: bold; border-radius: 5px; text-decoration: none; transition: background-color 0.3s;">
+        👉 Apply Now – Join the Dovepeak Digital Challenge 2025
+      </a>
+    </div>
+
+    <p>Let Dovepeak Digital Solutions help your business shine online.</p>
+  `
+},
+{
+  title: "Dovepeak Launches the AutoStore Project",
+  slug: "dovepeak-autostore-launch",
+  imageUrl: "/news/dovepeak-autostore-launch.png",
+  date: "June 3, 2025",
+  excerpt:
+    "Dovepeak Digital Solutions unveils AutoStore — a modern digital platform built to revolutionize the car spare parts industry in Kenya. The platform connects customers with quality spare parts quickly and reliably.",
+  content: `
+    <p><strong>Dovepeak Digital Solutions</strong> is proud to announce the launch of <strong>AutoStore</strong> — an innovative web platform that streamlines the way individuals and garages access high-quality car spare parts in Kenya.</p>
+    
+    <p>AutoStore is designed with speed, simplicity, and trust in mind, helping car owners and mechanics find exactly what they need — hassle-free. Whether you're looking for specific vehicle parts or just exploring, AutoStore provides an intuitive experience with verified listings.</p>
+
+    <ul>
+      <li>🚗 Browse thousands of car spare parts</li>
+      <li>📦 Seamless ordering and delivery process</li>
+      <li>🔧 Tailored for garages, auto shops, and everyday car owners</li>
+    </ul>
+
+    <p>With the AutoStore platform, Dovepeak continues to push forward its mission of transforming traditional businesses through smart, user-friendly digital tools.</p>
+
+    <div style="margin: 30px 0; padding: 20px; background: #f8fafd; border-left: 6px solid #198754; border-radius: 8px;">
+      <h3 style="margin-top: 0;">🔍 Explore AutoStore Now</h3>
+      <p style="font-size: 18px; margin: 10px 0;"><strong>Find genuine car parts fast and reliably — all in one place.</strong></p>
+      <a href="https://autostore-q6v3.vercel.app/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 12px 24px; background-color: #198754; color: #fff; font-weight: bold; border-radius: 5px; text-decoration: none; transition: background-color 0.3s;">
+        🚀 Visit AutoStore Platform
+      </a>
+    </div>
+
+    <p>This launch marks another bold step in Dovepeak’s journey to empower industries through technology.</p>
+  `
+},
+{
+  title: "Dovepeak Officially Launches CompDock",
+  slug: "dovepeak-compdock-launch",
+  imageUrl: "/news/dovepeak-compdock-launch.png",
+  date: "June 3, 2025",
+  excerpt:
+    "CompDock is Dovepeak’s newly launched online marketplace for laptops, computers, and IT accessories — built to serve students, professionals, and businesses with reliable tech solutions.",
+  content: `
+    <p><strong>Dovepeak Digital Solutions</strong> proudly launches <strong>CompDock</strong> — a smart and efficient digital marketplace tailored for Kenya's growing tech needs.</p>
+
+    <p>Whether you're a student looking for an affordable laptop, a professional upgrading your workstation, or a business sourcing bulk accessories — <strong>CompDock</strong> provides a seamless experience for discovering and purchasing trusted IT products.</p>
+
+    <ul>
+      <li>💻 Wide selection of laptops, desktops, and accessories</li>
+      <li>🛒 Smooth, user-friendly online shopping experience</li>
+      <li>🔐 Reliable vendors and secure checkout</li>
+    </ul>
+
+    <p>Built with quality, speed, and accessibility in mind, CompDock aims to become the go-to digital marketplace for computing products across Kenya and beyond.</p>
+
+    <div style="margin: 30px 0; padding: 20px; background: #f8fafd; border-left: 6px solid #0d6efd; border-radius: 8px;">
+      <h3 style="margin-top: 0;">🖥️ Shop on CompDock Today</h3>
+      <p style="font-size: 18px; margin: 10px 0;"><strong>Find your next laptop or essential accessories with ease and confidence.</strong></p>
+      <a href="https://compdock.vercel.app/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 12px 24px; background-color: #0d6efd; color: #fff; font-weight: bold; border-radius: 5px; text-decoration: none; transition: background-color 0.3s;">
+        🛍️ Visit CompDock Marketplace
+      </a>
+    </div>
+
+    <p>With CompDock, Dovepeak continues to drive digital commerce forward — supporting students, startups, and tech lovers alike.</p>
+  `
+},
+{
+  title: "Dovepeak Launches Dovepeak Institute of Technology (DIT)",
+  slug: "dovepeak-institute-of-technology-launch",
+  imageUrl: "/news/dovepeak-institute-launch.png",
+  date: "June 3, 2025",
+  excerpt:
+    "Dovepeak proudly introduces Dovepeak Institute of Technology — a dynamic learning institution offering hands-on, industry-driven training in web development, design, and digital technologies.",
+  content: `
+    <p><strong>Dovepeak Institute of Technology (DIT)</strong> is officially live — a modern tech-focused institution built to shape the next generation of digital professionals.</p>
+
+    <p>At DIT, students receive in-depth training in high-demand IT fields including <strong>Web Development</strong>, <strong>Design</strong>, <strong>UI/UX</strong>, and <strong>Digital Strategy</strong>. With a blend of hands-on projects and guided mentorship, DIT empowers learners to confidently enter the digital workforce.</p>
+
+    <ul>
+      <li>🧑‍🏫 Expert-led training with practical industry experience</li>
+      <li>💼 Career-focused learning paths in tech & innovation</li>
+      <li>🖥️ State-of-the-art learning platform with student dashboards</li>
+      <li>🌍 Hybrid model: Online & Physical sessions available</li>
+    </ul>
+
+    <p>Whether you're a student exploring the digital world, a graduate building real-world skills, or a professional looking to upskill — <strong>DIT is your launchpad</strong>.</p>
+
+    <div style="margin: 30px 0; padding: 20px; background: #f1f9f4; border-left: 6px solid #198754; border-radius: 8px;">
+      <h3 style="margin-top: 0;">🎓 Enroll with DIT Today</h3>
+      <p style="font-size: 18px; margin: 10px 0;"><strong>Start your journey in tech with real mentorship, projects, and support.</strong></p>
+      <a href="https://dit-jak-devs-projects.vercel.app/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 12px 24px; background-color: #198754; color: #fff; font-weight: bold; border-radius: 5px; text-decoration: none; transition: background-color 0.3s;">
+        🚀 Explore DIT & Apply Now
+      </a>
+    </div>
+
+    <p><strong>Dovepeak Institute of Technology</strong> represents Dovepeak's ongoing mission to not just build digital solutions — but to cultivate the talent that powers them.</p>
+  `
+}
+
+];
+
 
 export const whyChooseUs = [
   "Expertise & Innovation. A skilled team leveraging the latest technology trends.",

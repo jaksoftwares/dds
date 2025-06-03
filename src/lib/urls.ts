@@ -11,10 +11,11 @@ const URLS = {
   contactUs: "/#contact-us",
   blogs: "/blogs",
   process: "/#",
+  contact: "/contact-us",
   
   // backend
   email: "/api/email",
-  contact: ""
+  contactbackend: ""
 };
 
 export default URLS;

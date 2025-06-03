@@ -4,34 +4,11 @@ import { Calendar, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-
-const mockArticles = [
-{
-  title: "Dovepeak Launches the Dovepeak Digital Challenge",
-  excerpt: "The Dovepeak Digital Challenge is now live — offering two lucky businesses a free professionally designed website, domain, and hosting. All participants also get a 25% discount. Apply before June 20th!",
-  image: "/news/dds-digital-challenge.png",
-  date: "May 28, 2025",
-  slug: "dovepeak-digital-challenge-2025"
-},
-  {
-    title: "Inside Dovepeak: Our Culture of Continuous Innovation",
-    excerpt:
-      "We take you behind the scenes of how our team embraces innovation, collaboration, and growth every day.",
-    image: "/news/inside-dovepeak.jpg",
-    date: "May 12, 2025",
-    slug: "culture-of-innovation",
-  },
-  {
-    title: "Dovepeak Partners with Local Universities for Tech Incubation",
-    excerpt:
-      "Our new partnership fosters hands-on tech skills, mentorship, and startup incubation for emerging talents.",
-    image: "/news/university-partnership.jpg",
-    date: "April 30, 2025",
-    slug: "university-tech-incubation",
-  },
-];
+import { newsArticles } from "@/lib/constants";
 
 const NewsPage = () => {
+  const [featured, ...latest] = newsArticles;
+
   return (
     <main className="min-h-screen">
       {/* Hero */}
@@ -48,36 +25,31 @@ const NewsPage = () => {
         </div>
       </section>
 
-     {/* Featured Article */}
-<section className="px-6 lg:px-24 py-16">
-  <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
-    <Image
-      src="/news/dds-digital-challenge.png"
-      alt="Dovepeak Digital Challenge"
-      width={1200}
-      height={600}
-      className="w-full h-64 object-cover"
-    />
-    <div className="p-8 space-y-4">
-      <span className="inline-flex items-center gap-2 text-sm text-gray-500">
-        <Calendar className="w-4 h-4" /> May 28, 2025
-      </span>
-      <h2 className="text-2xl font-semibold text-customBlueDark">
-        Dovepeak Launches the Dovepeak Digital Challenge
-      </h2>
-      <p className="text-gray-700">
-        The Dovepeak Digital Challenge is now live — offering two lucky businesses a free professionally designed website, domain, and hosting. All participants also get a 25% discount. Apply before June 20th!
-      </p>
-      <Link
-        href="/news/dovepeak-digital-challenge-2025"
-        className="inline-flex items-center gap-1 text-customBlue hover:underline font-medium"
-      >
-        Read More <ArrowRight className="w-4 h-4" />
-      </Link>
-    </div>
-  </div>
-</section>
-
+      {/* Featured */}
+      <section className="px-6 lg:px-24 py-16">
+        <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
+          <Image
+            src={featured.imageUrl}
+            alt={featured.title}
+            width={1200}
+            height={600}
+            className="w-full h-64 object-cover"
+          />
+          <div className="p-8 space-y-4">
+            <span className="inline-flex items-center gap-2 text-sm text-gray-500">
+              <Calendar className="w-4 h-4" /> {featured.date}
+            </span>
+            <h2 className="text-2xl font-semibold text-customBlueDark">{featured.title}</h2>
+            <p className="text-gray-700">{featured.excerpt}</p>
+            <Link
+              href={`/news/${featured.slug}`}
+              className="inline-flex items-center gap-1 text-customBlue hover:underline font-medium"
+            >
+              Read More <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {/* Latest News Grid */}
       <section className="px-6 lg:px-24 py-12">
@@ -85,14 +57,14 @@ const NewsPage = () => {
           Latest Articles
         </h3>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
-          {mockArticles.map((article, i) => (
+          {latest.map((article, i) => (
             <Link
               href={`/news/${article.slug}`}
               key={i}
               className="bg-white shadow-md hover:shadow-xl rounded-2xl overflow-hidden transition duration-300 flex flex-col"
             >
               <Image
-                src={article.image}
+                src={article.imageUrl}
                 alt={article.title}
                 width={600}
                 height={400}
@@ -102,9 +74,7 @@ const NewsPage = () => {
                 <span className="text-xs text-gray-500 flex items-center gap-1">
                   <Calendar className="w-4 h-4" /> {article.date}
                 </span>
-                <h4 className="text-lg font-semibold text-gray-800">
-                  {article.title}
-                </h4>
+                <h4 className="text-lg font-semibold text-gray-800">{article.title}</h4>
                 <p className="text-sm text-gray-600">{article.excerpt}</p>
               </div>
             </Link>
