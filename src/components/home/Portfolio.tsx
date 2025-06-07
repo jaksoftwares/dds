@@ -6,10 +6,10 @@ import { projectLinks } from "@/lib/constants";
 import Image from "next/image";
 
 const Portfolio = () => {
-
   const featuredProjects = projectLinks.slice(0, 4);
+
   return (
-    <div className="relative w-full px-6 lg:px-0">
+    <div className="relative w-full px-4 sm:px-6">
       <Image
         src="/portfolio/diced-dots.png"
         alt="Decoration"
@@ -18,11 +18,11 @@ const Portfolio = () => {
         className="absolute bottom-0 left-1/2 -translate-x-1/2 sm:left-[10%] sm:translate-x-0 -z-50"
       />
 
-      <div className="w-full max-w-screen-xl mx-auto space-y-8 lg:space-y-12 lg:mx-80">
+      <div className="w-full max-w-screen-xl mx-auto space-y-8 lg:space-y-12">
         <SectionHeader
           title="Our Recent Work"
           description="Check out a collection of our most recent works"
-          href={URLS.portfolio} // Link to the full portfolio page
+          href={URLS.portfolio}
           label="PORTFOLIO"
         />
 

@@ -4,10 +4,12 @@ import {
   Portfolio,
   Process,
   ScheduleConsulation,
-  Testimonials
+  Testimonials, 
+  
 } from "@/components";
 import ContactUs from "@/components/home/ContactUs";
 import OurServices from "@/components/home/OurServices";
+import Partners from "@/components/core/OurPartners";
 
 const HomePage = () => {
   return (
@@ -18,6 +20,7 @@ const HomePage = () => {
         <OurServices />
         <Portfolio />
         <Process />
+        <Partners />
         <Testimonials />
         <ScheduleConsulation />
       </div>
