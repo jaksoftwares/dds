@@ -126,7 +126,7 @@ const ContactUsDialog = () => {
     }
 
     try {
-      const response = await fetch("/api/contact", {
+      const response = await fetch("/api/getQuote", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

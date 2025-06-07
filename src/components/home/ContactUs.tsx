@@ -32,7 +32,7 @@ const GetInTouch = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(URLS.contact, {
+      const response = await fetch(URLS.contactApi, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

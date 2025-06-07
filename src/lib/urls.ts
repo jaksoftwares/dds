@@ -15,7 +15,7 @@ const URLS = {
   
   // backend
   email: "/api/email",
-  contactbackend: ""
+  contactApi: "/api/contact",
 };
 
 export default URLS;
