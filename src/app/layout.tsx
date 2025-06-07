@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import Script from "next/script";
+import { FaWhatsapp } from "react-icons/fa";
 
 import { Footer, Header } from "@/components";
 import ContactUsDialog from "@/components/home/ContactUsDialog";
@@ -48,6 +49,17 @@ export default function RootLayout({
           <main className="pt-32 lg:pt-36">{children}</main>
 
           <Footer />
+
+          {/* WhatsApp Floating Button */}
+          <a
+            href="https://wa.me/254115749711"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 rounded-full bg-green-500 hover:bg-green-600 text-white shadow-lg transition-all"
+            aria-label="Chat with us on WhatsApp"
+          >
+            <FaWhatsapp className="text-2xl" />
+          </a>
         </ContactUsDialogProvider>
 
         {/* Tawk.to Live Chat Script */}
@@ -68,6 +80,7 @@ export default function RootLayout({
     </html>
   );
 }
+
 
 
 // <!--Start of Tawk.to Script-->
