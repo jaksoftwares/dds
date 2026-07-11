@@ -8,6 +8,7 @@ import ContactUsDialog from "@/components/home/ContactUsDialog";
 import { ContactUsDialogProvider } from "@/context/useContactUsModal";
 import LayoutVisibilityController from "@/components/core/LayoutVisibilityController";
 import MainPaddingController from "@/components/core/MainPaddingController";
+import NextTopLoader from 'nextjs-toploader';
 import "./globals.css";
 
 // Load local fonts
@@ -43,6 +44,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <NextTopLoader color="#ea580c" showSpinner={false} />
         <ContactUsDialogProvider>
           <ContactUsDialog />
 
