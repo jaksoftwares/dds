@@ -3,21 +3,57 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { SITE_CONFIG } from "@/lib/site-config";
-import { Mail, Lock, ArrowRight } from "lucide-react";
+import { Mail, Lock, ArrowRight, ExternalLink } from "lucide-react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showVerificationModal, setShowVerificationModal] = useState(false);
+  const [resending, setResending] = useState(false);
   const router = useRouter();
   const supabase = createClient();
+
+  const handleResendVerification = async () => {
+    setResending(true);
+    try {
+      const { error } = await supabase.auth.resend({
+        type: 'signup',
+        email,
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
+        }
+      });
+      if (error) {
+        toast.error(error.message);
+      } else {
+        toast.success("Verification email resent! Please check your inbox.");
+      }
+    } catch (err) {
+      toast.error("An unexpected error occurred.");
+    } finally {
+      setResending(false);
+    }
+  };
+
+  const getMailboxUrl = (email: string) => {
+    const lower = email.toLowerCase();
+    if (lower.endsWith("@gmail.com")) return "https://mail.google.com";
+    if (lower.endsWith("@outlook.com") || lower.endsWith("@hotmail.com")) return "https://outlook.live.com";
+    if (lower.endsWith("@yahoo.com")) return "https://mail.yahoo.com";
+    return null;
+  };
+  
+  const mailboxUrl = getMailboxUrl(email);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,7 +66,11 @@ export default function LoginPage() {
       });
 
       if (error) {
-        toast.error(error.message);
+        if (error.message.includes("Email not confirmed")) {
+          setShowVerificationModal(true);
+        } else {
+          toast.error(error.message);
+        }
         return;
       }
 
@@ -61,13 +101,17 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
       <Card className="w-full max-w-md p-8 space-y-8 shadow-xl border-none rounded-2xl relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-2 bg-customBlueDark" />
+        <div className="absolute top-0 left-0 w-full h-2 bg-customOrange" />
         
         <div className="text-center space-y-3">
-          <div className="mx-auto w-12 h-12 bg-customBlueExtraDark text-white rounded-xl flex items-center justify-center mb-6 shadow-md">
-            <span className="font-bold text-xl tracking-tighter">DDS</span>
-          </div>
-          <h1 className="text-3xl font-bold text-customBlueExtraDark tracking-tight">Welcome Back</h1>
+          <Image 
+            src="/core/logo-base.png" 
+            alt="Dovepeak" 
+            width={120} 
+            height={40} 
+            className="mx-auto mb-6"
+          />
+          <h1 className="text-3xl font-bold text-slate-800 tracking-tight">Welcome Back</h1>
           <p className="text-sm text-slate-500">Sign in to your {SITE_CONFIG.name} account to manage your projects.</p>
         </div>
 
@@ -84,7 +128,7 @@ export default function LoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
-                  className="pl-10 h-12 rounded-lg bg-slate-50 border-slate-200 focus-visible:ring-customBlueDark"
+                  className="pl-10 h-12 rounded-lg bg-slate-50 border-slate-200 focus-visible:ring-customOrange"
                 />
               </div>
             </div>
@@ -105,7 +149,7 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="pl-10 h-12 rounded-lg bg-slate-50 border-slate-200 focus-visible:ring-customBlueDark"
+                  className="pl-10 h-12 rounded-lg bg-slate-50 border-slate-200 focus-visible:ring-customOrange"
                 />
               </div>
             </div>
@@ -113,7 +157,7 @@ export default function LoginPage() {
 
           <Button 
             type="submit" 
-            className="w-full h-12 rounded-lg bg-customBlueExtraDark text-white hover:bg-customBlueDark transition-all text-base font-medium shadow-md hover:shadow-lg flex items-center justify-center gap-2 group"
+            className="w-full h-12 rounded-lg bg-customOrange text-white hover:bg-orange-600 transition-all text-base font-medium shadow-md hover:shadow-lg flex items-center justify-center gap-2 group"
             disabled={loading}
           >
             {loading ? "Signing in..." : "Sign In"}
@@ -123,11 +167,45 @@ export default function LoginPage() {
 
         <div className="text-center text-sm text-slate-600 pt-4 border-t border-slate-100">
           Don't have an account?{" "}
-          <Link href="/signup" className="text-customBlueDark font-semibold hover:underline">
+          <Link href="/signup" className="text-customOrange font-semibold hover:underline">
             Sign up now
           </Link>
         </div>
       </Card>
+
+      <Dialog open={showVerificationModal} onOpenChange={setShowVerificationModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-xl">Verify your email</DialogTitle>
+            <DialogDescription className="pt-2 text-slate-600">
+              Your email <span className="font-medium text-slate-900">{email}</span> needs to be verified before you can log in. 
+              Please check your inbox for the verification link.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <DialogFooter className="flex-col sm:flex-row gap-2 mt-4">
+            {mailboxUrl && (
+              <Button 
+                variant="outline" 
+                className="w-full sm:w-auto" 
+                onClick={() => window.open(mailboxUrl, "_blank")}
+                type="button"
+              >
+                Access Mailbox
+                <ExternalLink className="w-4 h-4 ml-2" />
+              </Button>
+            )}
+            <Button 
+              className="w-full sm:w-auto bg-customOrange text-white hover:bg-orange-600"
+              onClick={handleResendVerification}
+              disabled={resending}
+              type="button"
+            >
+              {resending ? "Resending..." : "Resend Verification"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

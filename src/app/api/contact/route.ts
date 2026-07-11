@@ -53,25 +53,28 @@ export async function POST(req: Request) {
 
     // Initialize Postmark client
     const postmarkClient = new postmark.ServerClient(
-      process.env.POSTMARK_SERVER_TOKEN || "fake-token"
+      process.env.POSTMARK_API_TOKEN || "fake-token"
     );
 
     try {
       // Confirmation email to client
       await postmarkClient.sendEmail({
-        From: process.env.EMAIL_USER!, // Must be a verified Sender Signature in Postmark
+        From: "support@dovepeakdigital.com",
         To: from_email,
         Subject: `Thank you for contacting ${COMPANY_NAME}`,
         HtmlBody: `
           <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.5; max-width: 600px; margin: auto;">
+            <div style="text-align: center; margin-bottom: 20px;">
+              <img src="${COMPANY_WEBSITE}/core/logo-base.png" alt="${COMPANY_NAME}" style="max-height: 40px;" />
+            </div>
             <p>Dear ${from_name},</p>
             <p>Thank you for reaching out to <strong>${COMPANY_NAME}</strong>. We have received your message and one of our team members will respond to you as soon as possible.</p>
             
             <p>If your inquiry is urgent or you need immediate assistance, please contact our support team via one of the following methods:</p>
             <ul>
-              <li>📞 Phone: <a href="tel:${SUPPORT_PHONE}">${SUPPORT_PHONE}</a></li>
-              <li>📧 Email: <a href="mailto:${SUPPORT_EMAIL}">${SUPPORT_EMAIL}</a></li>
-              <li>💬 Live Chat: <a href="${LIVE_CHAT_URL}" target="_blank" rel="noopener noreferrer">Chat with us</a></li>
+              <li>Phone: <a href="tel:${SUPPORT_PHONE}">${SUPPORT_PHONE}</a></li>
+              <li>Email: <a href="mailto:${SUPPORT_EMAIL}">${SUPPORT_EMAIL}</a></li>
+              <li>Live Chat: <a href="${LIVE_CHAT_URL}" target="_blank" rel="noopener noreferrer">Chat with us</a></li>
             </ul>
 
             <p>For more information about our services, please visit our website: <a href="${COMPANY_WEBSITE}" target="_blank" rel="noopener noreferrer">${COMPANY_WEBSITE}</a></p>
@@ -97,7 +100,10 @@ export async function POST(req: Request) {
       // Detailed notification email to admin
       const adminEmailBody = `
         <div style="font-family: Arial, sans-serif; color: #222;">
-          <h2 style="color: #004080;">New Contact Message Received</h2>
+          <div style="margin-bottom: 20px;">
+            <img src="${COMPANY_WEBSITE}/core/logo-base.png" alt="${COMPANY_NAME}" style="max-height: 40px;" />
+          </div>
+          <h2 style="color: #ea580c;">New Contact Message Received</h2>
           <table style="width: 100%; border-collapse: collapse;">
             <tr>
               <td style="padding: 8px; font-weight: bold; border: 1px solid #ddd;">Name:</td>
@@ -117,10 +123,10 @@ export async function POST(req: Request) {
       `;
 
       await postmarkClient.sendEmail({
-        From: process.env.EMAIL_USER!, // Must be a verified Sender Signature
-        To: process.env.EMAIL_USER!, // Admin email
+        From: "system@dovepeakdigital.com",
+        To: process.env.ADMIN_EMAIL!,
         ReplyTo: from_email,
-        Subject: `📩 New Contact Message from ${from_name}`,
+        Subject: `New Contact Message from ${from_name}`,
         HtmlBody: adminEmailBody,
       });
     } catch (emailError) {

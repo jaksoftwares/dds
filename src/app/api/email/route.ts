@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import nodemailer from "nodemailer";
+import * as postmark from "postmark";
 import { z } from "zod";
 
 // Updated Schema to Match Form Fields
@@ -15,27 +15,34 @@ const contactSchema = z.object({
 export const POST = async (request: Request) => {
   try {
     const body = await request.json();
-    const { name, email, reason, budget, date, message } =
-      contactSchema.parse(body);
+    const { name, email, reason, budget, date, message } = contactSchema.parse(body);
 
-    const transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: 587,
-      secure: false,
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD,
-      },
-      tls: {
-        rejectUnauthorized: false,
-      },
-    });
+    const postmarkClient = new postmark.ServerClient(
+      process.env.POSTMARK_API_TOKEN || "fake-token"
+    );
 
-    const mailOptions = {
-      from: `"Dove Peak Digital Website" ${process.env.NEXT_PUBLIC_SITE_URL}`,
-      to: process.env.EMAIL_USER,
-      subject: `New Contact Form Submission from ${name}`,
-      text: `
+    const adminEmailBody = `
+      <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f9f9f9; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+        <div style="margin-bottom: 20px;">
+          <img src="${process.env.NEXT_PUBLIC_SITE_URL}/core/logo-base.png" alt="Dovepeak Digital Solutions" style="max-height: 40px;" />
+        </div>
+        <h2 style="color: #ea580c; font-size: 24px; margin-bottom: 16px;">New Contact Form Submission</h2>
+        <p style="margin: 8px 0;"><strong style="color: #555;">Name:</strong> ${name}</p>
+        <p style="margin: 8px 0;"><strong style="color: #555;">Email:</strong> ${email}</p>
+        <p style="margin: 8px 0;"><strong style="color: #555;">Reason for Contact:</strong> ${reason}</p>
+        ${reason === "quote" ? `<p style="margin: 8px 0;"><strong style="color: #555;">Estimated Budget:</strong> ${budget}</p>` : ""}
+        ${reason === "consultation" ? `<p style="margin: 8px 0;"><strong style="color: #555;">Preferred Date:</strong> ${date}</p>` : ""}
+        <p style="margin: 8px 0;"><strong style="color: #555;">Message:</strong> ${message}</p>
+      </div>
+    `;
+
+    await postmarkClient.sendEmail({
+      From: "no-reply@dovepeakdigital.com",
+      To: process.env.ADMIN_EMAIL || "dovepeakdigital@gmail.com",
+      ReplyTo: email,
+      Subject: `New Contact Form Submission from ${name}`,
+      HtmlBody: adminEmailBody,
+      TextBody: `
         Name: ${name}
         Email: ${email}
         Reason for Contact: ${reason}
@@ -43,28 +50,7 @@ export const POST = async (request: Request) => {
         ${reason === "consultation" ? `Preferred Date: ${date}` : ""}
         Message: ${message}
       `,
-      html: `
-        <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f9f9f9; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
-          <h2 style="color: #333; font-size: 24px; margin-bottom: 16px;">New Contact Form Submission</h2>
-          <p style="margin: 8px 0;"><strong style="color: #555;">Name:</strong> ${name}</p>
-          <p style="margin: 8px 0;"><strong style="color: #555;">Email:</strong> ${email}</p>
-          <p style="margin: 8px 0;"><strong style="color: #555;">Reason for Contact:</strong> ${reason}</p>
-          ${
-            reason === "quote"
-              ? `<p style="margin: 8px 0;"><strong style="color: #555;">Estimated Budget:</strong> ${budget}</p>`
-              : ""
-          }
-          ${
-            reason === "consultation"
-              ? `<p style="margin: 8px 0;"><strong style="color: #555;">Preferred Date:</strong> ${date}</p>`
-              : ""
-          }
-          <p style="margin: 8px 0;"><strong style="color: #555;">Message:</strong> ${message}</p>
-        </div>
-      `,
-    };
-
-    await transporter.sendMail(mailOptions);
+    });
 
     return NextResponse.json(
       { message: "Message sent successfully" },
@@ -85,8 +71,7 @@ export const POST = async (request: Request) => {
 
     return NextResponse.json(
       {
-        message:
-          "An error occurred while sending your message. Please try again.",
+        message: "An error occurred while sending your message. Please try again.",
       },
       { status: 500 }
     );

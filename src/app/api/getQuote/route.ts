@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
 
     // Initialize Postmark client
     const postmarkClient = new postmark.ServerClient(
-      process.env.POSTMARK_SERVER_TOKEN || "fake-token"
+      process.env.POSTMARK_API_TOKEN || "fake-token"
     );
 
     // Support contact info (adjust as needed)
@@ -72,16 +72,19 @@ export async function POST(req: NextRequest) {
     // -----------------------
     try {
       await postmarkClient.sendEmail({
-        From: process.env.EMAIL_USER!, // Must be a verified Sender Signature
+        From: "sales@dovepeakdigital.com",
         To: parsed.email,
-        ReplyTo: process.env.EMAIL_USER!,
+        ReplyTo: "sales@dovepeakdigital.com",
         Subject: `Thank You, ${parsed.name} – We've Received Your Request at Dovepeak Digital Solutions`,
         HtmlBody: `
           <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6; max-width: 600px; margin: auto; padding: 20px;">
-            <h2 style="color: #004080; border-bottom: 2px solid #004080; padding-bottom: 10px;">Hello ${parsed.name},</h2>
+            <div style="text-align: center; margin-bottom: 20px;">
+              <img src="${process.env.NEXT_PUBLIC_SITE_URL}/core/logo-base.png" alt="Dovepeak Digital Solutions" style="max-height: 40px;" />
+            </div>
+            <h2 style="color: #ea580c; border-bottom: 2px solid #ea580c; padding-bottom: 10px;">Hello ${parsed.name},</h2>
             <p>Thank you for reaching out to <strong>Dovepeak Digital Solutions</strong>. We have received your <strong>${parsed.reason.charAt(0).toUpperCase() + parsed.reason.slice(1)}</strong> request and are reviewing the details carefully.</p>
 
-            <h3 style="margin-top: 25px; color: #004080;">Summary of Your Request</h3>
+            <h3 style="margin-top: 25px; color: #ea580c;">Summary of Your Request</h3>
             <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
               <tbody>
                 <tr>
@@ -113,15 +116,15 @@ export async function POST(req: NextRequest) {
               </tbody>
             </table>
 
-            <h3 style="color: #004080;">Your Message</h3>
-            <blockquote style="background-color:#f9f9f9; padding: 15px; border-left: 4px solid #004080; font-style: italic; margin-bottom: 25px;">
+            <h3 style="color: #ea580c;">Your Message</h3>
+            <blockquote style="background-color:#fff7ed; padding: 15px; border-left: 4px solid #ea580c; font-style: italic; margin-bottom: 25px;">
               ${parsed.message}
             </blockquote>
 
             <p>We aim to respond within <strong>24–48 hours</strong>. If your request is urgent, please contact our support team directly:</p>
             <ul>
-              <li>📞 Phone: <a href="tel:${supportPhone.replace(/\D/g, '')}" style="color:#004080;">${supportPhone}</a></li>
-              <li>✉️ Email: <a href="mailto:${supportEmail}" style="color:#004080;">${supportEmail}</a></li>
+              <li>Phone: <a href="tel:${supportPhone.replace(/\D/g, '')}" style="color:#ea580c;">${supportPhone}</a></li>
+              <li>Email: <a href="mailto:${supportEmail}" style="color:#ea580c;">${supportEmail}</a></li>
             </ul>
 
             <p>Thank you for choosing <strong>Dovepeak Digital Solutions</strong>. We look forward to assisting you!</p>
@@ -137,13 +140,16 @@ export async function POST(req: NextRequest) {
       });
 
       await postmarkClient.sendEmail({
-        From: process.env.EMAIL_USER!, // Must be a verified Sender Signature
-        To: process.env.EMAIL_USER!,
+        From: "system@dovepeakdigital.com",
+        To: process.env.ADMIN_EMAIL!,
         ReplyTo: parsed.email,
-        Subject: `📬 New ${parsed.reason.toUpperCase()} Submission from ${parsed.name}`,
+        Subject: `New ${parsed.reason.toUpperCase()} Submission from ${parsed.name}`,
         HtmlBody: `
           <div style="font-family: Arial, sans-serif; color: #222; max-width: 600px; margin: auto; padding: 20px;">
-            <h2 style="color: #004080; border-bottom: 3px solid #004080; padding-bottom: 8px;">New Form Submission</h2>
+            <div style="margin-bottom: 20px;">
+              <img src="${process.env.NEXT_PUBLIC_SITE_URL}/core/logo-base.png" alt="Dovepeak Digital Solutions" style="max-height: 40px;" />
+            </div>
+            <h2 style="color: #ea580c; border-bottom: 3px solid #ea580c; padding-bottom: 8px;">New Form Submission</h2>
             <table style="width: 100%; border-collapse: collapse;">
               <tbody>
                 <tr>
@@ -191,8 +197,8 @@ export async function POST(req: NextRequest) {
               </tbody>
             </table>
 
-            <h3 style="margin-top: 20px; color: #004080;">Message</h3>
-            <p style="background-color:#f0f0f0; padding: 15px; border-left: 4px solid #004080; white-space: pre-wrap;">${parsed.message}</p>
+            <h3 style="margin-top: 20px; color: #ea580c;">Message</h3>
+            <p style="background-color:#fff7ed; padding: 15px; border-left: 4px solid #ea580c; white-space: pre-wrap;">${parsed.message}</p>
 
             <hr style="margin-top: 30px; border:none; border-top:1px solid #ccc;" />
             <p style="font-size: 0.85rem; color: #555;">Received on: ${new Date().toLocaleString()}</p>

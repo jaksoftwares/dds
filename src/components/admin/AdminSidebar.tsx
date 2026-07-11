@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { SITE_CONFIG } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
@@ -21,9 +22,12 @@ export function AdminSidebar() {
   return (
     <aside className="hidden md:flex md:w-64 lg:w-72 flex-col border-r bg-customBlueExtraDark text-white">
       <div className="px-6 py-6 border-b border-white/10">
-        <h1 className="text-lg font-semibold tracking-tight">
-          {SITE_CONFIG.name}
-        </h1>
+        <Image 
+          src="/core/logo-base-grayscale.png" 
+          alt="Dovepeak Admin" 
+          width={130} 
+          height={40} 
+        />
         <p className="mt-1 text-xs text-customBlueBase">
           Admin Control Center
         </p>

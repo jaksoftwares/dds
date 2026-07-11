@@ -72,10 +72,10 @@ export default function ResetPasswordPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
       <Card className="w-full max-w-md p-8 space-y-8 shadow-xl border-none rounded-2xl relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-2 bg-customBlueDark" />
+        <div className="absolute top-0 left-0 w-full h-2 bg-customOrange" />
         
         <div className="space-y-2">
-          <h1 className="text-3xl font-bold text-customBlueExtraDark tracking-tight">Set New Password</h1>
+          <h1 className="text-3xl font-bold text-slate-800 tracking-tight">Set New Password</h1>
           <p className="text-slate-500 text-sm">
             Please enter your new password below. Make it strong and secure!
           </p>
@@ -95,7 +95,7 @@ export default function ResetPasswordPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="pl-10 h-12 rounded-lg bg-slate-50 border-slate-200 focus-visible:ring-customBlueDark"
+                  className="pl-10 h-12 rounded-lg bg-slate-50 border-slate-200 focus-visible:ring-customOrange"
                 />
               </div>
             </div>
@@ -112,7 +112,7 @@ export default function ResetPasswordPage() {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="pl-10 h-12 rounded-lg bg-slate-50 border-slate-200 focus-visible:ring-customBlueDark"
+                  className="pl-10 h-12 rounded-lg bg-slate-50 border-slate-200 focus-visible:ring-customOrange"
                 />
               </div>
             </div>
@@ -120,7 +120,7 @@ export default function ResetPasswordPage() {
 
           <Button 
             type="submit" 
-            className="w-full h-12 rounded-lg bg-customBlueExtraDark text-white hover:bg-customBlueDark transition-all text-base font-medium shadow-md hover:shadow-lg"
+            className="w-full h-12 rounded-lg bg-customOrange text-white hover:bg-orange-600 transition-all text-base font-medium shadow-md hover:shadow-lg"
             disabled={loading}
           >
             {loading ? "Updating..." : "Update Password"}

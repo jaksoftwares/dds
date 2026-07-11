@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
 import { SITE_CONFIG } from "@/lib/site-config";
 
@@ -11,22 +12,26 @@ export default function AuthLayout({
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row">
       {/* Left side - Branded panel (Hidden on small screens) */}
-      <div className="hidden md:flex flex-col justify-between w-full md:w-1/2 lg:w-5/12 bg-customBlueExtraDark text-white p-12">
+      <div className="hidden md:flex flex-col justify-between w-full md:w-1/2 lg:w-5/12 bg-customOrange text-white p-12">
         <div>
-          <Link href="/" className="inline-flex items-center text-sm font-medium hover:text-customBlueBase transition-colors mb-12">
+          <Link href="/" className="inline-flex items-center text-sm font-medium hover:text-orange-200 transition-colors mb-12">
             <ArrowLeft className="w-4 h-4 mr-2" /> Back to website
           </Link>
-          <div className="w-16 h-16 bg-white text-customBlueExtraDark rounded-xl flex items-center justify-center mb-8 shadow-lg">
-            <span className="font-bold text-2xl tracking-tighter">DDS</span>
-          </div>
+          <Image 
+            src="/core/logo-base-grayscale.png" 
+            alt="Dovepeak Logo" 
+            width={180} 
+            height={60} 
+            className="mb-8"
+          />
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
             Empowering your digital growth.
           </h1>
-          <p className="text-customBlueBase text-lg max-w-md leading-relaxed">
+          <p className="text-orange-100 text-lg max-w-md leading-relaxed">
             {SITE_CONFIG.name} provides tech-forward web, software, and automation solutions. Access your client portal to track projects, request services, and manage your business all in one place.
           </p>
         </div>
-        <div className="text-sm text-customBlueBase/60">
+        <div className="text-sm text-orange-200">
           © {new Date().getFullYear()} {SITE_CONFIG.name}. All rights reserved.
         </div>
       </div>

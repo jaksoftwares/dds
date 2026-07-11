@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -78,9 +79,13 @@ export default function SignupPage() {
         <div className="absolute top-0 left-0 w-full h-2 bg-customOrange" />
         
         <div className="text-center space-y-3">
-          <div className="mx-auto w-12 h-12 bg-customOrange text-white rounded-xl flex items-center justify-center mb-6 shadow-md">
-            <span className="font-bold text-xl tracking-tighter">DDS</span>
-          </div>
+          <Image 
+            src="/core/logo-base.png" 
+            alt="Dovepeak" 
+            width={120} 
+            height={40} 
+            className="mx-auto mb-6"
+          />
           <h1 className="text-3xl font-bold text-slate-800 tracking-tight">Create an Account</h1>
           <p className="text-sm text-slate-500">Join {SITE_CONFIG.name} to track your projects and communicate directly with our team.</p>
         </div>
@@ -150,7 +155,7 @@ export default function SignupPage() {
 
         <div className="text-center text-sm text-slate-600 pt-4 border-t border-slate-100">
           Already have an account?{" "}
-          <Link href="/login" className="text-customBlueDark font-semibold hover:underline">
+          <Link href="/login" className="text-customOrange font-semibold hover:underline">
             Sign in
           </Link>
         </div>

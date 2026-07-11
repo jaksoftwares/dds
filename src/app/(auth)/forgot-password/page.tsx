@@ -45,10 +45,10 @@ export default function ForgotPasswordPage() {
       <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
         <Card className="w-full max-w-md p-8 text-center space-y-6 shadow-xl border-none rounded-2xl relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-2 bg-customOrange" />
-          <div className="mx-auto w-16 h-16 bg-blue-50 text-customBlueDark rounded-full flex items-center justify-center mb-4">
+          <div className="mx-auto w-16 h-16 bg-orange-50 text-customOrange rounded-full flex items-center justify-center mb-4">
             <Mail className="w-8 h-8" />
           </div>
-          <h2 className="text-2xl font-bold text-customBlueExtraDark">Check your inbox</h2>
+          <h2 className="text-2xl font-bold text-slate-800">Check your inbox</h2>
           <p className="text-slate-600 text-sm leading-relaxed">
             We've sent a password reset link to <strong>{email}</strong>. Please check your email and click the link to reset your password.
           </p>
@@ -65,13 +65,13 @@ export default function ForgotPasswordPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
       <Card className="w-full max-w-md p-8 space-y-8 shadow-xl border-none rounded-2xl relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-2 bg-customBlueDark" />
+        <div className="absolute top-0 left-0 w-full h-2 bg-customOrange" />
         
         <div className="space-y-3">
-          <Link href="/login" className="inline-flex items-center text-sm text-slate-500 hover:text-customBlueDark transition-colors mb-2">
+          <Link href="/login" className="inline-flex items-center text-sm text-slate-500 hover:text-customOrange transition-colors mb-2">
             <ArrowLeft className="w-4 h-4 mr-2" /> Back to login
           </Link>
-          <h1 className="text-3xl font-bold text-customBlueExtraDark tracking-tight">Forgot Password</h1>
+          <h1 className="text-3xl font-bold text-slate-800 tracking-tight">Forgot Password</h1>
           <p className="text-slate-500 text-sm">
             Enter the email address associated with your account and we'll send you a link to reset your password.
           </p>
@@ -89,14 +89,14 @@ export default function ForgotPasswordPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
-                className="pl-10 h-12 rounded-lg bg-slate-50 border-slate-200 focus-visible:ring-customBlueDark"
+                className="pl-10 h-12 rounded-lg bg-slate-50 border-slate-200 focus-visible:ring-customOrange"
               />
             </div>
           </div>
 
           <Button 
             type="submit" 
-            className="w-full h-12 rounded-lg bg-customBlueExtraDark text-white hover:bg-customBlueDark transition-all text-base font-medium shadow-md hover:shadow-lg"
+            className="w-full h-12 rounded-lg bg-customOrange text-white hover:bg-orange-600 transition-all text-base font-medium shadow-md hover:shadow-lg"
             disabled={loading}
           >
             {loading ? "Sending link..." : "Send Reset Link"}
