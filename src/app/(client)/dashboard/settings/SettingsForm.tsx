@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { updateProfile, updatePassword } from "@/actions/settings";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,6 +10,7 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
 export function SettingsForm({ initialName }: { initialName: string }) {
+  const router = useRouter();
   const [loadingProfile, setLoadingProfile] = useState(false);
   const [loadingPassword, setLoadingPassword] = useState(false);
 
@@ -21,6 +23,7 @@ export function SettingsForm({ initialName }: { initialName: string }) {
       toast.error(result.error);
     } else {
       toast.success("Profile updated successfully");
+      router.refresh();
     }
   }
 

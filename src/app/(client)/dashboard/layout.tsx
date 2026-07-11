@@ -23,9 +23,11 @@ export default async function ClientLayout({
     .eq("id", user.id)
     .single();
 
+  const displayName = profile?.full_name || user.user_metadata?.full_name || "Client";
+
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col text-slate-900 overflow-hidden">
-      <ClientTopbar clientName={profile?.full_name || "Client"} />
+      <ClientTopbar clientName={displayName} />
       <div className="flex flex-1 overflow-hidden">
         <ClientSidebar />
         <main className="flex-1 px-4 md:px-6 py-6 lg:py-10 max-w-7xl mx-auto w-full space-y-8 overflow-y-auto">
