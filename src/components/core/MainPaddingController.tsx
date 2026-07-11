@@ -12,10 +12,16 @@ const MainPaddingController: React.FC<MainPaddingControllerProps> = ({
 }) => {
   const pathname = usePathname();
 
-  const isAdminRoute = pathname.startsWith("/admin");
+  const isExcludedRoute = 
+    pathname.startsWith("/admin") || 
+    pathname.startsWith("/dashboard") ||
+    pathname.startsWith("/login") ||
+    pathname.startsWith("/signup") ||
+    pathname.startsWith("/forgot-password") ||
+    pathname.startsWith("/reset-password");
 
-  if (isAdminRoute) {
-    return <div className="min-h-screen">{children}</div>;
+  if (isExcludedRoute) {
+    return <>{children}</>;
   }
 
   return <main className="pt-32 lg:pt-36">{children}</main>;

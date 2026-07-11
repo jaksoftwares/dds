@@ -2,42 +2,58 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { SITE_CONFIG } from "@/lib/site-config";
+import Link from "next/link";
+import { createClient } from "@/lib/supabase/server";
 
-const stats = [
-  { label: "Active Services", value: 8, tone: "bg-emerald-50 text-emerald-700" },
-  { label: "Projects Delivered", value: 24, tone: "bg-sky-50 text-sky-700" },
-  { label: "Open Enquiries", value: 5, tone: "bg-amber-50 text-amber-700" },
-  { label: "Published News", value: 12, tone: "bg-violet-50 text-violet-700" },
-];
+export default async function AdminDashboardPage() {
+  const supabase = await createClient();
 
-const recentActivity = [
-  {
-    area: "Contact enquiries",
-    action: "New message received",
-    status: "Unread",
-    time: "2 mins ago",
-  },
-  {
-    area: "Portfolio",
-    action: "Project 'Kids Beyond Limit' updated",
-    status: "Published",
-    time: "1 hour ago",
-  },
-  {
-    area: "News",
-    action: "Scheduled article for next week",
-    status: "Scheduled",
-    time: "Yesterday",
-  },
-];
+  // Parallel data fetching for performance
+  const [
+    { count: unreadMessagesCount },
+    { count: pendingQuotesCount },
+    { count: activeServicesCount },
+    { count: publishedPortfolioCount },
+    { data: recentMessages },
+    { data: recentQuotes },
+  ] = await Promise.all([
+    supabase.from("contact_messages").select("*", { count: "exact", head: true }).eq("status", "unread"),
+    supabase.from("quotes").select("*", { count: "exact", head: true }).eq("status", "pending"),
+    supabase.from("services").select("*", { count: "exact", head: true }).eq("is_active", true),
+    supabase.from("portfolio").select("*", { count: "exact", head: true }).eq("is_published", true),
+    supabase.from("contact_messages").select("*").order("created_at", { ascending: false }).limit(3),
+    supabase.from("quotes").select("*").order("created_at", { ascending: false }).limit(3),
+  ]);
 
-const quickLinks = [
-  { label: "Manage services", href: "/admin/content" },
-  { label: "Review enquiries", href: "/admin/messages" },
-  { label: "Update site details", href: "/admin/settings" },
-];
+  const stats = [
+    { label: "Active Services", value: activeServicesCount || 0, tone: "bg-emerald-50 text-emerald-700" },
+    { label: "Published Projects", value: publishedPortfolioCount || 0, tone: "bg-sky-50 text-sky-700" },
+    { label: "Unread Messages", value: unreadMessagesCount || 0, tone: "bg-amber-50 text-amber-700" },
+    { label: "Pending Quotes", value: pendingQuotesCount || 0, tone: "bg-violet-50 text-violet-700" },
+  ];
 
-const AdminDashboardPage = () => {
+  const quickLinks = [
+    { label: "Manage Services", href: "/admin/content" },
+    { label: "Review Enquiries", href: "/admin/messages" },
+    { label: "Client Projects", href: "/admin/clients" },
+  ];
+
+  // Combine recent activity
+  const combinedActivity = [
+    ...(recentMessages || []).map((m) => ({
+      type: "Message",
+      name: m.from_name,
+      status: m.status,
+      date: new Date(m.created_at).toLocaleDateString(),
+    })),
+    ...(recentQuotes || []).map((q) => ({
+      type: "Quote Request",
+      name: q.name,
+      status: q.status,
+      date: new Date(q.created_at).toLocaleDateString(),
+    })),
+  ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, 5);
+
   return (
     <div className="space-y-6 md:space-y-8">
       <header className="space-y-2">
@@ -70,29 +86,36 @@ const AdminDashboardPage = () => {
         <Card className="lg:col-span-2 p-4 md:p-5">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-sm font-semibold text-slate-800">
-              Recent activity
+              Recent Activity
             </h2>
             <Badge className="bg-customBlueExtraDark text-white">Live</Badge>
           </div>
-          <div className="space-y-3">
-            {recentActivity.map((item, index) => (
-              <div
-                key={`${item.area}-${index}`}
-                className="flex items-center justify-between gap-3 rounded-md border border-slate-100 px-3 py-2 text-xs md:text-sm"
-              >
-                <div className="space-y-0.5">
-                  <p className="font-medium text-slate-800">{item.area}</p>
-                  <p className="text-slate-500">{item.action}</p>
+          
+          {combinedActivity.length > 0 ? (
+            <div className="space-y-3">
+              {combinedActivity.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex items-center justify-between gap-3 rounded-md border border-slate-100 px-3 py-2 text-xs md:text-sm"
+                >
+                  <div className="space-y-0.5">
+                    <p className="font-medium text-slate-800">{item.name}</p>
+                    <p className="text-slate-500">{item.type}</p>
+                  </div>
+                  <div className="text-right space-y-1">
+                    <Badge variant="outline" className="text-[10px] capitalize">
+                      {item.status.replace("_", " ")}
+                    </Badge>
+                    <p className="text-[10px] text-slate-400">{item.date}</p>
+                  </div>
                 </div>
-                <div className="text-right space-y-1">
-                  <Badge variant="outline" className="text-[10px]">
-                    {item.status}
-                  </Badge>
-                  <p className="text-[10px] text-slate-400">{item.time}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="py-8 text-center text-slate-500 border border-dashed rounded-lg">
+              No recent activity found.
+            </div>
+          )}
         </Card>
 
         <Card className="p-4 md:p-5 flex flex-col justify-between bg-customBlueDark text-white">
@@ -109,10 +132,10 @@ const AdminDashboardPage = () => {
                   size="sm"
                   className="w-full justify-between bg-white text-customBlueExtraDark hover:bg-slate-100"
                 >
-                  <a href={link.href}>
+                  <Link href={link.href}>
                     <span>{link.label}</span>
                     <span className="text-xs text-slate-500">Go</span>
-                  </a>
+                  </Link>
                 </Button>
               ))}
             </div>
@@ -121,6 +144,4 @@ const AdminDashboardPage = () => {
       </section>
     </div>
   );
-};
-
-export default AdminDashboardPage;
+}

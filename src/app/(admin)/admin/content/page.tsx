@@ -6,7 +6,7 @@ const contentAreas = [
   {
     title: "Services",
     description:
-      "Manage the list of services offered by DovePeak Digital Solutions.",
+      "Manage the list of services offered by Dovepeak Digital Solutions.",
     stats: "8 services live",
     href: "#services",
   },

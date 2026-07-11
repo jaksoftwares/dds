@@ -1,0 +1,238 @@
+{
+  "services": [
+    {
+      "title": "Custom Website Development",
+      "slug": "custom-website-development",
+      "short_description": "Professional Websites Built for Impact.",
+      "content": "From corporate sites to e-commerce stores, we design and develop high-performing, user-friendly websites tailored to your brand.",
+      "icon_name": "Globe",
+      "is_active": true
+    },
+    {
+      "title": "Digital Platform Development",
+      "slug": "digital-platform-development",
+      "short_description": "Powerful Online Platforms for Business Growth.",
+      "content": "We build robust platforms like e-commerce systems, LMS, CRM, and marketplaces to drive business efficiency and engagement.",
+      "icon_name": "LayoutGrid",
+      "is_active": true
+    },
+    {
+      "title": "Software Development",
+      "slug": "software-development",
+      "short_description": "Custom Software for Business Optimization.",
+      "content": "Developing enterprise-grade software for workflow automation, inventory management, POS, and financial tools to streamline operations.",
+      "icon_name": "Code2",
+      "is_active": true
+    },
+    {
+      "title": "Mobile App Development",
+      "slug": "mobile-app-development",
+      "short_description": "Seamless & Scalable Mobile Solutions.",
+      "content": "We create intuitive Android, iOS, and hybrid applications for businesses, services, and on-demand platforms.",
+      "icon_name": "Smartphone",
+      "is_active": true
+    },
+    {
+      "title": "SaaS (Software as a Service) Solutions",
+      "slug": "saas-solutions",
+      "short_description": "Cloud-Based Software for Scalability.",
+      "content": "We develop subscription-based, cloud-hosted software solutions to enhance productivity and streamline business operations.",
+      "icon_name": "CloudCog",
+      "is_active": true
+    },
+    {
+      "title": "Cloud Solutions & Hosting",
+      "slug": "cloud-solutions-and-hosting",
+      "short_description": "Secure & Scalable Cloud Infrastructure.",
+      "content": "Providing reliable cloud hosting, storage, backup, and disaster recovery services for businesses of all sizes.",
+      "icon_name": "Server",
+      "is_active": true
+    },
+    {
+      "title": "IT Infrastructure & Support",
+      "slug": "it-infrastructure-support",
+      "short_description": "Reliable IT Services for Business Stability.",
+      "content": "From network setup to server maintenance, we ensure your IT systems run smoothly and securely.",
+      "icon_name": "ShieldCheck",
+      "is_active": true
+    },
+    {
+      "title": "UI/UX Design & Branding",
+      "slug": "ui-ux-design-branding",
+      "short_description": "Crafting Engaging User Experiences.",
+      "content": "We design visually appealing and user-friendly interfaces while building strong, memorable brand identities.",
+      "icon_name": "Palette",
+      "is_active": true
+    },
+    {
+      "title": "Digital Marketing & SEO",
+      "slug": "digital-marketing-seo",
+      "short_description": "Boosting Online Visibility & Engagement.",
+      "content": "With expert SEO, social media management, and paid advertising, we help businesses grow their digital presence.",
+      "icon_name": "TrendingUp",
+      "is_active": true
+    },
+    {
+      "title": "AI & Data Solutions",
+      "slug": "ai-data-solutions",
+      "short_description": "Intelligent AI & Data-Driven Strategies.",
+      "content": "We develop AI-powered smart systems, data analytics tools, and machine learning solutions to enhance decision-making.",
+      "icon_name": "BrainCircuit",
+      "is_active": true
+    },
+    {
+      "title": "Software for Local & Global Challenges",
+      "slug": "software-local-global-challenges",
+      "short_description": "Tech Solutions for Impact.",
+      "content": "We create custom software addressing community challenges, improving accessibility to services, education, and resources.",
+      "icon_name": "GlobeSearch",
+      "is_active": true
+    },
+    {
+      "title": "Training & Consultancy",
+      "slug": "training-consultancy",
+      "short_description": "Empowering Businesses & Individuals.",
+      "content": "Offering expert-led training in web development, SaaS, digital transformation, and strategic business growth.",
+      "icon_name": "GraduationCap",
+      "is_active": true
+    }
+  ],
+  "portfolio": [
+    {
+      "title": "ConnectMtaani",
+      "slug": "connectmtaani",
+      "client_name": "ConnectMtaani",
+      "category": "Web Platform",
+      "description": "ConnectMtaani is Kenya’s premier platform connecting job seekers and employers in the informal sector.",
+      "content": "Challenge: The informal labor market in Kenya is fragmented, making it difficult for employers to find reliable workers quickly and for job seekers to access consistent opportunities.\n\nSolution: Developed a user-friendly platform that allows employers to post jobs for free and access a nationwide pool of qualified professionals. The platform handles background checks, insurance, and payments, offering a hassle-free experience for both employers and workers.\n\nTestimonial: 'ConnectMtaani helped us find skilled workers on short notice. The process was quick and the quality was excellent.' - Jane Muthoni, HR Manager",
+      "image_url": "/portfolio/connectmtaani.png",
+      "is_published": true
+    },
+    {
+      "title": "Dovepeak Institute of Technology (DIT)",
+      "slug": "dovepeak-institute-of-technology",
+      "client_name": "DIT",
+      "category": "Education",
+      "description": "A forward-thinking institution committed to nurturing the next generation of tech professionals.",
+      "content": "Challenge: Bridging the gap between theoretical knowledge and practical skills in the rapidly evolving tech industry, while making education accessible and affordable.\n\nSolution: Developed a comprehensive platform offering specialized courses in web development, UI/UX design, and website management. The curriculum emphasizes hands-on projects, real-world applications, and hybrid learning models to cater to diverse learning needs.\n\nTestimonial: 'DIT's approach to practical training has significantly boosted our students' confidence and employability.' - Samuel Mwangi, Director",
+      "image_url": "/portfolio/dovepeak-institute.png",
+      "is_published": true
+    },
+    {
+      "title": "SmartTraffic AI",
+      "slug": "smarttraffic-ai",
+      "client_name": "Metro City Council",
+      "category": "AI / Data",
+      "description": "An intelligent traffic management platform that leverages artificial intelligence and real-time data to optimize urban mobility.",
+      "content": "Challenge: Urban areas face increasing traffic congestion, leading to longer commute times, higher accident rates, and elevated carbon emissions.\n\nSolution: Implemented AI-powered traffic lights that dynamically adjust to current traffic conditions, integrated real-time monitoring through AI-enhanced cameras and sensors, and developed predictive analytics to forecast congestion and suggest optimized routes.\n\nTestimonial: 'Since integrating SmartTraffic AI, our city's traffic flow has improved significantly.' - Alex Johnson",
+      "image_url": "/portfolio/smarttraffic-ai.png",
+      "is_published": true
+    },
+    {
+      "title": "Tripatite Interiors",
+      "slug": "tripatite-interiors",
+      "client_name": "Tripatite Interiors",
+      "category": "Web Design",
+      "description": "A premium interior design firm based in Kenya, specializing in transforming residential and commercial spaces.",
+      "content": "Challenge: Clients often struggle to find a comprehensive interior design solution that combines creativity, functionality, and personalized service.\n\nSolution: Tripatite Interiors offers a holistic approach to interior design, providing end-to-end services from conceptualization to execution. Their team of experts works closely with clients to understand their needs.\n\nTestimonial: 'Tripatite Interiors transformed our office space into something truly amazing.' - John Doe",
+      "image_url": "/portfolio/tripatite-interiors.png",
+      "is_published": true
+    },
+    {
+      "title": "Lapi-Cure",
+      "slug": "lapi-cure",
+      "client_name": "Lapi-Cure",
+      "category": "SaaS",
+      "description": "An affordable laptop insurance platform in Kenya, offering protection against theft and accidental damage.",
+      "content": "Challenge: Many laptop owners in Kenya lack affordable and accessible insurance options, leaving their devices vulnerable.\n\nSolution: Developed a user-friendly platform that allows users to easily sign up, upload their laptop details, and get insured for a minimal monthly fee.\n\nTestimonial: 'Lapi-Cure made it incredibly easy to insure my laptop. The peace of mind it offers for just KES 100 a month is unbeatable.' - Samuel Otieno",
+      "image_url": "/portfolio/lapi-cure.png",
+      "is_published": true
+    },
+    {
+      "title": "Helpicent",
+      "slug": "helpicent",
+      "client_name": "Helpicent",
+      "category": "Web Platform",
+      "description": "A global education fundraising platform connecting international donors with underprivileged children.",
+      "content": "Challenge: Bridging the gap between international donors and underprivileged children in Kenya, ensuring transparency and trust.\n\nSolution: Developed a user-friendly platform that offers secure donation processing, real-time impact updates, and direct communication channels.\n\nTestimonial: 'Helpicent has transformed my child's future. The transparency and care they provide are unparalleled.' - Amina",
+      "image_url": "/portfolio/helpicent.png",
+      "is_published": true
+    },
+    {
+      "title": "Highrise School",
+      "slug": "highrise-school",
+      "client_name": "Highrise School",
+      "category": "Web Design",
+      "description": "A private academic institution in Nairobi, dedicated to fostering excellence in academics.",
+      "content": "Challenge: Establishing a strong academic foundation while instilling discipline and promoting co-curricular engagement.\n\nSolution: Developed a comprehensive educational program that emphasizes academic excellence, discipline, and co-curricular activities.\n\nTestimonial: 'Highrise School has provided me with an excellent education and a supportive environment to grow.' - Student",
+      "image_url": "/portfolio/highrise-school.png",
+      "is_published": true
+    },
+    {
+      "title": "CompDock",
+      "slug": "compdock",
+      "client_name": "CompDock",
+      "category": "E-Commerce",
+      "description": "A Kenyan-based e-commerce platform specializing in high-quality computer accessories and laptops.",
+      "content": "Challenge: Navigating the crowded e-commerce landscape to provide a seamless shopping experience for tech products.\n\nSolution: Developed a user-friendly online store with intuitive navigation, detailed product descriptions, and secure payment options.\n\nTestimonial: 'CompDock made it so easy to find the right monitor for my coding setup.' - Jane M.",
+      "image_url": "/portfolio/compdock.png",
+      "is_published": true
+    },
+    {
+      "title": "Jasiri",
+      "slug": "jasiri",
+      "client_name": "Jasiri",
+      "category": "Web Design",
+      "description": "A creative agency that empowers visionaries to craft compelling, fundable, and investor-ready projects.",
+      "content": "Challenge: Many aspiring entrepreneurs struggle to present their ideas effectively to potential investors.\n\nSolution: Jasiri offers a suite of services including custom pitch deck creation, proposal writing, and pitch training.\n\nTestimonial: 'Working with Jasiri was a game-changer. Their expertise turned our concept into a compelling pitch.' - Alex Mwangi",
+      "image_url": "/portfolio/jasiri.png",
+      "is_published": true
+    }
+  ],
+  "updates": [
+    {
+      "title": "Dovepeak Launches the Dovepeak Digital Challenge",
+      "slug": "dovepeak-digital-challenge-2025",
+      "type": "news",
+      "excerpt": "The Dovepeak Digital Challenge is now live — offering two lucky businesses a free professionally designed website, domain, and hosting.",
+      "content": "<p>The <strong>Dovepeak Digital Challenge 2025</strong> is Dovepeak’s latest initiative aimed at empowering small and growing businesses with the digital tools they need to thrive in today’s online-first economy.</p><p>Through this challenge, <strong>two winners</strong> will receive:</p><ul><li>✅ A fully branded and responsive website</li><li>✅ Free domain name registration for 1 year</li><li>✅ One-year free hosting on a secure platform</li></ul><p><strong>Every applicant</strong> also benefits with an exclusive <strong>25% discount</strong> on our web packages — just for participating!</p><p>🗓️ <strong>Deadline:</strong> June 20, 2025<br />🏆 <strong>Winners Announced:</strong> June 30, 2025</p>",
+      "image_url": "/news/dovepeak-digital-challenge.png",
+      "author": "Dovepeak PR",
+      "is_published": true,
+      "published_at": "2025-05-28T10:00:00Z"
+    },
+    {
+      "title": "Dovepeak Launches the AutoStore Project",
+      "slug": "dovepeak-autostore-launch",
+      "type": "news",
+      "excerpt": "Dovepeak Digital Solutions unveils AutoStore — a modern digital platform built to revolutionize the car spare parts industry in Kenya.",
+      "content": "<p><strong>Dovepeak Digital Solutions</strong> is proud to announce the launch of <strong>AutoStore</strong> — an innovative web platform that streamlines the way individuals and garages access high-quality car spare parts in Kenya.</p><p>AutoStore is designed with speed, simplicity, and trust in mind, helping car owners and mechanics find exactly what they need — hassle-free. Whether you're looking for specific vehicle parts or just exploring, AutoStore provides an intuitive experience with verified listings.</p><ul><li>🚗 Browse thousands of car spare parts</li><li>📦 Seamless ordering and delivery process</li><li>🔧 Tailored for garages, auto shops, and everyday car owners</li></ul><p>With the AutoStore platform, Dovepeak continues to push forward its mission of transforming traditional businesses through smart, user-friendly digital tools.</p>",
+      "image_url": "/news/dovepeak-autostore-launch.png",
+      "author": "Dovepeak PR",
+      "is_published": true,
+      "published_at": "2025-06-03T10:00:00Z"
+    },
+    {
+      "title": "Dovepeak Officially Launches CompDock",
+      "slug": "dovepeak-compdock-launch",
+      "type": "news",
+      "excerpt": "CompDock is Dovepeak’s newly launched online marketplace for laptops, computers, and IT accessories.",
+      "content": "<p><strong>Dovepeak Digital Solutions</strong> proudly launches <strong>CompDock</strong> — a smart and efficient digital marketplace tailored for Kenya's growing tech needs.</p><p>Whether you're a student looking for an affordable laptop, a professional upgrading your workstation, or a business sourcing bulk accessories — <strong>CompDock</strong> provides a seamless experience for discovering and purchasing trusted IT products.</p><ul><li>💻 Wide selection of laptops, desktops, and accessories</li><li>🛒 Smooth, user-friendly online shopping experience</li><li>🔐 Reliable vendors and secure checkout</li></ul><p>Built with quality, speed, and accessibility in mind, CompDock aims to become the go-to digital marketplace for computing products across Kenya and beyond.</p>",
+      "image_url": "/news/dovepeak-compdock-launch.png",
+      "author": "Dovepeak PR",
+      "is_published": true,
+      "published_at": "2025-06-03T10:05:00Z"
+    },
+    {
+      "title": "Dovepeak Launches Dovepeak Institute of Technology (DIT)",
+      "slug": "dovepeak-institute-of-technology-launch",
+      "type": "news",
+      "excerpt": "Dovepeak proudly introduces Dovepeak Institute of Technology — a dynamic learning institution offering hands-on, industry-driven training.",
+      "content": "<p><strong>Dovepeak Institute of Technology (DIT)</strong> is officially live — a modern tech-focused institution built to shape the next generation of digital professionals.</p><p>At DIT, students receive in-depth training in high-demand IT fields including <strong>Web Development</strong>, <strong>Design</strong>, <strong>UI/UX</strong>, and <strong>Digital Strategy</strong>. With a blend of hands-on projects and guided mentorship, DIT empowers learners to confidently enter the digital workforce.</p><ul><li>🧑‍🏫 Expert-led training with practical industry experience</li><li>💼 Career-focused learning paths in tech & innovation</li><li>🖥️ State-of-the-art learning platform with student dashboards</li><li>🌍 Hybrid model: Online & Physical sessions available</li></ul><p>Whether you're a student exploring the digital world, a graduate building real-world skills, or a professional looking to upskill — <strong>DIT is your launchpad</strong>.</p>",
+      "image_url": "/news/dovepeak-institute-launch.png",
+      "author": "Dovepeak PR",
+      "is_published": true,
+      "published_at": "2025-06-03T10:10:00Z"
+    }
+  ]
+}

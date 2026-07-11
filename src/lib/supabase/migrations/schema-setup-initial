@@ -1,0 +1,176 @@
+-- ==========================================
+-- DOVEPEAK DIGITAL SOLUTIONS - SUPABASE SCHEMA
+-- ==========================================
+
+-- 1. EXTENSION SETUP
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- 2. CREATE PROFILES TABLE (Tied to Auth)
+CREATE TABLE profiles (
+  id UUID REFERENCES auth.users(id) ON DELETE CASCADE PRIMARY KEY,
+  email TEXT NOT NULL,
+  full_name TEXT NOT NULL,
+  role TEXT DEFAULT 'client' CHECK (role IN ('admin', 'client')),
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Trigger to automatically create profile on signup
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS trigger AS $$
+BEGIN
+  INSERT INTO public.profiles (id, email, full_name, role)
+  VALUES (new.id, new.email, new.raw_user_meta_data->>'full_name', 'client');
+  RETURN new;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+CREATE OR REPLACE TRIGGER on_auth_user_created
+  AFTER INSERT ON auth.users
+  FOR EACH ROW EXECUTE PROCEDURE public.handle_new_user();
+
+-- 3. CREATE CRM TABLES
+CREATE TABLE contact_messages (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID REFERENCES profiles(id) ON DELETE SET NULL,
+  from_name TEXT NOT NULL,
+  from_email TEXT NOT NULL,
+  message TEXT NOT NULL,
+  status TEXT DEFAULT 'unread' CHECK (status IN ('unread', 'in_progress', 'resolved')),
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE quotes (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id UUID REFERENCES profiles(id) ON DELETE SET NULL,
+  name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  phone TEXT,
+  reason TEXT NOT NULL,
+  service TEXT,
+  budget TEXT,
+  timeline TEXT,
+  urgency TEXT,
+  preferred_contact_method TEXT,
+  preferred_contact_details TEXT,
+  date TEXT,
+  message TEXT NOT NULL,
+  status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'reviewed', 'completed')),
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE client_projects (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  client_id UUID REFERENCES profiles(id) ON DELETE CASCADE NOT NULL,
+  title TEXT NOT NULL,
+  status TEXT DEFAULT 'Planning',
+  progress_percentage INTEGER DEFAULT 0,
+  details TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- 4. CREATE CMS TABLES
+CREATE TABLE services (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  title TEXT NOT NULL,
+  slug TEXT UNIQUE NOT NULL,
+  short_description TEXT NOT NULL,
+  content TEXT NOT NULL,
+  icon_name TEXT,
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE portfolio (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  title TEXT NOT NULL,
+  slug TEXT UNIQUE NOT NULL,
+  client_name TEXT NOT NULL,
+  category TEXT NOT NULL,
+  description TEXT NOT NULL,
+  content TEXT,
+  image_url TEXT,
+  is_published BOOLEAN DEFAULT false,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE updates (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  title TEXT NOT NULL,
+  slug TEXT UNIQUE NOT NULL,
+  type TEXT CHECK (type IN ('blog', 'news', 'event')),
+  excerpt TEXT NOT NULL,
+  content TEXT NOT NULL,
+  image_url TEXT,
+  author TEXT,
+  is_published BOOLEAN DEFAULT false,
+  published_at TIMESTAMP WITH TIME ZONE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- 5. ANALYTICS
+CREATE TABLE site_visitors (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  visitor_id TEXT NOT NULL,
+  pathname TEXT NOT NULL,
+  referrer TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- ==========================================
+-- 6. ROW LEVEL SECURITY (RLS) POLICIES
+-- ==========================================
+
+-- Enable RLS on all tables
+ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE contact_messages ENABLE ROW LEVEL SECURITY;
+ALTER TABLE quotes ENABLE ROW LEVEL SECURITY;
+ALTER TABLE client_projects ENABLE ROW LEVEL SECURITY;
+ALTER TABLE services ENABLE ROW LEVEL SECURITY;
+ALTER TABLE portfolio ENABLE ROW LEVEL SECURITY;
+ALTER TABLE updates ENABLE ROW LEVEL SECURITY;
+ALTER TABLE site_visitors ENABLE ROW LEVEL SECURITY;
+
+-- Profiles: Admins can read all, Users can read/update their own
+CREATE POLICY "Admins can view all profiles" ON profiles FOR SELECT USING (auth.uid() IN (SELECT id FROM profiles WHERE role = 'admin'));
+CREATE POLICY "Users can view own profile" ON profiles FOR SELECT USING (auth.uid() = id);
+CREATE POLICY "Users can update own profile" ON profiles FOR UPDATE USING (auth.uid() = id);
+
+-- Contact Messages: Anyone can insert, Admins can read all, Users can read own
+CREATE POLICY "Anyone can insert contact messages" ON contact_messages FOR INSERT WITH CHECK (true);
+CREATE POLICY "Admins can view all contact messages" ON contact_messages FOR SELECT USING (auth.uid() IN (SELECT id FROM profiles WHERE role = 'admin'));
+CREATE POLICY "Users can view own contact messages" ON contact_messages FOR SELECT USING (auth.uid() = user_id);
+
+-- Quotes: Anyone can insert, Admins can read all, Users can read own
+CREATE POLICY "Anyone can insert quotes" ON quotes FOR INSERT WITH CHECK (true);
+CREATE POLICY "Admins can view all quotes" ON quotes FOR SELECT USING (auth.uid() IN (SELECT id FROM profiles WHERE role = 'admin'));
+CREATE POLICY "Users can view own quotes" ON quotes FOR SELECT USING (auth.uid() = user_id);
+
+-- Client Projects: Admins manage all, Users read own
+CREATE POLICY "Admins manage all projects" ON client_projects FOR ALL USING (auth.uid() IN (SELECT id FROM profiles WHERE role = 'admin'));
+CREATE POLICY "Users can view own projects" ON client_projects FOR SELECT USING (auth.uid() = client_id);
+
+-- Services: Public read if active, Admins manage all
+CREATE POLICY "Anyone can read active services" ON services FOR SELECT USING (is_active = true);
+CREATE POLICY "Admins manage services" ON services FOR ALL USING (auth.uid() IN (SELECT id FROM profiles WHERE role = 'admin'));
+
+-- Portfolio: Public read if published, Admins manage all
+CREATE POLICY "Anyone can read published portfolio" ON portfolio FOR SELECT USING (is_published = true);
+CREATE POLICY "Admins manage portfolio" ON portfolio FOR ALL USING (auth.uid() IN (SELECT id FROM profiles WHERE role = 'admin'));
+
+-- Updates: Public read if published, Admins manage all
+CREATE POLICY "Anyone can read published updates" ON updates FOR SELECT USING (is_published = true);
+CREATE POLICY "Admins manage updates" ON updates FOR ALL USING (auth.uid() IN (SELECT id FROM profiles WHERE role = 'admin'));
+
+-- Site Visitors: Anyone can insert, Admins read all
+CREATE POLICY "Anyone can insert visitor logs" ON site_visitors FOR INSERT WITH CHECK (true);
+CREATE POLICY "Admins can view visitor logs" ON site_visitors FOR SELECT USING (auth.uid() IN (SELECT id FROM profiles WHERE role = 'admin'));
+
+-- ==========================================
+-- 7. STORAGE BUCKET SETUP
+-- ==========================================
+INSERT INTO storage.buckets (id, name, public) VALUES ('public-assets', 'public-assets', true);
+
+CREATE POLICY "Public Access" ON storage.objects FOR SELECT USING ( bucket_id = 'public-assets' );
+CREATE POLICY "Admin Uploads" ON storage.objects FOR INSERT WITH CHECK ( bucket_id = 'public-assets' AND auth.uid() IN (SELECT id FROM profiles WHERE role = 'admin') );
+CREATE POLICY "Admin Updates" ON storage.objects FOR UPDATE USING ( bucket_id = 'public-assets' AND auth.uid() IN (SELECT id FROM profiles WHERE role = 'admin') );
+CREATE POLICY "Admin Deletes" ON storage.objects FOR DELETE USING ( bucket_id = 'public-assets' AND auth.uid() IN (SELECT id FROM profiles WHERE role = 'admin') );

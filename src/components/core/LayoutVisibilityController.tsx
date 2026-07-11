@@ -12,9 +12,15 @@ const LayoutVisibilityController: React.FC<LayoutVisibilityControllerProps> = ({
 }) => {
   const pathname = usePathname();
 
-  const isAdminRoute = pathname.startsWith("/admin");
+  const isExcludedRoute = 
+    pathname.startsWith("/admin") || 
+    pathname.startsWith("/dashboard") ||
+    pathname.startsWith("/login") ||
+    pathname.startsWith("/signup") ||
+    pathname.startsWith("/forgot-password") ||
+    pathname.startsWith("/reset-password");
 
-  if (isAdminRoute) {
+  if (isExcludedRoute) {
     return null;
   }
 

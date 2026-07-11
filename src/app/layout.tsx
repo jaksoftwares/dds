@@ -26,7 +26,7 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "Dovepeak Digital Solutions",
   description:
-    "DovePeak Digital is a tech-forward digital agency delivering innovative web, software, and automation solutions. Empowering businesses to grow with smart, scalable, and modern digital strategies.",
+    "Dovepeak Digital is a tech-forward digital agency delivering innovative web, software, and automation solutions. Empowering businesses to grow with smart, scalable, and modern digital strategies.",
   icons: {
     icon: "/favicon.ico",
   },
