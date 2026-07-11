@@ -11,8 +11,13 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 const adminNavItems = [
   { label: "Overview", href: "/admin" },
+  { label: "Projects", href: "/admin/projects" },
   { label: "Content", href: "/admin/content" },
-  { label: "Messages", href: "/admin/messages" },
+  { label: "Financials", href: "/admin/financials" },
+  { label: "Enquiries", href: "/admin/messages" },
+  { label: "Support", href: "/admin/support" },
+  { label: "Chat", href: "/admin/chat" },
+  { label: "Feedback", href: "/admin/feedback" },
   { label: "Settings", href: "/admin/settings" },
 ];
 
