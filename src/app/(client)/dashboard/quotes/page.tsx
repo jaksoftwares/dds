@@ -30,7 +30,7 @@ export default async function ClientQuotesPage() {
           </p>
         </div>
         <Button asChild className="bg-customOrange hover:bg-customOrange/90 text-white gap-2">
-          <Link href="/get-a-quote">
+          <Link href="/dashboard/quotes/new">
             <PlusCircle className="w-4 h-4" />
             Submit New Proposal
           </Link>
