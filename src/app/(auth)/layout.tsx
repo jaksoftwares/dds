@@ -19,8 +19,8 @@ export default function AuthLayout({
           </Link>
           <Image 
             src="/core/logo-base-grayscale.png" 
-            alt="Dovepeak Logo" 
-            width={180} 
+            alt="DovePeak Logo" 
+            width={120} 
             height={60} 
             className="mb-8"
           />

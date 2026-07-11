@@ -106,7 +106,7 @@ export default function LoginPage() {
         <div className="text-center space-y-3">
           <Image 
             src="/core/logo-base.png" 
-            alt="Dovepeak" 
+            alt="DovePeak" 
             width={120} 
             height={40} 
             className="mx-auto mb-6"

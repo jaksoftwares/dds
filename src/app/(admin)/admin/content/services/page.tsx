@@ -16,7 +16,7 @@ export default async function AdminServicesPage() {
           Services CMS
         </h1>
         <p className="text-sm text-slate-600">
-          Manage the services offered by Dovepeak Digital Solutions.
+          Manage the services offered by DovePeak Digital Solutions.
         </p>
       </header>
 

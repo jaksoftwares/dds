@@ -41,7 +41,7 @@ export function UpdatesClient({ initialData }: { initialData: any[] }) {
     excerpt: "",
     content: "",
     image_url: "",
-    author: "Dovepeak PR",
+    author: "DovePeak PR",
     is_published: true,
   });
   
@@ -115,7 +115,7 @@ export function UpdatesClient({ initialData }: { initialData: any[] }) {
       excerpt: "",
       content: "",
       image_url: "",
-      author: "Dovepeak PR",
+      author: "DovePeak PR",
       is_published: true,
     });
     setIsOpen(true);

@@ -1,5 +1,5 @@
 export const SITE_CONFIG = {
-  name: "Dove Peak Digital",
+  name: "DovePeak Digital",
   logoUrls: {
     l: "",
     base: "/core/logo-base-grayscale.png",

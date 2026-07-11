@@ -22,7 +22,7 @@ export function ClientTopbar({ clientName }: { clientName: string }) {
       <Link href="/" className="flex items-center gap-3">
         <Image 
           src="/core/logo-base.png" 
-          alt="Dovepeak" 
+          alt="DovePeak" 
           width={130} 
           height={40} 
         />

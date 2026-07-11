@@ -24,7 +24,7 @@ export function AdminSidebar() {
       <div className="px-6 py-6 border-b border-white/10">
         <Image 
           src="/core/logo-base-grayscale.png" 
-          alt="Dovepeak Admin" 
+          alt="DovePeak Admin" 
           width={130} 
           height={40} 
         />
