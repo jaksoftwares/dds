@@ -20,7 +20,7 @@ import {
 const navItems = [
   { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
   { label: "Projects", href: "/dashboard/projects", icon: FolderKanban },
-  { label: "Quotes", href: "/dashboard/quotes", icon: FileText },
+  { label: "Start Project", href: "/dashboard/onboarding", icon: FileText },
   { label: "Financials", href: "/dashboard/financials", icon: CreditCard },
   { label: "Chat", href: "/dashboard/chat", icon: MessageSquare },
   { label: "Support", href: "/dashboard/support", icon: LifeBuoy },

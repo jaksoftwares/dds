@@ -116,8 +116,8 @@ export default async function ClientProjectsPage() {
         <Card className="p-12 text-center text-slate-500 border-dashed bg-transparent flex flex-col items-center gap-4">
           <FolderKanban className="w-12 h-12 text-slate-300" />
           <p>You don't have any active projects right now.</p>
-          <Link href="/dashboard/quotes" className="text-customOrange hover:underline text-sm font-medium">
-            Request a new project quote
+          <Link href="/dashboard/onboarding" className="text-customOrange hover:underline text-sm font-medium">
+            Start a new project
           </Link>
         </Card>
       )}

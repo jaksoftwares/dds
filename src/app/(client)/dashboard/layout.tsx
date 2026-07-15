@@ -25,6 +25,10 @@ export default async function ClientLayout({
 
   const displayName = profile?.full_name || user.user_metadata?.full_name || "Client";
 
+  if (profile?.role === "admin") {
+    redirect("/admin");
+  }
+
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col text-slate-900 overflow-hidden">
       <ClientTopbar clientName={displayName} />
