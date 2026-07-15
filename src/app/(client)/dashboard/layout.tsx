@@ -25,7 +25,7 @@ export default async function ClientLayout({
 
   const displayName = profile?.full_name || user.user_metadata?.full_name || "Client";
 
-  const isAdmin = profile?.role === "admin";
+  const isAdmin = profile?.role?.toLowerCase() === "admin";
 
   return (
     <div className="h-screen bg-slate-50 flex flex-col text-slate-900 overflow-hidden">

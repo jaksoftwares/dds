@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { SITE_CONFIG } from "@/lib/site-config";
-import { Mail, Lock, ArrowRight, ExternalLink } from "lucide-react";
+import { Mail, Lock, ArrowRight, ExternalLink, Loader2 } from "lucide-react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -71,17 +71,18 @@ export default function LoginPage() {
         } else {
           toast.error(error.message);
         }
+        setLoading(false);
         return;
       }
 
       if (data.user) {
-        toast.success("Successfully logged in!");
+        toast.success("Successfully logged in! Redirecting...");
         router.push("/dashboard");
         router.refresh();
+        // Intentionally not setting loading to false here so the button stays disabled while routing
       }
     } catch (err) {
       toast.error("An unexpected error occurred.");
-    } finally {
       setLoading(false);
     }
   };
@@ -148,8 +149,17 @@ export default function LoginPage() {
             className="w-full h-12 rounded-lg bg-customOrange text-white hover:bg-orange-600 transition-all text-base font-medium shadow-md hover:shadow-lg flex items-center justify-center gap-2 group"
             disabled={loading}
           >
-            {loading ? "Signing in..." : "Sign In"}
-            {!loading && <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
+            {loading ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin" />
+                Redirecting...
+              </>
+            ) : (
+              <>
+                Sign In
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </>
+            )}
           </Button>
         </form>
 

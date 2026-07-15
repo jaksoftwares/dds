@@ -38,8 +38,8 @@ export default async function AdminLayout({
         <AdminTopbar adminName={profile?.full_name || "Admin"} />
 
         {/* Content area */}
-        <main className="flex-1 px-4 md:px-6 py-4 md:py-6 lg:py-8 bg-slate-50 overflow-y-auto">
-          <div className="max-w-6xl mx-auto space-y-6 md:space-y-8">
+        <main className="flex-1 px-4 md:px-8 py-4 md:py-6 lg:py-8 bg-slate-50 overflow-y-auto">
+          <div className="w-full space-y-6 md:space-y-8">
             {children}
           </div>
         </main>

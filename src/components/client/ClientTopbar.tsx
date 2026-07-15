@@ -132,15 +132,15 @@ export function ClientTopbar({ clientName, isAdmin = false }: { clientName: stri
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             {isAdmin && (
-              <>
-                <DropdownMenuItem asChild className="cursor-pointer px-3 py-2.5 bg-blue-50/50 hover:bg-blue-100/50 focus:bg-blue-100/50">
-                  <Link href="/admin" className="flex items-center w-full font-medium text-customBlueDark">
-                    <Settings className="mr-2 h-4 w-4 text-customBlueDark" />
-                    <span>Go to Admin Panel</span>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-              </>
+              <DropdownMenuItem asChild className="cursor-pointer px-3 py-2.5 bg-blue-50/50 hover:bg-blue-100/50 focus:bg-blue-100/50">
+                <Link href="/admin" className="flex items-center w-full font-medium text-customBlueDark">
+                  <Settings className="mr-2 h-4 w-4 text-customBlueDark" />
+                  <span>Go to Admin Panel</span>
+                </Link>
+              </DropdownMenuItem>
+            )}
+            {isAdmin && (
+              <DropdownMenuSeparator />
             )}
             <DropdownMenuItem asChild className="cursor-pointer px-3 py-2.5">
               <Link href="/dashboard/settings" className="flex items-center w-full">
