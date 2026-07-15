@@ -8,6 +8,7 @@ import { SITE_CONFIG } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import SiteLogo from "@/components/core/SiteLogo";
 
 const adminNavItems = [
   { label: "Overview", href: "/admin" },
@@ -27,12 +28,7 @@ export function AdminSidebar() {
   return (
     <aside className="hidden md:flex md:w-64 lg:w-72 flex-col border-r bg-customBlueExtraDark text-white">
       <div className="px-6 py-6 border-b border-white/10">
-        <Image 
-          src="/core/logo-base-grayscale.png" 
-          alt="DovePeak Admin" 
-          width={130} 
-          height={40} 
-        />
+        <SiteLogo width={130} height={40} />
         <p className="mt-1 text-xs text-customBlueBase">
           Admin Control Center
         </p>

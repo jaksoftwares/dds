@@ -139,22 +139,69 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
         
         {/* Overview Tab */}
         <TabsContent value="overview">
-          <Card>
-            <CardHeader>
-              <CardTitle>Client Brief Details</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {project.project_briefs && project.project_briefs.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div><h4 className="font-semibold text-sm text-slate-500 uppercase">Company</h4><p>{project.project_briefs[0].company_name || 'N/A'}</p></div>
-                  <div><h4 className="font-semibold text-sm text-slate-500 uppercase">Goals</h4><p>{project.project_briefs[0].project_goals || 'N/A'}</p></div>
-                  <div><h4 className="font-semibold text-sm text-slate-500 uppercase">Target Audience</h4><p>{project.project_briefs[0].target_audience || 'N/A'}</p></div>
-                  <div><h4 className="font-semibold text-sm text-slate-500 uppercase">Competitors</h4><p>{project.project_briefs[0].competitors || 'N/A'}</p></div>
-                  <div className="md:col-span-2"><h4 className="font-semibold text-sm text-slate-500 uppercase">Notes</h4><p>{project.project_briefs[0].additional_notes || 'N/A'}</p></div>
-                </div>
-              ) : <p className="text-muted-foreground">No onboarding brief found.</p>}
-            </CardContent>
-          </Card>
+          {project.project_briefs && project.project_briefs.length > 0 ? (() => {
+            const brief = project.project_briefs[0];
+            return (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Card className="border shadow-sm">
+                  <CardHeader className="bg-slate-50 border-b pb-4"><CardTitle className="text-lg">Project Scope</CardTitle></CardHeader>
+                  <CardContent className="pt-4 space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div><h4 className="text-xs font-semibold text-slate-500 uppercase">Category</h4><p className="font-medium text-sm">{brief.solution_category || 'N/A'}</p></div>
+                      <div><h4 className="text-xs font-semibold text-slate-500 uppercase">Specific Type</h4><p className="font-medium text-sm">{brief.specific_type || 'N/A'}</p></div>
+                      <div><h4 className="text-xs font-semibold text-slate-500 uppercase">Industry</h4><p className="font-medium text-sm">{brief.industry || 'N/A'}</p></div>
+                      <div><h4 className="text-xs font-semibold text-slate-500 uppercase">Client Segment</h4><p className="font-medium text-sm">{brief.client_segment || 'N/A'}</p></div>
+                      <div className="col-span-2"><h4 className="text-xs font-semibold text-slate-500 uppercase">Company Name</h4><p className="font-medium text-sm">{brief.company_name || 'N/A'}</p></div>
+                      <div className="col-span-2"><h4 className="text-xs font-semibold text-slate-500 uppercase">Payment Policy Accepted</h4><p className="font-medium text-sm">{brief.payment_policy_accepted ? 'Yes' : 'No'}</p></div>
+                    </div>
+                  </CardContent>
+                </Card>
+                
+                <Card className="border shadow-sm">
+                  <CardHeader className="bg-slate-50 border-b pb-4"><CardTitle className="text-lg">Target Market & Competitors</CardTitle></CardHeader>
+                  <CardContent className="pt-4 space-y-4">
+                    <div>
+                      <h4 className="text-xs font-semibold text-slate-500 uppercase mb-2">Target Market Details</h4>
+                      {brief.target_market_details ? (
+                        <div className="bg-slate-50 p-3 rounded-md border text-sm space-y-1">
+                          <p><span className="font-medium text-slate-600">Market:</span> {brief.target_market_details.market || 'N/A'}</p>
+                          <p><span className="font-medium text-slate-600">Demographics:</span> {brief.target_market_details.demographics || 'N/A'}</p>
+                          <p><span className="font-medium text-slate-600">Characteristics:</span> {brief.target_market_details.characteristics || 'N/A'}</p>
+                        </div>
+                      ) : <p className="text-sm text-slate-500">N/A</p>}
+                    </div>
+                    <div>
+                      <h4 className="text-xs font-semibold text-slate-500 uppercase mb-2">Competitors List</h4>
+                      {brief.competitors_list && brief.competitors_list.length > 0 ? (
+                        <ul className="space-y-2">
+                          {brief.competitors_list.map((comp: any, idx: number) => (
+                            <li key={idx} className="bg-slate-50 p-2 rounded-md border text-sm flex flex-col">
+                              <span className="font-semibold">{comp.name}</span>
+                              {comp.link && <a href={comp.link} target="_blank" className="text-blue-500 hover:underline break-all text-xs">{comp.link}</a>}
+                            </li>
+                          ))}
+                        </ul>
+                      ) : <p className="text-sm text-slate-500">No competitors listed.</p>}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="md:col-span-2 border shadow-sm">
+                  <CardHeader className="bg-slate-50 border-b pb-4"><CardTitle className="text-lg">Goals & Notes</CardTitle></CardHeader>
+                  <CardContent className="pt-4 space-y-4">
+                    <div><h4 className="text-xs font-semibold text-slate-500 uppercase">Project Goals</h4><p className="whitespace-pre-wrap text-sm">{brief.project_goals || 'N/A'}</p></div>
+                    <div><h4 className="text-xs font-semibold text-slate-500 uppercase">Additional Notes</h4><p className="whitespace-pre-wrap text-sm">{brief.additional_notes || 'N/A'}</p></div>
+                  </CardContent>
+                </Card>
+              </div>
+            );
+          })() : (
+            <Card>
+              <CardContent className="p-6">
+                <p className="text-muted-foreground">No onboarding brief found.</p>
+              </CardContent>
+            </Card>
+          )}
         </TabsContent>
 
         {/* Financials Tab */}
@@ -169,7 +216,7 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
                       <li key={fin.id} className="p-4 border rounded-md relative">
                         <div className="flex justify-between font-semibold capitalize">
                           <span>{fin.type.replace('_', ' ')}</span>
-                          <span className="text-blue-600">${fin.amount}</span>
+                          <span className="text-blue-600">{fin.currency || 'USD'} {fin.amount}</span>
                         </div>
                         <p className="text-sm mt-1">{fin.description}</p>
                         <Badge variant="secondary" className="mt-2 text-xs">{fin.status}</Badge>

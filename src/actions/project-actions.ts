@@ -7,11 +7,17 @@ export async function submitProjectOnboarding(data: {
   title: string;
   company_name: string;
   project_goals: string;
-  target_audience: string;
-  competitors: string;
+  solution_category: string;
+  specific_type: string;
+  industry: string;
+  client_segment: string;
+  target_market_details: any;
+  competitors_list: any[];
   additional_notes: string;
+  budget_currency: string;
   budget_amount: number;
   budget_description: string;
+  payment_policy_accepted: boolean;
   assets: { file_url: string; file_name: string; file_type: string }[];
 }) {
   const supabase = await createClient();
@@ -43,9 +49,14 @@ export async function submitProjectOnboarding(data: {
     project_id: projectId,
     company_name: data.company_name,
     project_goals: data.project_goals,
-    target_audience: data.target_audience,
-    competitors: data.competitors,
+    solution_category: data.solution_category,
+    specific_type: data.specific_type,
+    industry: data.industry,
+    client_segment: data.client_segment,
+    target_market_details: data.target_market_details,
+    competitors_list: data.competitors_list,
     additional_notes: data.additional_notes,
+    payment_policy_accepted: data.payment_policy_accepted,
   });
 
   if (briefError) throw new Error(briefError.message);
@@ -57,6 +68,7 @@ export async function submitProjectOnboarding(data: {
       client_id: clientId,
       type: "budget_proposal",
       amount: data.budget_amount,
+      currency: data.budget_currency,
       description: data.budget_description,
     });
     if (budgetError) throw new Error(budgetError.message);

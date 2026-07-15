@@ -9,7 +9,7 @@ interface SiteLogoProps {
   height?: number;
 }
 
-const SiteLogo: React.FC<SiteLogoProps> = ({ className, width, height }) => {
+const SiteLogo: React.FC<SiteLogoProps> = ({ className, width = 150, height = 50 }) => {
   return (
     <Image
       src={SITE_CONFIG.logoUrls.base}

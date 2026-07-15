@@ -16,10 +16,35 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Settings, LogOut, LifeBuoy } from "lucide-react";
+import SiteLogo from "@/components/core/SiteLogo";
+import {
+  Menu,
+  LayoutDashboard,
+  FolderKanban,
+  FileText,
+  CreditCard,
+  MessageSquare,
+  MessageCircle,
+} from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
+
+const navItems = [
+  { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
+  { label: "Projects", href: "/dashboard/projects", icon: FolderKanban },
+  { label: "Start Project", href: "/dashboard/onboarding", icon: FileText },
+  { label: "Financials", href: "/dashboard/financials", icon: CreditCard },
+  { label: "Chat", href: "/dashboard/chat", icon: MessageSquare },
+  { label: "Support", href: "/dashboard/support", icon: LifeBuoy },
+  { label: "Feedback", href: "/dashboard/feedback", icon: MessageCircle },
+  { label: "Settings", href: "/dashboard/settings", icon: Settings },
+];
 
 export function ClientTopbar({ clientName, isAdmin = false }: { clientName: string, isAdmin?: boolean }) {
   const supabase = createClient();
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -35,21 +60,53 @@ export function ClientTopbar({ clientName, isAdmin = false }: { clientName: stri
 
   return (
     <header className="h-16 border-b border-slate-200 bg-white/80 backdrop-blur-md flex items-center justify-between px-4 md:px-8 sticky top-0 z-50">
-      <Link href="/" className="flex items-center gap-3 group">
-        <div className="relative w-[130px] h-[34px] transition-transform duration-200 group-hover:scale-[1.02]">
-          <Image 
-            src="/core/logo-base.png" 
-            alt="DovePeak" 
-            fill
-            className="object-contain object-left"
-            priority
-          />
-        </div>
+      <div className="flex items-center gap-2">
+        <Sheet>
+          <SheetTrigger asChild>
+            <button className="md:hidden p-2 -ml-2 text-slate-600 hover:bg-slate-100 rounded-md transition-colors mr-1">
+              <Menu className="h-5 w-5" />
+            </button>
+          </SheetTrigger>
+          <SheetContent side="left" className="w-[280px] p-0 bg-white border-r">
+            <div className="flex flex-col h-full">
+              <div className="px-6 py-6 border-b border-slate-100 flex items-center gap-3">
+                <SiteLogo width={110} height={30} className="object-contain" />
+              </div>
+              <div className="flex-1 py-6 overflow-y-auto">
+                <nav className="px-4 space-y-2">
+                  {navItems.map((item) => {
+                    const active = pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href));
+                    const Icon = item.icon;
+                    return (
+                      <Link key={item.href} href={item.href}>
+                        <span
+                          className={cn(
+                            "flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200",
+                            active
+                              ? "bg-orange-50 text-customOrange shadow-sm border border-orange-100"
+                              : "text-slate-600 hover:bg-slate-50 hover:text-customOrange"
+                          )}
+                        >
+                          <Icon className={cn("w-5 h-5", active ? "text-customOrange" : "text-slate-400 group-hover:text-customOrange")} />
+                          {item.label}
+                        </span>
+                      </Link>
+                    );
+                  })}
+                </nav>
+              </div>
+            </div>
+          </SheetContent>
+        </Sheet>
+
+        <Link href="/" className="flex items-center gap-3 group">
+          <SiteLogo width={130} height={34} className="w-[110px] md:w-[130px] transition-transform duration-200 group-hover:scale-[1.02] object-contain object-left" />
         <div className="h-5 w-px bg-slate-200 hidden sm:block mx-1"></div>
         <span className="text-[11px] px-2.5 py-1 bg-gradient-to-r from-orange-50 to-orange-100/50 rounded-full text-customOrange font-semibold hidden sm:inline-block border border-orange-100 shadow-sm uppercase tracking-wider">
           Client Portal
         </span>
       </Link>
+      </div>
 
       <div className="flex items-center gap-4">
         <DropdownMenu>
