@@ -28,17 +28,17 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex text-slate-900">
+    <div className="h-screen bg-slate-50 flex text-slate-900 overflow-hidden">
       {/* Sidebar (Client Component) */}
       <AdminSidebar />
 
       {/* Main column */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 h-full">
         {/* Top bar (Client Component) */}
         <AdminTopbar adminName={profile?.full_name || "Admin"} />
 
         {/* Content area */}
-        <main className="flex-1 px-4 md:px-6 py-4 md:py-6 lg:py-8 bg-slate-50 overflow-x-hidden">
+        <main className="flex-1 px-4 md:px-6 py-4 md:py-6 lg:py-8 bg-slate-50 overflow-y-auto">
           <div className="max-w-6xl mx-auto space-y-6 md:space-y-8">
             {children}
           </div>

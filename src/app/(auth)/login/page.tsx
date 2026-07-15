@@ -75,20 +75,8 @@ export default function LoginPage() {
       }
 
       if (data.user) {
-        // Fetch role to determine redirection
-        const { data: profile } = await supabase
-          .from("profiles")
-          .select("role")
-          .eq("id", data.user.id)
-          .single();
-
         toast.success("Successfully logged in!");
-        
-        if (profile?.role === "admin") {
-          router.push("/admin");
-        } else {
-          router.push("/dashboard");
-        }
+        router.push("/dashboard");
         router.refresh();
       }
     } catch (err) {

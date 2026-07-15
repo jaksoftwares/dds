@@ -25,16 +25,14 @@ export default async function ClientLayout({
 
   const displayName = profile?.full_name || user.user_metadata?.full_name || "Client";
 
-  if (profile?.role === "admin") {
-    redirect("/admin");
-  }
+  const isAdmin = profile?.role === "admin";
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col text-slate-900 overflow-hidden">
-      <ClientTopbar clientName={displayName} />
+    <div className="h-screen bg-slate-50 flex flex-col text-slate-900 overflow-hidden">
+      <ClientTopbar clientName={displayName} isAdmin={isAdmin} />
       <div className="flex flex-1 overflow-hidden">
         <ClientSidebar />
-        <main className="flex-1 px-4 md:px-6 py-6 lg:py-10 max-w-7xl mx-auto w-full space-y-8 overflow-y-auto">
+        <main className="flex-1 px-4 md:px-8 lg:px-12 py-6 lg:py-10 w-full space-y-8 overflow-y-auto relative">
           {children}
         </main>
       </div>

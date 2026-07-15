@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Settings, LogOut, LifeBuoy } from "lucide-react";
 
-export function ClientTopbar({ clientName }: { clientName: string }) {
+export function ClientTopbar({ clientName, isAdmin = false }: { clientName: string, isAdmin?: boolean }) {
   const supabase = createClient();
   const router = useRouter();
 
@@ -74,6 +74,17 @@ export function ClientTopbar({ clientName }: { clientName: string }) {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
+            {isAdmin && (
+              <>
+                <DropdownMenuItem asChild className="cursor-pointer px-3 py-2.5 bg-blue-50/50 hover:bg-blue-100/50 focus:bg-blue-100/50">
+                  <Link href="/admin" className="flex items-center w-full font-medium text-customBlueDark">
+                    <Settings className="mr-2 h-4 w-4 text-customBlueDark" />
+                    <span>Go to Admin Panel</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+              </>
+            )}
             <DropdownMenuItem asChild className="cursor-pointer px-3 py-2.5">
               <Link href="/dashboard/settings" className="flex items-center w-full">
                 <Settings className="mr-2 h-4 w-4 text-slate-500" />
