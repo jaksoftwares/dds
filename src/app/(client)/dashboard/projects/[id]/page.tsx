@@ -179,7 +179,7 @@ export default function ClientProjectDetailsPage({ params }: { params: { id: str
             </CardHeader>
             <CardContent className="flex-1 overflow-y-auto space-y-4">
               {communications.map(msg => (
-                <div key={msg.id} className={`p-3 rounded-lg max-w-[80%] ${msg.sender_id === project.client_id ? 'bg-primary text-primary-foreground ml-auto' : 'bg-muted mr-auto'}`}>
+                <div key={msg.id} className={`p-3 rounded-lg max-w-[80%] ${msg.sender_id === project.client_id ? 'bg-primary text-primary-foreground ml-auto' : 'bg-customBlueDark text-white mr-auto'}`}>
                   <p>{msg.message}</p>
                   <p className="text-[10px] opacity-70 mt-1">{new Date(msg.created_at).toLocaleString()}</p>
                 </div>

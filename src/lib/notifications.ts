@@ -40,10 +40,18 @@ export async function sendNotification({ userId, title, message, link, email }: 
         Subject: email.subject,
         TextBody: email.body,
         HtmlBody: `
-          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333;">
-            <h2 style="color: #2563EB;">${email.subject}</h2>
-            <p style="white-space: pre-wrap;">${email.body}</p>
-            ${link ? `<a href="${link}" style="display: inline-block; margin-top: 20px; padding: 10px 20px; background-color: #2563EB; color: #fff; text-decoration: none; border-radius: 5px;">View Details</a>` : ""}
+          <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 30px; background-color: #F1F2F6; border-radius: 8px; color: #010028; border-top: 5px solid #FF5004;">
+            <div style="text-align: center; margin-bottom: 20px;">
+              <h1 style="color: #27187D; margin: 0; font-size: 24px;">Dovepeak Digital Solutions</h1>
+            </div>
+            <div style="background-color: #ffffff; padding: 25px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+              <h2 style="color: #27187D; margin-top: 0;">${email.subject}</h2>
+              <p style="white-space: pre-wrap; line-height: 1.6; color: #333;">${email.body}</p>
+              ${link ? `<div style="text-align: center; margin-top: 30px;"><a href="${link}" style="display: inline-block; padding: 12px 25px; background-color: #FF5004; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: bold; text-transform: uppercase; font-size: 14px;">View Details</a></div>` : ""}
+            </div>
+            <div style="text-align: center; margin-top: 20px; font-size: 12px; color: #666;">
+              <p>&copy; ${new Date().getFullYear()} Dovepeak Digital Solutions. All rights reserved.</p>
+            </div>
           </div>
         `,
       });
