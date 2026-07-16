@@ -11,6 +11,7 @@ import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 import { addProjectCommunication } from "@/actions/project-actions";
 import { Calendar, Video, ExternalLink, FileText, CheckCircle2, Clock, PlayCircle } from "lucide-react";
+import { sortMilestonesByDueDate } from "@/lib/utils";
 import "react-quill/dist/quill.snow.css";
 
 export default function ClientProjectDetailsPage({ params }: { params: { id: string } }) {
@@ -193,7 +194,7 @@ export default function ClientProjectDetailsPage({ params }: { params: { id: str
               {(() => {
                 const publishedMilestones = milestones
                   .filter(m => m.is_published)
-                  .sort((a, b) => new Date(a.due_date).getTime() - new Date(b.due_date).getTime());
+                  .sort(sortMilestonesByDueDate);
                 const completedMilestones = publishedMilestones.filter(m => m.status === 'completed');
                 const progressPercent = publishedMilestones.length > 0 ? Math.round((completedMilestones.length / publishedMilestones.length) * 100) : 0;
                 

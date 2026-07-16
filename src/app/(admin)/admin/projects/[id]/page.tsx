@@ -55,8 +55,8 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
       setCommunications(commsData || []);
 
       // Fetch Milestones
-      const { data: milestoneData } = await supabase.from("project_milestones").select("*").eq("project_id", params.id).order("created_at", { ascending: true });
-      setMilestones(milestoneData || []);
+      const { data: milestoneData } = await supabase.from("project_milestones").select("*").eq("project_id", params.id);
+      setMilestones(milestoneData ? [...milestoneData].sort(sortMilestonesByDueDate) : []);
 
       // Fetch Meetings
       const { data: meetingData } = await supabase.from("project_meetings").select("*").eq("project_id", params.id).order("meeting_date", { ascending: true });
@@ -143,8 +143,8 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
       setProject({ ...project, status: newStatus });
       toast.success("Project status updated");
       
-      const { data: milestoneData } = await supabase.from("project_milestones").select("*").eq("project_id", params.id).order("created_at", { ascending: true });
-      setMilestones(milestoneData || []);
+      const { data: milestoneData } = await supabase.from("project_milestones").select("*").eq("project_id", params.id);
+      setMilestones(milestoneData ? [...milestoneData].sort(sortMilestonesByDueDate) : []);
 
       const { data: meetingData } = await supabase.from("project_meetings").select("*").eq("project_id", params.id).order("meeting_date", { ascending: true });
       setMeetings(meetingData || []);
@@ -169,8 +169,8 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
         formData.get("due_date") as string
       );
       toast.success("Milestone added");
-      const { data: milestoneData } = await supabase.from("project_milestones").select("*").eq("project_id", params.id).order("created_at", { ascending: true });
-      setMilestones(milestoneData || []);
+      const { data: milestoneData } = await supabase.from("project_milestones").select("*").eq("project_id", params.id);
+      setMilestones(milestoneData ? [...milestoneData].sort(sortMilestonesByDueDate) : []);
       (e.target as HTMLFormElement).reset();
     } catch (error: any) {
       toast.error(error.message || "An unexpected error occurred");
@@ -282,8 +282,8 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
     try {
       await editMilestone(editingMilestone.id, params.id, formData.get("title") as string, formData.get("description") as string, formData.get("due_date") as string);
       toast.success("Milestone updated");
-      const { data: milestoneData } = await supabase.from("project_milestones").select("*").eq("project_id", params.id).order("created_at", { ascending: true });
-      setMilestones(milestoneData || []);
+      const { data: milestoneData } = await supabase.from("project_milestones").select("*").eq("project_id", params.id);
+      setMilestones(milestoneData ? [...milestoneData].sort(sortMilestonesByDueDate) : []);
       setEditingMilestone(null);
     } catch (error: any) {
       toast.error(error.message || "Failed to update milestone");

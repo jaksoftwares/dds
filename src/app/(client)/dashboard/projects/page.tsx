@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { CheckCircle2, Clock, PlayCircle, ExternalLink, FolderKanban, Calendar } from "lucide-react";
 import Link from "next/link";
-import { cn, getProjectStatusColor, getMilestoneStatusColor } from "@/lib/utils";
+import { cn, getProjectStatusColor, getMilestoneStatusColor, sortMilestonesByDueDate } from "@/lib/utils";
 
 export default async function ClientProjectsPage() {
   const supabase = await createClient();
@@ -66,7 +66,7 @@ export default async function ClientProjectsPage() {
                 <div className="flex-1 space-y-3 w-full">
                   {/* Next Milestone Summary */}
                   {(() => {
-                    const milestones = (project.project_milestones || []).sort((a: any, b: any) => new Date(a.due_date).getTime() - new Date(b.due_date).getTime());
+                    const milestones = (project.project_milestones || []).sort(sortMilestonesByDueDate);
                     const nextMilestone = milestones.find((m: any) => m.status === 'in_progress') || milestones.find((m: any) => m.status === 'pending');
                     
                     return nextMilestone ? (
