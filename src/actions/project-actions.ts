@@ -133,7 +133,7 @@ export async function updateProjectStatus(projectId: string, status: string) {
   const { error } = await supabase.from("client_projects").update({ status }).eq("id", projectId);
   if (error) throw new Error(error.message);
 
-  if (status === "In Progress" || status === "Approved") {
+  if (status === "Active") {
     const { data: existing } = await supabase.from("project_milestones").select("id").eq("project_id", projectId).limit(1);
     
     if (!existing || existing.length === 0) {
