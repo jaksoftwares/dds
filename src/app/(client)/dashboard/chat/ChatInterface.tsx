@@ -87,8 +87,8 @@ export function ChatInterface({ initialMessages, currentUserId }: ChatInterfaceP
           autoComplete="off"
           disabled={loading}
         />
-        <Button type="submit" disabled={loading} size="icon" className="bg-customOrange hover:bg-customOrange/90 text-white shrink-0">
-          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+        <Button type="submit" isLoading={loading} size="icon" className="bg-customOrange hover:bg-customOrange/90 text-white shrink-0">
+          {!loading && <Send className="w-4 h-4" />}
         </Button>
       </form>
     </div>

@@ -9,17 +9,21 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-import { addProjectCommunication } from "@/actions/project-actions";
+import { addProjectCommunication, updateProjectStatus, addMilestone, updateMilestoneStatus } from "@/actions/project-actions";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import "react-quill/dist/quill.snow.css";
 
 export default function AdminProjectDetailsPage({ params }: { params: { id: string } }) {
   const [project, setProject] = useState<any>(null);
   const [assets, setAssets] = useState<any[]>([]);
   const [financials, setFinancials] = useState<any[]>([]);
   const [communications, setCommunications] = useState<any[]>([]);
+  const [milestones, setMilestones] = useState<any[]>([]);
   const [newMessage, setNewMessage] = useState("");
+  const [updatingStatus, setUpdatingStatus] = useState(false);
   const supabase = createClient();
 
   useEffect(() => {
@@ -44,6 +48,10 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
       // Fetch Comms
       const { data: commsData } = await supabase.from("project_communications").select("*").eq("project_id", params.id).order("created_at", { ascending: true });
       setCommunications(commsData || []);
+
+      // Fetch Milestones
+      const { data: milestoneData } = await supabase.from("project_milestones").select("*").eq("project_id", params.id).order("created_at", { ascending: true });
+      setMilestones(milestoneData || []);
     };
 
     fetchProjectDetails();
@@ -70,8 +78,11 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
     }
   };
   
+  const [creatingFin, setCreatingFin] = useState(false);
+  
   const handleCreateFinancialDoc = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setCreatingFin(true);
     const formData = new FormData(e.currentTarget);
     const type = formData.get("type") as string;
     const amount = formData.get("amount") as string;
@@ -95,11 +106,15 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
       setFinancials(finData || []);
       (e.target as HTMLFormElement).reset();
     }
+    setCreatingFin(false);
   };
+
+  const [sending, setSending] = useState(false);
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newMessage.trim()) return;
+    setSending(true);
     try {
       await addProjectCommunication(params.id, newMessage);
       setNewMessage("");
@@ -107,13 +122,62 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
       setCommunications(commsData || []);
     } catch (error: any) {
       toast.error("Failed to send message: " + error.message);
+    } finally {
+      setSending(false);
+    }
+  };
+
+  const handleStatusChange = async (newStatus: string) => {
+    setUpdatingStatus(true);
+    try {
+      await updateProjectStatus(params.id, newStatus);
+      setProject({ ...project, status: newStatus });
+      toast.success("Project status updated");
+    } catch (error: any) {
+      toast.error(error.message);
+    } finally {
+      setUpdatingStatus(false);
+    }
+  };
+
+  const [addingMilestone, setAddingMilestone] = useState(false);
+  
+  const handleAddMilestone = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setAddingMilestone(true);
+    const formData = new FormData(e.currentTarget);
+    try {
+      await addMilestone(
+        params.id, 
+        formData.get("title") as string, 
+        formData.get("description") as string, 
+        formData.get("due_date") as string
+      );
+      toast.success("Milestone added");
+      const { data: milestoneData } = await supabase.from("project_milestones").select("*").eq("project_id", params.id).order("created_at", { ascending: true });
+      setMilestones(milestoneData || []);
+      (e.target as HTMLFormElement).reset();
+    } catch (error: any) {
+      toast.error(error.message);
+    } finally {
+      setAddingMilestone(false);
+    }
+  };
+
+  const handleMilestoneStatusChange = async (id: string, status: string) => {
+    try {
+      await updateMilestoneStatus(id, status, params.id);
+      toast.success("Milestone updated");
+      setMilestones(prev => prev.map(m => m.id === id ? { ...m, status } : m));
+    } catch (error: any) {
+      toast.error(error.message);
     }
   };
 
   if (!project) return <div>Loading...</div>;
 
   return (
-    <div className="p-6 max-w-6xl mx-auto space-y-6">
+    <div className="p-4 md:p-6 space-y-6">
       <header className="space-y-4">
         <Link href="/admin/projects" className="inline-flex items-center text-sm font-medium text-slate-500 hover:text-blue-600 transition-colors">
           <ArrowLeft className="w-4 h-4 mr-1" />
@@ -124,7 +188,20 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
             <h1 className="text-3xl font-bold">{project.title}</h1>
             <p className="text-muted-foreground">Client: {project.profiles?.full_name} ({project.profiles?.email})</p>
           </div>
-          <Badge variant="outline" className="capitalize text-sm">{project.status}</Badge>
+          <div className="flex items-center gap-4">
+            <Select value={project.status} onValueChange={handleStatusChange} disabled={updatingStatus}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Pending Onboarding">Pending Onboarding</SelectItem>
+                <SelectItem value="Active">Active</SelectItem>
+                <SelectItem value="In Review">In Review</SelectItem>
+                <SelectItem value="Completed">Completed</SelectItem>
+                <SelectItem value="Archived">Archived</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
       </header>
 
@@ -189,7 +266,13 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
                 <Card className="md:col-span-2 border shadow-sm">
                   <CardHeader className="bg-slate-50 border-b pb-4"><CardTitle className="text-lg">Goals & Notes</CardTitle></CardHeader>
                   <CardContent className="pt-4 space-y-4">
-                    <div><h4 className="text-xs font-semibold text-slate-500 uppercase">Project Goals</h4><p className="whitespace-pre-wrap text-sm">{brief.project_goals || 'N/A'}</p></div>
+                    <div>
+                      <h4 className="text-xs font-semibold text-slate-500 uppercase mb-2">Project Goals</h4>
+                      <div 
+                        className="text-sm ql-editor px-0" 
+                        dangerouslySetInnerHTML={{ __html: brief.project_goals || 'N/A' }} 
+                      />
+                    </div>
                     <div><h4 className="text-xs font-semibold text-slate-500 uppercase">Additional Notes</h4><p className="whitespace-pre-wrap text-sm">{brief.additional_notes || 'N/A'}</p></div>
                   </CardContent>
                 </Card>
@@ -240,7 +323,7 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
                   <Input name="amount" type="number" placeholder="Amount ($)" required />
                   <Textarea name="description" placeholder="Description / Terms" required />
                   <Input name="file_url" type="url" placeholder="Optional PDF URL (Cloudinary link)" />
-                  <Button type="submit" className="w-full">Generate & Send</Button>
+                  <Button type="submit" isLoading={creatingFin} className="w-full">Generate & Send</Button>
                 </form>
               </CardContent>
             </Card>
@@ -291,21 +374,72 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
             <div className="p-4 border-t">
               <form onSubmit={handleSendMessage} className="flex gap-2">
                 <Input value={newMessage} onChange={(e) => setNewMessage(e.target.value)} placeholder="Type a message to client..." />
-                <Button type="submit">Send</Button>
+                <Button type="submit" isLoading={sending}>Send</Button>
               </form>
             </div>
           </Card>
         </TabsContent>
 
         <TabsContent value="milestones">
-           <Card>
-             <CardHeader>
-               <CardTitle>Manage Milestones</CardTitle>
-             </CardHeader>
-             <CardContent>
-               <p className="text-muted-foreground">Milestone tracking will be initialized in the next iteration.</p>
-             </CardContent>
-           </Card>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Project Milestones</CardTitle>
+                <CardDescription>Track project progress</CardDescription>
+              </CardHeader>
+              <CardContent>
+                {milestones.length === 0 ? <p className="text-muted-foreground">No milestones created yet.</p> : (
+                  <div className="space-y-4">
+                    {milestones.map(milestone => (
+                      <div key={milestone.id} className="p-4 border rounded-lg bg-slate-50 relative">
+                        <div className="flex justify-between items-start mb-2">
+                          <h4 className="font-semibold">{milestone.title}</h4>
+                          <Select 
+                            value={milestone.status} 
+                            onValueChange={(val) => handleMilestoneStatusChange(milestone.id, val)}
+                          >
+                            <SelectTrigger className="w-[130px] h-8 text-xs">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="pending">Pending</SelectItem>
+                              <SelectItem value="in_progress">In Progress</SelectItem>
+                              <SelectItem value="completed">Completed</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        {milestone.description && <p className="text-sm text-slate-600 mb-2">{milestone.description}</p>}
+                        {milestone.due_date && <p className="text-xs text-slate-500 font-medium">Due: {new Date(milestone.due_date).toLocaleDateString()}</p>}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Add Milestone</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleAddMilestone} className="space-y-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Title</label>
+                    <Input name="title" required placeholder="e.g. Wireframes Approved" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Description</label>
+                    <Textarea name="description" placeholder="Optional details..." />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Due Date</label>
+                    <Input name="due_date" type="date" />
+                  </div>
+                  <Button type="submit" isLoading={addingMilestone} className="w-full">Create Milestone</Button>
+                </form>
+              </CardContent>
+            </Card>
+          </div>
         </TabsContent>
 
       </Tabs>

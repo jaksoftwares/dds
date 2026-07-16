@@ -119,9 +119,8 @@ export function QuoteForm({ user }: { user: any }) {
         />
       </div>
 
-      <Button type="submit" disabled={loading} className="w-full h-12 text-lg bg-customOrange hover:bg-customOrange/90 text-white gap-2">
-        {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : null}
-        Submit Request <ArrowRight className="w-5 h-5" />
+      <Button type="submit" isLoading={loading} className="w-full h-12 text-lg bg-customOrange hover:bg-customOrange/90 text-white gap-2">
+        Submit Request {!loading && <ArrowRight className="w-5 h-5" />}
       </Button>
     </form>
   );

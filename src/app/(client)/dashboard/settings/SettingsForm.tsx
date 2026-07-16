@@ -57,8 +57,7 @@ export function SettingsForm({ initialName }: { initialName: string }) {
           <Label htmlFor="fullName">Full Name</Label>
           <Input id="fullName" name="fullName" defaultValue={initialName} required />
         </div>
-        <Button type="submit" className="bg-slate-800 hover:bg-slate-700 text-white" disabled={loadingProfile}>
-          {loadingProfile ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
+        <Button type="submit" className="bg-slate-800 hover:bg-slate-700 text-white" isLoading={loadingProfile}>
           Save Profile
         </Button>
       </form>
@@ -75,8 +74,7 @@ export function SettingsForm({ initialName }: { initialName: string }) {
             <Input id="confirmPassword" name="confirmPassword" type="password" required minLength={6} />
           </div>
         </div>
-        <Button type="submit" className="bg-customOrange hover:bg-customOrange/90 text-white" disabled={loadingPassword}>
-          {loadingPassword ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
+        <Button type="submit" className="bg-customOrange hover:bg-customOrange/90 text-white" isLoading={loadingPassword}>
           Update Password
         </Button>
       </form>

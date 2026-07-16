@@ -190,7 +190,7 @@ export function PortfolioClient({ initialData }: { initialData: any[] }) {
                 <Label>Published Live</Label>
               </div>
 
-              <Button type="submit" disabled={loading} className="w-full mt-4 bg-customBlueExtraDark">
+              <Button type="submit" isLoading={loading} className="w-full mt-4 bg-customBlueExtraDark">
                 {loading ? "Saving..." : "Save Project"}
               </Button>
             </form>

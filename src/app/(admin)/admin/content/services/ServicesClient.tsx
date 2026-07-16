@@ -171,7 +171,7 @@ export function ServicesClient({ initialData }: { initialData: any[] }) {
                 </div>
               </div>
 
-              <Button type="submit" disabled={loading} className="w-full mt-4 bg-customBlueExtraDark">
+              <Button type="submit" isLoading={loading} className="w-full mt-4 bg-customBlueExtraDark">
                 {loading ? "Saving..." : "Save Service"}
               </Button>
             </form>

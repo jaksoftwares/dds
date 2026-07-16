@@ -60,8 +60,7 @@ export function SupportForm() {
         />
       </div>
 
-      <Button type="submit" className="w-full bg-customOrange hover:bg-customOrange/90 text-white" disabled={loading}>
-        {loading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
+      <Button type="submit" className="w-full bg-customOrange hover:bg-customOrange/90 text-white" isLoading={loading}>
         Submit Ticket
       </Button>
     </form>

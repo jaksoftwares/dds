@@ -12,6 +12,10 @@ import { toast } from "sonner";
 import { Label } from "@/components/ui/label";
 import { Check, ChevronRight, ChevronLeft, Building2, Target, DollarSign, UploadCloud, Plus, Trash2 } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import dynamic from "next/dynamic";
+import "react-quill/dist/quill.snow.css";
+
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 const STEPS = [
   { id: 1, title: "General", icon: Building2 },
@@ -30,6 +34,10 @@ const TAXONOMY: Record<string, string[]> = {
 const INDUSTRIES = ["Education & E-Learning", "Healthcare & Medical", "Real Estate & Property Management", "Non-Governmental Organizations (NGOs)", "Finance & FinTech", "Retail & E-Commerce", "Logistics & Supply Chain", "Manufacturing", "Technology & Software"];
 const CLIENT_SEGMENTS = ["MSMEs (Micro, Small & Medium)", "SMEs (Small & Medium)", "Enterprise Organizations", "Startups & Entrepreneurs", "Government & Public Sector", "Direct Consumers (B2C)"];
 const CURRENCIES = ["USD", "EUR", "GBP", "KES"];
+
+const MARKET_SCOPES = ["Local / Regional", "National", "Global / International", "Niche / Highly Specialized"];
+const DEMOGRAPHICS = ["All Ages & Genders", "Gen Z (Age 12-27)", "Millennials (Age 28-43)", "Gen X (Age 44-59)", "Baby Boomers (Age 60+)", "B2B Professionals", "Students / Academia", "Parents & Families"];
+const CHARACTERISTICS = ["Tech-Savvy / Early Adopters", "Budget-Conscious", "Premium / Luxury Buyers", "Health & Wellness Focused", "Occasional / Casual Users", "Power / High-Frequency Users"];
 
 export default function OnboardingPage() {
   const router = useRouter();
@@ -82,9 +90,23 @@ export default function OnboardingPage() {
       toast.error("Please fill in all required general fields");
       return;
     }
-    if (step === 2 && (!formData.project_goals)) {
-      toast.error("Project goals are required");
-      return;
+    if (step === 2) {
+      if (!formData.project_goals) {
+        toast.error("Project goals are required");
+        return;
+      }
+      if (!targetMarket.market || !targetMarket.demographics || !targetMarket.characteristics) {
+        toast.error("Please fully define your Target Market Specifics");
+        return;
+      }
+      
+      const hasValidCompetitor = competitors.some(c => c.name.trim() !== "");
+      // Not strictly requiring a competitor, but if they filled partially, warn them
+      const hasInvalidCompetitor = competitors.some(c => (c.name.trim() !== "" && c.link.trim() === "") || (c.name.trim() === "" && c.link.trim() !== ""));
+      if (hasInvalidCompetitor) {
+        toast.error("Please provide both name and URL for listed competitors, or remove empty ones.");
+        return;
+      }
     }
     if (step === 3 && (!formData.budget_amount || !formData.budget_description)) {
       toast.error("Please provide a budget proposal");
@@ -241,23 +263,46 @@ export default function OnboardingPage() {
                 
                 <div className="space-y-2">
                   <Label htmlFor="project_goals" className="text-slate-700">Project Goals & Objectives <span className="text-red-500">*</span></Label>
-                  <Textarea id="project_goals" name="project_goals" required rows={3} value={formData.project_goals} onChange={handleChange} placeholder="What are the main outcomes you are trying to achieve?" className="resize-none bg-white" />
+                  <div className="bg-white rounded-md">
+                    <ReactQuill 
+                      theme="snow" 
+                      value={formData.project_goals} 
+                      onChange={(val) => setFormData(p => ({...p, project_goals: val}))} 
+                      className="min-h-[150px]"
+                      placeholder="What are the main outcomes you are trying to achieve? Use formatting to list your objectives."
+                    />
+                  </div>
                 </div>
 
                 <div className="border rounded-lg p-5 bg-slate-50/50 space-y-4">
                   <h3 className="font-semibold text-slate-800 text-sm">Target Market Specifics</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div className="space-y-2">
-                      <Label className="text-xs text-slate-500">Core Market</Label>
-                      <Input value={targetMarket.market} onChange={e => setTargetMarket(p => ({...p, market: e.target.value}))} placeholder="e.g. Local Gen Z" className="h-10 bg-white text-sm" />
+                      <Label className="text-xs text-slate-500">Core Market <span className="text-red-500">*</span></Label>
+                      <Select value={targetMarket.market} onValueChange={(v) => setTargetMarket(p => ({...p, market: v}))}>
+                        <SelectTrigger className="h-10 bg-white text-sm"><SelectValue placeholder="Select Market" /></SelectTrigger>
+                        <SelectContent>
+                          {MARKET_SCOPES.map(scope => <SelectItem key={scope} value={scope}>{scope}</SelectItem>)}
+                        </SelectContent>
+                      </Select>
                     </div>
                     <div className="space-y-2">
-                      <Label className="text-xs text-slate-500">Demographics</Label>
-                      <Input value={targetMarket.demographics} onChange={e => setTargetMarket(p => ({...p, demographics: e.target.value}))} placeholder="e.g. Age 18-25, Students" className="h-10 bg-white text-sm" />
+                      <Label className="text-xs text-slate-500">Demographics <span className="text-red-500">*</span></Label>
+                      <Select value={targetMarket.demographics} onValueChange={(v) => setTargetMarket(p => ({...p, demographics: v}))}>
+                        <SelectTrigger className="h-10 bg-white text-sm"><SelectValue placeholder="Select Demographic" /></SelectTrigger>
+                        <SelectContent>
+                          {DEMOGRAPHICS.map(demo => <SelectItem key={demo} value={demo}>{demo}</SelectItem>)}
+                        </SelectContent>
+                      </Select>
                     </div>
                     <div className="space-y-2">
-                      <Label className="text-xs text-slate-500">Characteristics</Label>
-                      <Input value={targetMarket.characteristics} onChange={e => setTargetMarket(p => ({...p, characteristics: e.target.value}))} placeholder="e.g. Tech-savvy" className="h-10 bg-white text-sm" />
+                      <Label className="text-xs text-slate-500">Characteristics <span className="text-red-500">*</span></Label>
+                      <Select value={targetMarket.characteristics} onValueChange={(v) => setTargetMarket(p => ({...p, characteristics: v}))}>
+                        <SelectTrigger className="h-10 bg-white text-sm"><SelectValue placeholder="Select Characteristic" /></SelectTrigger>
+                        <SelectContent>
+                          {CHARACTERISTICS.map(char => <SelectItem key={char} value={char}>{char}</SelectItem>)}
+                        </SelectContent>
+                      </Select>
                     </div>
                   </div>
                 </div>
@@ -372,8 +417,8 @@ export default function OnboardingPage() {
                 Next <ChevronRight className="w-4 h-4 ml-2" />
               </Button>
             ) : (
-              <Button type="submit" disabled={isSubmitting || !formData.payment_policy_accepted} className="w-[160px] h-12 rounded-xl bg-customOrange hover:bg-[#e64700] transition-all shadow-lg hover:shadow-customOrange/20 text-white font-semibold">
-                {isSubmitting ? "Submitting..." : "Submit Project"} <Check className="w-4 h-4 ml-2" />
+              <Button type="submit" isLoading={isSubmitting} disabled={!formData.payment_policy_accepted} className="w-[160px] h-12 rounded-xl bg-customOrange hover:bg-[#e64700] transition-all shadow-lg hover:shadow-customOrange/20 text-white font-semibold">
+                {isSubmitting ? "Submitting..." : "Submit Project"} {!isSubmitting && <Check className="w-4 h-4 ml-2" />}
               </Button>
             )}
           </CardFooter>

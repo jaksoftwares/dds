@@ -103,8 +103,7 @@ export function InvoiceForm({ profiles, projects }: { profiles: any[], projects:
             </Select>
           </div>
 
-          <Button type="submit" disabled={loading} className="w-full bg-customBlueExtraDark text-white">
-            {loading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
+          <Button type="submit" isLoading={loading} className="w-full bg-customBlueExtraDark text-white">
             Generate Invoice
           </Button>
         </form>

@@ -9,12 +9,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { addProjectCommunication } from "@/actions/project-actions";
+import "react-quill/dist/quill.snow.css";
 
 export default function ClientProjectDetailsPage({ params }: { params: { id: string } }) {
   const [project, setProject] = useState<any>(null);
   const [assets, setAssets] = useState<any[]>([]);
   const [financials, setFinancials] = useState<any[]>([]);
   const [communications, setCommunications] = useState<any[]>([]);
+  const [milestones, setMilestones] = useState<any[]>([]);
   const [newMessage, setNewMessage] = useState("");
   const supabase = createClient();
 
@@ -40,6 +42,10 @@ export default function ClientProjectDetailsPage({ params }: { params: { id: str
       // Fetch Comms
       const { data: commsData } = await supabase.from("project_communications").select("*").eq("project_id", params.id).order("created_at", { ascending: true });
       setCommunications(commsData || []);
+
+      // Fetch Milestones
+      const { data: milestoneData } = await supabase.from("project_milestones").select("*").eq("project_id", params.id).order("created_at", { ascending: true });
+      setMilestones(milestoneData || []);
     };
 
     fetchProjectDetails();
@@ -65,9 +71,12 @@ export default function ClientProjectDetailsPage({ params }: { params: { id: str
     }
   };
 
+  const [sending, setSending] = useState(false);
+
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newMessage.trim()) return;
+    setSending(true);
     try {
       await addProjectCommunication(params.id, newMessage);
       setNewMessage("");
@@ -76,13 +85,15 @@ export default function ClientProjectDetailsPage({ params }: { params: { id: str
       setCommunications(commsData || []);
     } catch (error: any) {
       toast.error("Failed to send message: " + error.message);
+    } finally {
+      setSending(false);
     }
   };
 
   if (!project) return <div>Loading...</div>;
 
   return (
-    <div className="p-6 max-w-6xl mx-auto space-y-6">
+    <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold">{project.title}</h1>
         <p className="text-muted-foreground">Status: <span className="font-semibold text-primary">{project.status}</span></p>
@@ -112,7 +123,10 @@ export default function ClientProjectDetailsPage({ params }: { params: { id: str
                   </div>
                   <div>
                     <h4 className="font-semibold">Goals</h4>
-                    <p>{project.project_briefs[0].project_goals}</p>
+                    <div 
+                      className="text-sm ql-editor px-0" 
+                      dangerouslySetInnerHTML={{ __html: project.project_briefs[0].project_goals }} 
+                    />
                   </div>
                 </>
               ) : (
@@ -188,7 +202,7 @@ export default function ClientProjectDetailsPage({ params }: { params: { id: str
             <div className="p-4 border-t">
               <form onSubmit={handleSendMessage} className="flex gap-2">
                 <Input value={newMessage} onChange={(e) => setNewMessage(e.target.value)} placeholder="Type a message..." />
-                <Button type="submit">Send</Button>
+                <Button type="submit" isLoading={sending}>Send</Button>
               </form>
             </div>
           </Card>
@@ -201,7 +215,26 @@ export default function ClientProjectDetailsPage({ params }: { params: { id: str
                <CardTitle>Milestones & Tasks</CardTitle>
              </CardHeader>
              <CardContent>
-               <p className="text-muted-foreground">Milestones will be set up by your project manager shortly.</p>
+               {milestones.length === 0 ? <p className="text-muted-foreground">Milestones will be set up by your project manager shortly.</p> : (
+                 <div className="space-y-4">
+                   {milestones.map(milestone => (
+                     <div key={milestone.id} className="p-4 border rounded-lg bg-white relative shadow-sm">
+                       <div className="flex justify-between items-start mb-2">
+                         <h4 className="font-semibold">{milestone.title}</h4>
+                         <span className={`px-2 py-1 text-xs rounded-full ${
+                           milestone.status === 'completed' ? 'bg-green-100 text-green-700' :
+                           milestone.status === 'in_progress' ? 'bg-blue-100 text-blue-700' :
+                           'bg-slate-100 text-slate-700'
+                         }`}>
+                           {milestone.status.replace('_', ' ')}
+                         </span>
+                       </div>
+                       {milestone.description && <p className="text-sm text-slate-600 mb-2">{milestone.description}</p>}
+                       {milestone.due_date && <p className="text-xs text-slate-500 font-medium">Due: {new Date(milestone.due_date).toLocaleDateString()}</p>}
+                     </div>
+                   ))}
+                 </div>
+               )}
              </CardContent>
            </Card>
         </TabsContent>

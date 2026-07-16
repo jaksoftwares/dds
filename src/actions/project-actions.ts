@@ -40,7 +40,10 @@ export async function submitProjectOnboarding(data: {
     .select()
     .single();
 
-  if (projectError) throw new Error(projectError.message);
+  if (projectError) {
+    console.error("Project Error:", projectError);
+    throw new Error(projectError.message);
+  }
 
   const projectId = project.id;
 
@@ -59,7 +62,10 @@ export async function submitProjectOnboarding(data: {
     payment_policy_accepted: data.payment_policy_accepted,
   });
 
-  if (briefError) throw new Error(briefError.message);
+  if (briefError) {
+    console.error("Brief Error:", briefError);
+    throw new Error(briefError.message);
+  }
 
   // 3. Create budget proposal
   if (data.budget_amount > 0 || data.budget_description) {
@@ -71,7 +77,10 @@ export async function submitProjectOnboarding(data: {
       currency: data.budget_currency,
       description: data.budget_description,
     });
-    if (budgetError) throw new Error(budgetError.message);
+    if (budgetError) {
+      console.error("Budget Error:", budgetError);
+      throw new Error(budgetError.message);
+    }
   }
 
   // 4. Attach assets
@@ -89,7 +98,10 @@ export async function submitProjectOnboarding(data: {
       .from("project_assets")
       .insert(assetInserts);
 
-    if (assetsError) throw new Error(assetsError.message);
+    if (assetsError) {
+      console.error("Assets Error:", assetsError);
+      throw new Error(assetsError.message);
+    }
   }
 
   revalidatePath("/dashboard");
@@ -107,6 +119,44 @@ export async function addProjectCommunication(projectId: string, message: string
     message,
   });
 
+  if (error) throw new Error(error.message);
+  revalidatePath(`/dashboard/projects/${projectId}`);
+  revalidatePath(`/admin/projects/${projectId}`);
+}
+
+export async function updateProjectStatus(projectId: string, status: string) {
+  const supabase = await createClient();
+  const { data: userData } = await supabase.auth.getUser();
+  if (!userData.user) throw new Error("Unauthorized");
+  
+  // Must be admin to update status, handled by RLS, but we can just update
+  const { error } = await supabase.from("client_projects").update({ status }).eq("id", projectId);
+  if (error) throw new Error(error.message);
+  revalidatePath(`/dashboard/projects/${projectId}`);
+  revalidatePath(`/admin/projects/${projectId}`);
+  revalidatePath(`/admin/projects`);
+}
+
+export async function addMilestone(projectId: string, title: string, description: string, due_date: string) {
+  const supabase = await createClient();
+  const { data: userData } = await supabase.auth.getUser();
+  if (!userData.user) throw new Error("Unauthorized");
+
+  const { error } = await supabase.from("project_milestones").insert({
+    project_id: projectId,
+    title,
+    description: description || null,
+    due_date: due_date || null,
+    status: 'pending'
+  });
+  if (error) throw new Error(error.message);
+  revalidatePath(`/dashboard/projects/${projectId}`);
+  revalidatePath(`/admin/projects/${projectId}`);
+}
+
+export async function updateMilestoneStatus(milestoneId: string, status: string, projectId: string) {
+  const supabase = await createClient();
+  const { error } = await supabase.from("project_milestones").update({ status }).eq("id", milestoneId);
   if (error) throw new Error(error.message);
   revalidatePath(`/dashboard/projects/${projectId}`);
   revalidatePath(`/admin/projects/${projectId}`);
