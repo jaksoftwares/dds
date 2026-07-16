@@ -17,6 +17,7 @@ export default function ClientProjectDetailsPage({ params }: { params: { id: str
   const [financials, setFinancials] = useState<any[]>([]);
   const [communications, setCommunications] = useState<any[]>([]);
   const [milestones, setMilestones] = useState<any[]>([]);
+  const [meetings, setMeetings] = useState<any[]>([]);
   const [newMessage, setNewMessage] = useState("");
   const supabase = createClient();
 
@@ -46,6 +47,10 @@ export default function ClientProjectDetailsPage({ params }: { params: { id: str
       // Fetch Milestones
       const { data: milestoneData } = await supabase.from("project_milestones").select("*").eq("project_id", params.id).order("created_at", { ascending: true });
       setMilestones(milestoneData || []);
+
+      // Fetch Meetings
+      const { data: meetingData } = await supabase.from("project_meetings").select("*").eq("project_id", params.id).order("meeting_date", { ascending: true });
+      setMeetings(meetingData || []);
     };
 
     fetchProjectDetails();
@@ -100,12 +105,13 @@ export default function ClientProjectDetailsPage({ params }: { params: { id: str
       </div>
 
       <Tabs defaultValue="overview">
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-6 mb-6">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="financials">Financials</TabsTrigger>
           <TabsTrigger value="assets">Assets</TabsTrigger>
-          <TabsTrigger value="communications">Communications</TabsTrigger>
+          <TabsTrigger value="communications">Comms</TabsTrigger>
           <TabsTrigger value="milestones">Milestones</TabsTrigger>
+          <TabsTrigger value="meetings">Meetings</TabsTrigger>
         </TabsList>
         
         {/* Overview Tab */}
@@ -237,6 +243,48 @@ export default function ClientProjectDetailsPage({ params }: { params: { id: str
                )}
              </CardContent>
            </Card>
+        </TabsContent>
+
+        {/* Meetings Tab */}
+        <TabsContent value="meetings">
+          <Card>
+            <CardHeader>
+              <CardTitle>Scheduled Meetings</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {meetings.length === 0 ? <p className="text-muted-foreground">You have no upcoming meetings.</p> : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {meetings.map(meeting => (
+                    <div key={meeting.id} className="p-4 border rounded-lg bg-white shadow-sm flex flex-col h-full">
+                      <div className="flex justify-between items-start mb-2">
+                        <h4 className="font-semibold text-lg">{meeting.title}</h4>
+                        <span className={`px-2 py-1 text-xs rounded-full ${
+                          meeting.status === 'completed' ? 'bg-green-100 text-green-700' :
+                          meeting.status === 'cancelled' ? 'bg-red-100 text-red-700' :
+                          'bg-blue-100 text-blue-700'
+                        }`}>
+                          {meeting.status}
+                        </span>
+                      </div>
+                      {meeting.description && <p className="text-sm text-slate-600 mb-4 flex-1">{meeting.description}</p>}
+                      <div className="mt-auto space-y-4">
+                        <div className="text-sm bg-slate-50 p-2 rounded border">
+                          <p><span className="font-medium text-slate-500">Date & Time:</span> <br/>{new Date(meeting.meeting_date).toLocaleString()}</p>
+                        </div>
+                        {meeting.status === 'scheduled' && (
+                          <Button asChild className="w-full">
+                            <a href={meeting.meeting_link} target="_blank" rel="noreferrer">
+                              Join Meeting
+                            </a>
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>

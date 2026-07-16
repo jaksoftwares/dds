@@ -11,7 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-import { addProjectCommunication, updateProjectStatus, addMilestone, updateMilestoneStatus } from "@/actions/project-actions";
+import { addProjectCommunication, updateProjectStatus, addMilestone, updateMilestoneStatus, scheduleMeeting, updateMeetingStatus } from "@/actions/project-actions";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import "react-quill/dist/quill.snow.css";
@@ -22,6 +22,7 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
   const [financials, setFinancials] = useState<any[]>([]);
   const [communications, setCommunications] = useState<any[]>([]);
   const [milestones, setMilestones] = useState<any[]>([]);
+  const [meetings, setMeetings] = useState<any[]>([]);
   const [newMessage, setNewMessage] = useState("");
   const [updatingStatus, setUpdatingStatus] = useState(false);
   const supabase = createClient();
@@ -52,6 +53,10 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
       // Fetch Milestones
       const { data: milestoneData } = await supabase.from("project_milestones").select("*").eq("project_id", params.id).order("created_at", { ascending: true });
       setMilestones(milestoneData || []);
+
+      // Fetch Meetings
+      const { data: meetingData } = await supabase.from("project_meetings").select("*").eq("project_id", params.id).order("meeting_date", { ascending: true });
+      setMeetings(meetingData || []);
     };
 
     fetchProjectDetails();
@@ -174,6 +179,41 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
     }
   };
 
+  const [schedulingMeeting, setSchedulingMeeting] = useState(false);
+  
+  const handleScheduleMeeting = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSchedulingMeeting(true);
+    const formData = new FormData(e.currentTarget);
+    try {
+      await scheduleMeeting(
+        params.id, 
+        formData.get("title") as string, 
+        formData.get("description") as string, 
+        formData.get("meeting_date") as string,
+        formData.get("meeting_link") as string
+      );
+      toast.success("Meeting scheduled");
+      const { data: meetingData } = await supabase.from("project_meetings").select("*").eq("project_id", params.id).order("meeting_date", { ascending: true });
+      setMeetings(meetingData || []);
+      (e.target as HTMLFormElement).reset();
+    } catch (error: any) {
+      toast.error(error.message);
+    } finally {
+      setSchedulingMeeting(false);
+    }
+  };
+
+  const handleMeetingStatusChange = async (id: string, status: string) => {
+    try {
+      await updateMeetingStatus(id, status, params.id);
+      toast.success("Meeting updated");
+      setMeetings(prev => prev.map(m => m.id === id ? { ...m, status } : m));
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
+
   if (!project) return <div>Loading...</div>;
 
   return (
@@ -206,12 +246,13 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
       </header>
 
       <Tabs defaultValue="overview">
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-6 mb-6">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="financials">Financials</TabsTrigger>
           <TabsTrigger value="assets">Assets</TabsTrigger>
-          <TabsTrigger value="communications">Communications</TabsTrigger>
+          <TabsTrigger value="communications">Comms</TabsTrigger>
           <TabsTrigger value="milestones">Milestones</TabsTrigger>
+          <TabsTrigger value="meetings">Meetings</TabsTrigger>
         </TabsList>
         
         {/* Overview Tab */}
@@ -436,6 +477,75 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
                     <Input name="due_date" type="date" />
                   </div>
                   <Button type="submit" isLoading={addingMilestone} className="w-full">Create Milestone</Button>
+                </form>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="meetings">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Scheduled Meetings</CardTitle>
+                <CardDescription>Upcoming and past meetings</CardDescription>
+              </CardHeader>
+              <CardContent>
+                {meetings.length === 0 ? <p className="text-muted-foreground">No meetings scheduled.</p> : (
+                  <div className="space-y-4">
+                    {meetings.map(meeting => (
+                      <div key={meeting.id} className="p-4 border rounded-lg bg-slate-50 relative">
+                        <div className="flex justify-between items-start mb-2">
+                          <h4 className="font-semibold">{meeting.title}</h4>
+                          <Select 
+                            value={meeting.status} 
+                            onValueChange={(val) => handleMeetingStatusChange(meeting.id, val)}
+                          >
+                            <SelectTrigger className="w-[130px] h-8 text-xs">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="scheduled">Scheduled</SelectItem>
+                              <SelectItem value="completed">Completed</SelectItem>
+                              <SelectItem value="cancelled">Cancelled</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        {meeting.description && <p className="text-sm text-slate-600 mb-2">{meeting.description}</p>}
+                        <div className="text-sm space-y-1">
+                          <p><span className="font-medium">Date:</span> {new Date(meeting.meeting_date).toLocaleString()}</p>
+                          <p><span className="font-medium">Link:</span> <a href={meeting.meeting_link} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline">Join Meeting</a></p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Schedule Meeting</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleScheduleMeeting} className="space-y-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Meeting Title</label>
+                    <Input name="title" required placeholder="e.g. Kickoff Call" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Description</label>
+                    <Textarea name="description" placeholder="Optional details or agenda..." />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Date & Time</label>
+                    <Input name="meeting_date" type="datetime-local" required />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Meeting Link (URL)</label>
+                    <Input name="meeting_link" type="url" required placeholder="https://zoom.us/j/..." />
+                  </div>
+                  <Button type="submit" isLoading={schedulingMeeting} className="w-full">Schedule Meeting</Button>
                 </form>
               </CardContent>
             </Card>

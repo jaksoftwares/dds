@@ -161,3 +161,29 @@ export async function updateMilestoneStatus(milestoneId: string, status: string,
   revalidatePath(`/dashboard/projects/${projectId}`);
   revalidatePath(`/admin/projects/${projectId}`);
 }
+
+export async function scheduleMeeting(projectId: string, title: string, description: string, meeting_date: string, meeting_link: string) {
+  const supabase = await createClient();
+  const { data: userData } = await supabase.auth.getUser();
+  if (!userData.user) throw new Error("Unauthorized");
+
+  const { error } = await supabase.from("project_meetings").insert({
+    project_id: projectId,
+    title,
+    description: description || null,
+    meeting_date,
+    meeting_link,
+    status: 'scheduled'
+  });
+  if (error) throw new Error(error.message);
+  revalidatePath(`/dashboard/projects/${projectId}`);
+  revalidatePath(`/admin/projects/${projectId}`);
+}
+
+export async function updateMeetingStatus(meetingId: string, status: string, projectId: string) {
+  const supabase = await createClient();
+  const { error } = await supabase.from("project_meetings").update({ status }).eq("id", meetingId);
+  if (error) throw new Error(error.message);
+  revalidatePath(`/dashboard/projects/${projectId}`);
+  revalidatePath(`/admin/projects/${projectId}`);
+}
