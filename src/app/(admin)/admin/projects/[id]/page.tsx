@@ -141,6 +141,12 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
       await updateProjectStatus(params.id, newStatus);
       setProject({ ...project, status: newStatus });
       toast.success("Project status updated");
+      
+      const { data: milestoneData } = await supabase.from("project_milestones").select("*").eq("project_id", params.id).order("created_at", { ascending: true });
+      setMilestones(milestoneData || []);
+
+      const { data: meetingData } = await supabase.from("project_meetings").select("*").eq("project_id", params.id).order("meeting_date", { ascending: true });
+      setMeetings(meetingData || []);
     } catch (error: any) {
       toast.error(error.message);
     } finally {
