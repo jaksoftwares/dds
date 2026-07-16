@@ -162,6 +162,7 @@ export async function updateMilestoneStatus(milestoneId: string, status: string,
   revalidatePath(`/admin/projects/${projectId}`);
 }
 
+
 export async function scheduleMeeting(projectId: string, title: string, description: string, meeting_date: string, meeting_link: string) {
   const supabase = await createClient();
   const { data: userData } = await supabase.auth.getUser();
@@ -188,18 +189,18 @@ export async function updateMeetingStatus(meetingId: string, status: string, pro
   revalidatePath(`/admin/projects/${projectId}`);
 }
 
+export async function updateMilestonePublish(milestoneId: string, is_published: boolean, projectId: string) {
+  const supabase = await createClient();
+  const { error } = await supabase.from("project_milestones").update({ is_published }).eq("id", milestoneId);
+  if (error) throw new Error(error.message);
+  revalidatePath(`/dashboard/projects/${projectId}`);
+  revalidatePath(`/admin/projects/${projectId}`);
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+export async function uploadMilestoneReport(milestoneId: string, projectId: string, file_url: string, file_name: string) {
+  const supabase = await createClient();
+  const { error } = await supabase.from("project_milestones").update({ report_file_url: file_url, report_file_name: file_name }).eq("id", milestoneId);
+  if (error) throw new Error(error.message);
+  revalidatePath(`/dashboard/projects/${projectId}`);
+  revalidatePath(`/admin/projects/${projectId}`);
+}

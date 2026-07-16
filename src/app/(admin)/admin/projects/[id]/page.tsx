@@ -152,22 +152,18 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
     setAddingMilestone(true);
     const formData = new FormData(e.currentTarget);
     try {
-      const res = await addMilestone(
+      await addMilestone(
         params.id, 
         formData.get("title") as string, 
         formData.get("description") as string, 
         formData.get("due_date") as string
       );
-      if (res?.error) {
-        toast.error(res.error);
-        return;
-      }
       toast.success("Milestone added");
       const { data: milestoneData } = await supabase.from("project_milestones").select("*").eq("project_id", params.id).order("created_at", { ascending: true });
       setMilestones(milestoneData || []);
       (e.target as HTMLFormElement).reset();
     } catch (error: any) {
-      toast.error("An unexpected error occurred");
+      toast.error(error.message || "An unexpected error occurred");
     } finally {
       setAddingMilestone(false);
     }
@@ -175,34 +171,31 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
 
   const handleMilestoneStatusChange = async (id: string, status: string) => {
     try {
-      const res = await updateMilestoneStatus(id, status, params.id);
-      if (res?.error) { toast.error(res.error); return; }
+      await updateMilestoneStatus(id, status, params.id);
       toast.success("Milestone updated");
       setMilestones(prev => prev.map(m => m.id === id ? { ...m, status } : m));
     } catch (error: any) {
-      toast.error("Failed to update status");
+      toast.error(error.message || "Failed to update status");
     }
   };
 
   const handleMilestonePublishToggle = async (id: string, is_published: boolean) => {
     try {
-      const res = await updateMilestonePublish(id, is_published, params.id);
-      if (res?.error) { toast.error(res.error); return; }
+      await updateMilestonePublish(id, is_published, params.id);
       toast.success(is_published ? "Milestone published" : "Milestone set to draft");
       setMilestones(prev => prev.map(m => m.id === id ? { ...m, is_published } : m));
     } catch (error: any) {
-      toast.error("Failed to update publish state");
+      toast.error(error.message || "Failed to update publish state");
     }
   };
 
   const handleUploadMilestoneReport = async (id: string, file_url: string, file_name: string) => {
     try {
-      const res = await uploadMilestoneReport(id, params.id, file_url, file_name);
-      if (res?.error) { toast.error(res.error); return; }
+      await uploadMilestoneReport(id, params.id, file_url, file_name);
       toast.success("Report attached to milestone");
       setMilestones(prev => prev.map(m => m.id === id ? { ...m, report_file_url: file_url, report_file_name: file_name } : m));
     } catch (error: any) {
-      toast.error("Failed to attach report");
+      toast.error(error.message || "Failed to attach report");
     }
   };
 
@@ -213,20 +206,19 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
     setSchedulingMeeting(true);
     const formData = new FormData(e.currentTarget);
     try {
-      const res = await scheduleMeeting(
+      await scheduleMeeting(
         params.id, 
         formData.get("title") as string, 
         formData.get("description") as string, 
         formData.get("meeting_date") as string,
         formData.get("meeting_link") as string
       );
-      if (res?.error) { toast.error(res.error); return; }
       toast.success("Meeting scheduled");
       const { data: meetingData } = await supabase.from("project_meetings").select("*").eq("project_id", params.id).order("meeting_date", { ascending: true });
       setMeetings(meetingData || []);
       (e.target as HTMLFormElement).reset();
     } catch (error: any) {
-      toast.error("Unexpected error scheduling meeting");
+      toast.error(error.message || "Unexpected error scheduling meeting");
     } finally {
       setSchedulingMeeting(false);
     }
@@ -234,12 +226,11 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
 
   const handleMeetingStatusChange = async (id: string, status: string) => {
     try {
-      const res = await updateMeetingStatus(id, status, params.id);
-      if (res?.error) { toast.error(res.error); return; }
+      await updateMeetingStatus(id, status, params.id);
       toast.success("Meeting updated");
       setMeetings(prev => prev.map(m => m.id === id ? { ...m, status } : m));
     } catch (error: any) {
-      toast.error("Failed to update meeting");
+      toast.error(error.message || "Failed to update meeting");
     }
   };
 
@@ -507,7 +498,7 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
                             </div>
                           ) : (
                             <FileUpload 
-                              onUploadComplete={(url, name) => handleUploadMilestoneReport(milestone.id, url, name)}
+                              onUploadSuccess={(url, name) => handleUploadMilestoneReport(milestone.id, url, name)}
                               className="text-xs"
                             />
                           )}
