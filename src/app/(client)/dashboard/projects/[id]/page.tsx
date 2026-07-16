@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FileUpload } from "@/components/shared/FileUpload";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 import { addProjectCommunication } from "@/actions/project-actions";
 import "react-quill/dist/quill.snow.css";
@@ -109,7 +110,7 @@ export default function ClientProjectDetailsPage({ params }: { params: { id: str
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="financials">Financials</TabsTrigger>
           <TabsTrigger value="assets">Assets</TabsTrigger>
-          <TabsTrigger value="communications">Comms</TabsTrigger>
+          <TabsTrigger value="communications">Communications</TabsTrigger>
           <TabsTrigger value="milestones">Milestones</TabsTrigger>
           <TabsTrigger value="meetings">Meetings</TabsTrigger>
         </TabsList>
@@ -218,29 +219,59 @@ export default function ClientProjectDetailsPage({ params }: { params: { id: str
         <TabsContent value="milestones">
            <Card>
              <CardHeader>
-               <CardTitle>Milestones & Tasks</CardTitle>
+               <CardTitle>Milestones & Progress</CardTitle>
              </CardHeader>
              <CardContent>
-               {milestones.length === 0 ? <p className="text-muted-foreground">Milestones will be set up by your project manager shortly.</p> : (
-                 <div className="space-y-4">
-                   {milestones.map(milestone => (
-                     <div key={milestone.id} className="p-4 border rounded-lg bg-white relative shadow-sm">
-                       <div className="flex justify-between items-start mb-2">
-                         <h4 className="font-semibold">{milestone.title}</h4>
-                         <span className={`px-2 py-1 text-xs rounded-full ${
-                           milestone.status === 'completed' ? 'bg-green-100 text-green-700' :
-                           milestone.status === 'in_progress' ? 'bg-blue-100 text-blue-700' :
-                           'bg-slate-100 text-slate-700'
-                         }`}>
-                           {milestone.status.replace('_', ' ')}
-                         </span>
+               {(() => {
+                 const publishedMilestones = milestones.filter(m => m.is_published);
+                 const completedMilestones = publishedMilestones.filter(m => m.status === 'completed');
+                 const progressPercent = publishedMilestones.length > 0 ? Math.round((completedMilestones.length / publishedMilestones.length) * 100) : 0;
+                 
+                 return publishedMilestones.length === 0 ? <p className="text-muted-foreground">Milestones will be set up by your project manager shortly.</p> : (
+                   <div className="space-y-6">
+                     <div className="space-y-2">
+                       <div className="flex justify-between text-sm font-medium">
+                         <span>Overall Progress</span>
+                         <span>{progressPercent}%</span>
                        </div>
-                       {milestone.description && <p className="text-sm text-slate-600 mb-2">{milestone.description}</p>}
-                       {milestone.due_date && <p className="text-xs text-slate-500 font-medium">Due: {new Date(milestone.due_date).toLocaleDateString()}</p>}
+                       <Progress value={progressPercent} className="h-2" />
                      </div>
-                   ))}
-                 </div>
-               )}
+                     <div className="space-y-4 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-200 before:to-transparent">
+                       {publishedMilestones.map((milestone, index) => (
+                         <div key={milestone.id} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                           <div className={`flex items-center justify-center w-10 h-10 rounded-full border-4 border-white shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-sm ${milestone.status === 'completed' ? 'bg-green-500' : milestone.status === 'in_progress' ? 'bg-blue-500' : 'bg-slate-300'}`}>
+                             <span className="text-white text-xs font-bold">{index + 1}</span>
+                           </div>
+                           <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-xl border bg-white shadow-sm">
+                             <div className="flex justify-between items-start mb-2">
+                               <h4 className="font-semibold">{milestone.title}</h4>
+                               <span className={`px-2 py-1 text-[10px] uppercase tracking-wider font-semibold rounded-full ${
+                                 milestone.status === 'completed' ? 'bg-green-100 text-green-700' :
+                                 milestone.status === 'in_progress' ? 'bg-blue-100 text-blue-700' :
+                                 'bg-slate-100 text-slate-700'
+                               }`}>
+                                 {milestone.status.replace('_', ' ')}
+                               </span>
+                             </div>
+                             {milestone.description && <p className="text-sm text-slate-600 mb-2">{milestone.description}</p>}
+                             {milestone.due_date && <p className="text-xs text-slate-500 font-medium">Due: {new Date(milestone.due_date).toLocaleDateString()}</p>}
+                             
+                             {milestone.report_file_url && (
+                               <div className="mt-3 pt-3 border-t">
+                                 <Button variant="outline" size="sm" className="w-full text-xs h-8" asChild>
+                                   <a href={milestone.report_file_url} target="_blank" rel="noreferrer">
+                                     {milestone.report_file_name || 'Download Milestone Report'}
+                                   </a>
+                                 </Button>
+                               </div>
+                             )}
+                           </div>
+                         </div>
+                       ))}
+                     </div>
+                   </div>
+                 );
+               })()}
              </CardContent>
            </Card>
         </TabsContent>

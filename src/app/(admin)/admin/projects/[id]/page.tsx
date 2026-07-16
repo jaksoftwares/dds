@@ -11,7 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-import { addProjectCommunication, updateProjectStatus, addMilestone, updateMilestoneStatus, scheduleMeeting, updateMeetingStatus } from "@/actions/project-actions";
+import { addProjectCommunication, updateProjectStatus, addMilestone, updateMilestoneStatus, updateMilestonePublish, uploadMilestoneReport, scheduleMeeting, updateMeetingStatus } from "@/actions/project-actions";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import "react-quill/dist/quill.snow.css";
@@ -152,18 +152,22 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
     setAddingMilestone(true);
     const formData = new FormData(e.currentTarget);
     try {
-      await addMilestone(
+      const res = await addMilestone(
         params.id, 
         formData.get("title") as string, 
         formData.get("description") as string, 
         formData.get("due_date") as string
       );
+      if (res?.error) {
+        toast.error(res.error);
+        return;
+      }
       toast.success("Milestone added");
       const { data: milestoneData } = await supabase.from("project_milestones").select("*").eq("project_id", params.id).order("created_at", { ascending: true });
       setMilestones(milestoneData || []);
       (e.target as HTMLFormElement).reset();
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error("An unexpected error occurred");
     } finally {
       setAddingMilestone(false);
     }
@@ -171,11 +175,34 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
 
   const handleMilestoneStatusChange = async (id: string, status: string) => {
     try {
-      await updateMilestoneStatus(id, status, params.id);
+      const res = await updateMilestoneStatus(id, status, params.id);
+      if (res?.error) { toast.error(res.error); return; }
       toast.success("Milestone updated");
       setMilestones(prev => prev.map(m => m.id === id ? { ...m, status } : m));
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error("Failed to update status");
+    }
+  };
+
+  const handleMilestonePublishToggle = async (id: string, is_published: boolean) => {
+    try {
+      const res = await updateMilestonePublish(id, is_published, params.id);
+      if (res?.error) { toast.error(res.error); return; }
+      toast.success(is_published ? "Milestone published" : "Milestone set to draft");
+      setMilestones(prev => prev.map(m => m.id === id ? { ...m, is_published } : m));
+    } catch (error: any) {
+      toast.error("Failed to update publish state");
+    }
+  };
+
+  const handleUploadMilestoneReport = async (id: string, file_url: string, file_name: string) => {
+    try {
+      const res = await uploadMilestoneReport(id, params.id, file_url, file_name);
+      if (res?.error) { toast.error(res.error); return; }
+      toast.success("Report attached to milestone");
+      setMilestones(prev => prev.map(m => m.id === id ? { ...m, report_file_url: file_url, report_file_name: file_name } : m));
+    } catch (error: any) {
+      toast.error("Failed to attach report");
     }
   };
 
@@ -186,19 +213,20 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
     setSchedulingMeeting(true);
     const formData = new FormData(e.currentTarget);
     try {
-      await scheduleMeeting(
+      const res = await scheduleMeeting(
         params.id, 
         formData.get("title") as string, 
         formData.get("description") as string, 
         formData.get("meeting_date") as string,
         formData.get("meeting_link") as string
       );
+      if (res?.error) { toast.error(res.error); return; }
       toast.success("Meeting scheduled");
       const { data: meetingData } = await supabase.from("project_meetings").select("*").eq("project_id", params.id).order("meeting_date", { ascending: true });
       setMeetings(meetingData || []);
       (e.target as HTMLFormElement).reset();
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error("Unexpected error scheduling meeting");
     } finally {
       setSchedulingMeeting(false);
     }
@@ -206,11 +234,12 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
 
   const handleMeetingStatusChange = async (id: string, status: string) => {
     try {
-      await updateMeetingStatus(id, status, params.id);
+      const res = await updateMeetingStatus(id, status, params.id);
+      if (res?.error) { toast.error(res.error); return; }
       toast.success("Meeting updated");
       setMeetings(prev => prev.map(m => m.id === id ? { ...m, status } : m));
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error("Failed to update meeting");
     }
   };
 
@@ -250,7 +279,7 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="financials">Financials</TabsTrigger>
           <TabsTrigger value="assets">Assets</TabsTrigger>
-          <TabsTrigger value="communications">Comms</TabsTrigger>
+          <TabsTrigger value="communications">Communications</TabsTrigger>
           <TabsTrigger value="milestones">Milestones</TabsTrigger>
           <TabsTrigger value="meetings">Meetings</TabsTrigger>
         </TabsList>
@@ -432,25 +461,57 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
                 {milestones.length === 0 ? <p className="text-muted-foreground">No milestones created yet.</p> : (
                   <div className="space-y-4">
                     {milestones.map(milestone => (
-                      <div key={milestone.id} className="p-4 border rounded-lg bg-slate-50 relative">
+                      <div key={milestone.id} className={`p-4 border rounded-lg relative ${!milestone.is_published ? 'bg-slate-50 border-dashed' : 'bg-white'}`}>
                         <div className="flex justify-between items-start mb-2">
-                          <h4 className="font-semibold">{milestone.title}</h4>
-                          <Select 
-                            value={milestone.status} 
-                            onValueChange={(val) => handleMilestoneStatusChange(milestone.id, val)}
-                          >
-                            <SelectTrigger className="w-[130px] h-8 text-xs">
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="pending">Pending</SelectItem>
-                              <SelectItem value="in_progress">In Progress</SelectItem>
-                              <SelectItem value="completed">Completed</SelectItem>
-                            </SelectContent>
-                          </Select>
+                          <div>
+                            <h4 className="font-semibold flex items-center gap-2">
+                              {milestone.title}
+                              {!milestone.is_published && <Badge variant="secondary" className="text-[10px]">Draft</Badge>}
+                            </h4>
+                          </div>
+                          <div className="flex gap-2 items-center">
+                            <label className="text-xs flex items-center gap-1 cursor-pointer font-medium text-slate-600">
+                              <input 
+                                type="checkbox" 
+                                checked={milestone.is_published}
+                                onChange={(e) => handleMilestonePublishToggle(milestone.id, e.target.checked)}
+                              />
+                              Publish
+                            </label>
+                            <Select 
+                              value={milestone.status} 
+                              onValueChange={(val) => handleMilestoneStatusChange(milestone.id, val)}
+                            >
+                              <SelectTrigger className="w-[120px] h-8 text-xs">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="pending">Pending</SelectItem>
+                                <SelectItem value="in_progress">In Progress</SelectItem>
+                                <SelectItem value="completed">Completed</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
                         </div>
                         {milestone.description && <p className="text-sm text-slate-600 mb-2">{milestone.description}</p>}
-                        {milestone.due_date && <p className="text-xs text-slate-500 font-medium">Due: {new Date(milestone.due_date).toLocaleDateString()}</p>}
+                        {milestone.due_date && <p className="text-xs text-slate-500 mb-4">Due: {new Date(milestone.due_date).toLocaleDateString()}</p>}
+                        
+                        <div className="pt-2 border-t mt-2">
+                          <h5 className="text-xs font-semibold mb-2">Milestone Report</h5>
+                          {milestone.report_file_url ? (
+                            <div className="flex items-center justify-between text-sm bg-slate-50 p-2 rounded">
+                              <a href={milestone.report_file_url} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline break-all">
+                                {milestone.report_file_name || 'View Report'}
+                              </a>
+                              <Button variant="ghost" size="sm" onClick={() => handleUploadMilestoneReport(milestone.id, '', '')} className="text-xs text-red-500 h-6 px-2">Remove</Button>
+                            </div>
+                          ) : (
+                            <FileUpload 
+                              onUploadComplete={(url, name) => handleUploadMilestoneReport(milestone.id, url, name)}
+                              className="text-xs"
+                            />
+                          )}
+                        </div>
                       </div>
                     ))}
                   </div>
