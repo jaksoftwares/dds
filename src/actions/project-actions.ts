@@ -132,6 +132,54 @@ export async function updateProjectStatus(projectId: string, status: string) {
   // Must be admin to update status, handled by RLS, but we can just update
   const { error } = await supabase.from("client_projects").update({ status }).eq("id", projectId);
   if (error) throw new Error(error.message);
+
+  if (status === "In Progress" || status === "Approved") {
+    const { data: existing } = await supabase.from("project_milestones").select("id").eq("project_id", projectId).limit(1);
+    
+    if (!existing || existing.length === 0) {
+      const now = new Date();
+      const addDays = (days: number) => {
+        const d = new Date(now);
+        d.setDate(d.getDate() + days);
+        return d.toISOString().split('T')[0];
+      };
+
+      const presetMilestones = [
+        { title: "Project Kickoff & Discovery", description: "Initial project onboarding and defining scope limits.", due_date: addDays(0), status: "pending", is_published: false, project_id: projectId },
+        { title: "Requirements Gathering & Documentation", description: "Finalizing functional and non-functional requirements.", due_date: addDays(3), status: "pending", is_published: false, project_id: projectId },
+        { title: "Architecture & Technical Specifications", description: "Database schema design, technology stack selection, and system architecture planning.", due_date: addDays(7), status: "pending", is_published: false, project_id: projectId },
+        { title: "UI/UX Design Concept & Wireframes", description: "Low-fidelity layouts and user journey mapping.", due_date: addDays(14), status: "pending", is_published: false, project_id: projectId },
+        { title: "High-Fidelity Prototyping & Design Approval", description: "Final interactive designs and client design sign-off.", due_date: addDays(21), status: "pending", is_published: false, project_id: projectId },
+        { title: "Environment Setup & Database Configuration", description: "Provisioning servers, repositories, and setting up environments.", due_date: addDays(24), status: "pending", is_published: false, project_id: projectId },
+        { title: "Core Feature Development (Alpha)", description: "Building out the primary functional components of the application.", due_date: addDays(35), status: "pending", is_published: false, project_id: projectId },
+        { title: "Full System Integration (Beta)", description: "Connecting front-end with back-end, integrating APIs.", due_date: addDays(45), status: "pending", is_published: false, project_id: projectId },
+        { title: "Quality Assurance & User Acceptance Testing (UAT)", description: "Internal bug testing followed by client hands-on testing.", due_date: addDays(55), status: "pending", is_published: false, project_id: projectId },
+        { title: "Deployment & Go-Live", description: "Pushing the code to production and performing live environment smoke tests.", due_date: addDays(60), status: "pending", is_published: false, project_id: projectId },
+        { title: "Post-Launch Handover & Support Initiation", description: "Delivering credentials, documentation, and transitioning into maintenance.", due_date: addDays(65), status: "pending", is_published: false, project_id: projectId },
+      ];
+
+      await supabase.from("project_milestones").insert(presetMilestones);
+
+      const addTime = (days: number, timeStr: string) => {
+        const d = new Date(now);
+        d.setDate(d.getDate() + days);
+        return d.toISOString().split('T')[0] + timeStr;
+      };
+
+      const presetMeetings = [
+        { title: "Kickoff Meeting", description: "Welcome and project introduction.", meeting_date: addTime(0, "T10:00:00Z"), meeting_link: "https://meet.google.com/new", status: "scheduled", is_published: false, project_id: projectId },
+        { title: "Requirements Review & Sign-off", description: "Reviewing documentation before development starts.", meeting_date: addTime(5, "T14:00:00Z"), meeting_link: "https://meet.google.com/new", status: "scheduled", is_published: false, project_id: projectId },
+        { title: "Design Approval Walkthrough", description: "Reviewing the high-fidelity designs for approval.", meeting_date: addTime(21, "T11:00:00Z"), meeting_link: "https://meet.google.com/new", status: "scheduled", is_published: false, project_id: projectId },
+        { title: "Alpha Progress Demo", description: "Showcasing core feature functionality.", meeting_date: addTime(35, "T15:00:00Z"), meeting_link: "https://meet.google.com/new", status: "scheduled", is_published: false, project_id: projectId },
+        { title: "Beta Handover & UAT Instructions", description: "Teaching you how to test the application.", meeting_date: addTime(45, "T13:00:00Z"), meeting_link: "https://meet.google.com/new", status: "scheduled", is_published: false, project_id: projectId },
+        { title: "Go-Live Readiness Check", description: "Final checklist review before launch.", meeting_date: addTime(58, "T10:00:00Z"), meeting_link: "https://meet.google.com/new", status: "scheduled", is_published: false, project_id: projectId },
+        { title: "Project Handover & Retrospective", description: "Handing over credentials and discussing the project.", meeting_date: addTime(65, "T14:00:00Z"), meeting_link: "https://meet.google.com/new", status: "scheduled", is_published: false, project_id: projectId },
+      ];
+
+      await supabase.from("project_meetings").insert(presetMeetings);
+    }
+  }
+
   revalidatePath(`/dashboard/projects/${projectId}`);
   revalidatePath(`/admin/projects/${projectId}`);
   revalidatePath(`/admin/projects`);
@@ -203,4 +251,53 @@ export async function uploadMilestoneReport(milestoneId: string, projectId: stri
   if (error) throw new Error(error.message);
   revalidatePath(`/dashboard/projects/${projectId}`);
   revalidatePath(`/admin/projects/${projectId}`);
+}
+
+export async function editMilestone(milestoneId: string, projectId: string, title: string, description: string, due_date: string) {
+  const supabase = await createClient();
+  const { error } = await supabase.from("project_milestones").update({
+    title,
+    description: description || null,
+    due_date: due_date || null,
+  }).eq("id", milestoneId);
+  if (error) throw new Error(error.message);
+  revalidatePath(`/admin/projects/${projectId}`);
+  revalidatePath(`/dashboard/projects/${projectId}`);
+}
+
+export async function deleteMilestone(milestoneId: string, projectId: string) {
+  const supabase = await createClient();
+  const { error } = await supabase.from("project_milestones").delete().eq("id", milestoneId);
+  if (error) throw new Error(error.message);
+  revalidatePath(`/admin/projects/${projectId}`);
+  revalidatePath(`/dashboard/projects/${projectId}`);
+}
+
+export async function editMeeting(meetingId: string, projectId: string, title: string, description: string, meeting_date: string, meeting_link: string) {
+  const supabase = await createClient();
+  const { error } = await supabase.from("project_meetings").update({
+    title,
+    description: description || null,
+    meeting_date,
+    meeting_link,
+  }).eq("id", meetingId);
+  if (error) throw new Error(error.message);
+  revalidatePath(`/admin/projects/${projectId}`);
+  revalidatePath(`/dashboard/projects/${projectId}`);
+}
+
+export async function deleteMeeting(meetingId: string, projectId: string) {
+  const supabase = await createClient();
+  const { error } = await supabase.from("project_meetings").delete().eq("id", meetingId);
+  if (error) throw new Error(error.message);
+  revalidatePath(`/admin/projects/${projectId}`);
+  revalidatePath(`/dashboard/projects/${projectId}`);
+}
+
+export async function updateMeetingPublish(meetingId: string, is_published: boolean, projectId: string) {
+  const supabase = await createClient();
+  const { error } = await supabase.from("project_meetings").update({ is_published }).eq("id", meetingId);
+  if (error) throw new Error(error.message);
+  revalidatePath(`/admin/projects/${projectId}`);
+  revalidatePath(`/dashboard/projects/${projectId}`);
 }

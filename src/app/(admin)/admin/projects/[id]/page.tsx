@@ -10,10 +10,11 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { addProjectCommunication, updateProjectStatus, addMilestone, updateMilestoneStatus, updateMilestonePublish, uploadMilestoneReport, scheduleMeeting, updateMeetingStatus } from "@/actions/project-actions";
+import { addProjectCommunication, updateProjectStatus, addMilestone, updateMilestoneStatus, updateMilestonePublish, uploadMilestoneReport, scheduleMeeting, updateMeetingStatus, editMilestone, deleteMilestone, editMeeting, deleteMeeting, updateMeetingPublish } from "@/actions/project-actions";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Edit, Trash2 } from "lucide-react";
 import "react-quill/dist/quill.snow.css";
 
 export default function AdminProjectDetailsPage({ params }: { params: { id: string } }) {
@@ -23,6 +24,8 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
   const [communications, setCommunications] = useState<any[]>([]);
   const [milestones, setMilestones] = useState<any[]>([]);
   const [meetings, setMeetings] = useState<any[]>([]);
+  const [editingMilestone, setEditingMilestone] = useState<any>(null);
+  const [editingMeeting, setEditingMeeting] = useState<any>(null);
   const [newMessage, setNewMessage] = useState("");
   const [updatingStatus, setUpdatingStatus] = useState(false);
   const supabase = createClient();
@@ -229,6 +232,66 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
       await updateMeetingStatus(id, status, params.id);
       toast.success("Meeting updated");
       setMeetings(prev => prev.map(m => m.id === id ? { ...m, status } : m));
+    } catch (error: any) {
+      toast.error(error.message || "Failed to update meeting");
+    }
+  };
+
+  const handleMeetingPublishToggle = async (id: string, is_published: boolean) => {
+    try {
+      await updateMeetingPublish(id, is_published, params.id);
+      toast.success(is_published ? "Meeting published" : "Meeting set to draft");
+      setMeetings(prev => prev.map(m => m.id === id ? { ...m, is_published } : m));
+    } catch (error: any) {
+      toast.error(error.message || "Failed to update publish state");
+    }
+  };
+
+  const handleDeleteMilestone = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this milestone?")) return;
+    try {
+      await deleteMilestone(id, params.id);
+      toast.success("Milestone deleted");
+      setMilestones(prev => prev.filter(m => m.id !== id));
+    } catch (error: any) {
+      toast.error(error.message || "Failed to delete milestone");
+    }
+  };
+
+  const handleDeleteMeeting = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this meeting?")) return;
+    try {
+      await deleteMeeting(id, params.id);
+      toast.success("Meeting deleted");
+      setMeetings(prev => prev.filter(m => m.id !== id));
+    } catch (error: any) {
+      toast.error(error.message || "Failed to delete meeting");
+    }
+  };
+
+  const submitEditMilestone = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    try {
+      await editMilestone(editingMilestone.id, params.id, formData.get("title") as string, formData.get("description") as string, formData.get("due_date") as string);
+      toast.success("Milestone updated");
+      const { data: milestoneData } = await supabase.from("project_milestones").select("*").eq("project_id", params.id).order("created_at", { ascending: true });
+      setMilestones(milestoneData || []);
+      setEditingMilestone(null);
+    } catch (error: any) {
+      toast.error(error.message || "Failed to update milestone");
+    }
+  };
+
+  const submitEditMeeting = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    try {
+      await editMeeting(editingMeeting.id, params.id, formData.get("title") as string, formData.get("description") as string, formData.get("meeting_date") as string, formData.get("meeting_link") as string);
+      toast.success("Meeting updated");
+      const { data: meetingData } = await supabase.from("project_meetings").select("*").eq("project_id", params.id).order("meeting_date", { ascending: true });
+      setMeetings(meetingData || []);
+      setEditingMeeting(null);
     } catch (error: any) {
       toast.error(error.message || "Failed to update meeting");
     }
@@ -461,6 +524,12 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
                             </h4>
                           </div>
                           <div className="flex gap-2 items-center">
+                            <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-500" onClick={() => setEditingMilestone(milestone)}>
+                              <Edit className="h-4 w-4" />
+                            </Button>
+                            <Button variant="ghost" size="icon" className="h-8 w-8 text-red-500" onClick={() => handleDeleteMilestone(milestone.id)}>
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
                             <label className="text-xs flex items-center gap-1 cursor-pointer font-medium text-slate-600">
                               <input 
                                 type="checkbox" 
@@ -546,13 +615,33 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
                 {meetings.length === 0 ? <p className="text-muted-foreground">No meetings scheduled.</p> : (
                   <div className="space-y-4">
                     {meetings.map(meeting => (
-                      <div key={meeting.id} className="p-4 border rounded-lg bg-slate-50 relative">
+                      <div key={meeting.id} className={`p-4 border rounded-lg relative ${!meeting.is_published ? 'bg-slate-50 border-dashed' : 'bg-white'}`}>
                         <div className="flex justify-between items-start mb-2">
-                          <h4 className="font-semibold">{meeting.title}</h4>
-                          <Select 
-                            value={meeting.status} 
-                            onValueChange={(val) => handleMeetingStatusChange(meeting.id, val)}
-                          >
+                          <div>
+                            <h4 className="font-semibold flex items-center gap-2">
+                              {meeting.title}
+                              {!meeting.is_published && <Badge variant="secondary" className="text-[10px]">Draft</Badge>}
+                            </h4>
+                          </div>
+                          <div className="flex gap-2 items-center">
+                            <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-500" onClick={() => setEditingMeeting(meeting)}>
+                              <Edit className="h-4 w-4" />
+                            </Button>
+                            <Button variant="ghost" size="icon" className="h-8 w-8 text-red-500" onClick={() => handleDeleteMeeting(meeting.id)}>
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                            <label className="text-xs flex items-center gap-1 cursor-pointer font-medium text-slate-600">
+                              <input 
+                                type="checkbox" 
+                                checked={meeting.is_published}
+                                onChange={(e) => handleMeetingPublishToggle(meeting.id, e.target.checked)}
+                              />
+                              Publish
+                            </label>
+                            <Select 
+                              value={meeting.status} 
+                              onValueChange={(val) => handleMeetingStatusChange(meeting.id, val)}
+                            >
                             <SelectTrigger className="w-[130px] h-8 text-xs">
                               <SelectValue />
                             </SelectTrigger>
@@ -562,6 +651,7 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
                               <SelectItem value="cancelled">Cancelled</SelectItem>
                             </SelectContent>
                           </Select>
+                          </div>
                         </div>
                         {meeting.description && <p className="text-sm text-slate-600 mb-2">{meeting.description}</p>}
                         <div className="text-sm space-y-1">
@@ -605,6 +695,67 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
         </TabsContent>
 
       </Tabs>
+      {/* Edit Milestone Dialog */}
+      <Dialog open={!!editingMilestone} onOpenChange={(open) => !open && setEditingMilestone(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit Milestone</DialogTitle>
+          </DialogHeader>
+          {editingMilestone && (
+            <form onSubmit={submitEditMilestone} className="space-y-4">
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Title</label>
+                <Input name="title" defaultValue={editingMilestone.title} required />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Description</label>
+                <Textarea name="description" defaultValue={editingMilestone.description || ""} />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Due Date</label>
+                <Input name="due_date" type="date" defaultValue={editingMilestone.due_date || ""} />
+              </div>
+              <DialogFooter>
+                <Button type="button" variant="outline" onClick={() => setEditingMilestone(null)}>Cancel</Button>
+                <Button type="submit">Save Changes</Button>
+              </DialogFooter>
+            </form>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Meeting Dialog */}
+      <Dialog open={!!editingMeeting} onOpenChange={(open) => !open && setEditingMeeting(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit Meeting</DialogTitle>
+          </DialogHeader>
+          {editingMeeting && (
+            <form onSubmit={submitEditMeeting} className="space-y-4">
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Title</label>
+                <Input name="title" defaultValue={editingMeeting.title} required />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Description</label>
+                <Textarea name="description" defaultValue={editingMeeting.description || ""} />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Date & Time</label>
+                <Input name="meeting_date" type="datetime-local" defaultValue={new Date(editingMeeting.meeting_date).toISOString().slice(0,16)} required />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Meeting Link</label>
+                <Input name="meeting_link" defaultValue={editingMeeting.meeting_link} required />
+              </div>
+              <DialogFooter>
+                <Button type="button" variant="outline" onClick={() => setEditingMeeting(null)}>Cancel</Button>
+                <Button type="submit">Save Changes</Button>
+              </DialogFooter>
+            </form>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
