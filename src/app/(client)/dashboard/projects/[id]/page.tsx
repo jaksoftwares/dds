@@ -97,7 +97,19 @@ export default function ClientProjectDetailsPage({ params }: { params: { id: str
     }
   };
 
-  if (!project) return <div>Loading...</div>;
+  if (!project) return (
+    <div className="space-y-6">
+      <div className="space-y-2">
+        <div className="h-10 w-1/3 bg-slate-200 animate-pulse rounded-md"></div>
+        <div className="h-5 w-1/4 bg-slate-200 animate-pulse rounded-md"></div>
+      </div>
+      <div className="h-12 w-full bg-slate-200 animate-pulse rounded-md mb-6"></div>
+      <div className="space-y-6">
+        <div className="h-48 w-full bg-slate-200 animate-pulse rounded-xl"></div>
+        <div className="h-64 w-full bg-slate-200 animate-pulse rounded-xl"></div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="space-y-6">
@@ -130,23 +142,40 @@ export default function ClientProjectDetailsPage({ params }: { params: { id: str
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {upcomingMeetings.map(meeting => (
-                      <div key={meeting.id} className="bg-white p-4 rounded-lg shadow-sm border border-blue-100 flex flex-col justify-between">
-                        <div>
-                          <h4 className="font-semibold text-slate-800 mb-1">{meeting.title}</h4>
-                          <p className="text-xs text-slate-500 mb-4">{new Date(meeting.meeting_date).toLocaleString()}</p>
+                    {upcomingMeetings.map(meeting => {
+                      const meetingTime = new Date(meeting.meeting_date).getTime();
+                      const now = new Date().getTime();
+                      const thirtyMinsInMs = 30 * 60 * 1000;
+                      const canJoin = meetingTime - now <= thirtyMinsInMs;
+
+                      return (
+                        <div key={meeting.id} className="bg-white p-4 rounded-lg shadow-sm border border-blue-100 flex flex-col justify-between">
+                          <div>
+                            <h4 className="font-semibold text-slate-800 mb-1">{meeting.title}</h4>
+                            <p className="text-xs text-slate-500 mb-4">{new Date(meeting.meeting_date).toLocaleString()}</p>
+                          </div>
+                          {canJoin ? (
+                            <a 
+                              href={meeting.meeting_link} 
+                              target="_blank" 
+                              rel="noreferrer"
+                              className="inline-flex items-center justify-center gap-2 w-full py-2 bg-customBlueExtraDark text-white text-xs font-medium rounded hover:bg-customBlueDark transition-colors"
+                            >
+                              <Video className="w-4 h-4" />
+                              Join Meeting
+                            </a>
+                          ) : (
+                            <button 
+                              disabled
+                              className="inline-flex items-center justify-center gap-2 w-full py-2 bg-slate-100 text-slate-400 text-xs font-medium rounded cursor-not-allowed"
+                            >
+                              <Video className="w-4 h-4 opacity-50" />
+                              Opens 30m before
+                            </button>
+                          )}
                         </div>
-                        <a 
-                          href={meeting.meeting_link} 
-                          target="_blank" 
-                          rel="noreferrer"
-                          className="inline-flex items-center justify-center gap-2 w-full py-2 bg-customBlueExtraDark text-white text-xs font-medium rounded hover:bg-customBlueDark transition-colors"
-                        >
-                          <Video className="w-4 h-4" />
-                          Join Meeting
-                        </a>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </CardContent>
               </Card>
@@ -162,7 +191,9 @@ export default function ClientProjectDetailsPage({ params }: { params: { id: str
             </CardHeader>
             <CardContent>
               {(() => {
-                const publishedMilestones = milestones.filter(m => m.is_published);
+                const publishedMilestones = milestones
+                  .filter(m => m.is_published)
+                  .sort((a, b) => new Date(a.due_date).getTime() - new Date(b.due_date).getTime());
                 const completedMilestones = publishedMilestones.filter(m => m.status === 'completed');
                 const progressPercent = publishedMilestones.length > 0 ? Math.round((completedMilestones.length / publishedMilestones.length) * 100) : 0;
                 

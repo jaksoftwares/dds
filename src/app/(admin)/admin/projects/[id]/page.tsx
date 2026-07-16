@@ -15,7 +15,7 @@ import { toast } from "sonner";
 import { addProjectCommunication, updateProjectStatus, addMilestone, updateMilestoneStatus, updateMilestonePublish, uploadMilestoneReport, scheduleMeeting, updateMeetingStatus, editMilestone, deleteMilestone, editMeeting, deleteMeeting, updateMeetingPublish } from "@/actions/project-actions";
 import Link from "next/link";
 import { ArrowLeft, Edit, Trash2 } from "lucide-react";
-import { cn, getProjectStatusColor, getMilestoneStatusColor, getMeetingStatusColor } from "@/lib/utils";
+import { cn, getProjectStatusColor, getMilestoneStatusColor, getMeetingStatusColor, sortMilestonesByDueDate } from "@/lib/utils";
 import "react-quill/dist/quill.snow.css";
 
 export default function AdminProjectDetailsPage({ params }: { params: { id: string } }) {

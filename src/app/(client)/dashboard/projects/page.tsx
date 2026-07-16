@@ -66,7 +66,7 @@ export default async function ClientProjectsPage() {
                 <div className="flex-1 space-y-3 w-full">
                   {/* Next Milestone Summary */}
                   {(() => {
-                    const milestones = project.project_milestones || [];
+                    const milestones = (project.project_milestones || []).sort((a: any, b: any) => new Date(a.due_date).getTime() - new Date(b.due_date).getTime());
                     const nextMilestone = milestones.find((m: any) => m.status === 'in_progress') || milestones.find((m: any) => m.status === 'pending');
                     
                     return nextMilestone ? (

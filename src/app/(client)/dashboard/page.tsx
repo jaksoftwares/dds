@@ -67,31 +67,48 @@ export default async function ClientDashboardPage() {
             Upcoming Meetings
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {upcomingMeetings.map((meeting: any) => (
-              <Card key={meeting.id} className="p-5 border-blue-100 bg-blue-50/50 shadow-sm flex flex-col justify-between">
-                <div>
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="font-semibold text-blue-900 line-clamp-1" title={meeting.title}>
-                      {meeting.title}
-                    </h3>
+            {upcomingMeetings.map((meeting: any) => {
+              const meetingTime = new Date(meeting.meeting_date).getTime();
+              const now = new Date().getTime();
+              const thirtyMinsInMs = 30 * 60 * 1000;
+              const canJoin = meetingTime - now <= thirtyMinsInMs;
+
+              return (
+                <Card key={meeting.id} className="p-5 border-blue-100 bg-blue-50/50 shadow-sm flex flex-col justify-between">
+                  <div>
+                    <div className="flex justify-between items-start mb-2">
+                      <h3 className="font-semibold text-blue-900 line-clamp-1" title={meeting.title}>
+                        {meeting.title}
+                      </h3>
+                    </div>
+                    <p className="text-sm text-blue-700 font-medium mb-1">
+                      {meeting.client_projects?.title}
+                    </p>
+                    <p className="text-xs text-slate-500 mb-4">
+                      {new Date(meeting.meeting_date).toLocaleString()}
+                    </p>
                   </div>
-                  <p className="text-sm text-blue-700 font-medium mb-1">
-                    {meeting.client_projects?.title}
-                  </p>
-                  <p className="text-xs text-slate-500 mb-4">
-                    {new Date(meeting.meeting_date).toLocaleString()}
-                  </p>
-                </div>
-                <Link 
-                  href={meeting.meeting_link} 
-                  target="_blank"
-                  className="inline-flex items-center justify-center gap-2 w-full py-2 bg-white border border-blue-200 text-blue-700 text-sm font-medium rounded-md hover:bg-blue-50 transition-colors"
-                >
-                  <Video className="w-4 h-4" />
-                  Join Meeting
-                </Link>
-              </Card>
-            ))}
+                  {canJoin ? (
+                    <Link 
+                      href={meeting.meeting_link} 
+                      target="_blank"
+                      className="inline-flex items-center justify-center gap-2 w-full py-2 bg-white border border-blue-200 text-blue-700 text-sm font-medium rounded-md hover:bg-blue-50 transition-colors"
+                    >
+                      <Video className="w-4 h-4" />
+                      Join Meeting
+                    </Link>
+                  ) : (
+                    <button 
+                      disabled
+                      className="inline-flex items-center justify-center gap-2 w-full py-2 bg-slate-100 text-slate-400 text-sm font-medium rounded-md cursor-not-allowed"
+                    >
+                      <Video className="w-4 h-4 opacity-50" />
+                      Opens 30m before
+                    </button>
+                  )}
+                </Card>
+              );
+            })}
           </div>
         </section>
       )}

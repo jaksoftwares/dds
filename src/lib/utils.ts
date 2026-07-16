@@ -5,6 +5,13 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export function sortMilestonesByDueDate(a: any, b: any) {
+  if (!a.due_date && !b.due_date) return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+  if (!a.due_date) return 1;
+  if (!b.due_date) return -1;
+  return new Date(a.due_date).getTime() - new Date(b.due_date).getTime();
+}
+
 export function getProjectStatusColor(status: string) {
   switch (status?.toLowerCase()) {
     case "pending onboarding":
