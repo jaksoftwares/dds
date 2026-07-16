@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import { addProjectCommunication, updateProjectStatus, addMilestone, updateMilestoneStatus, updateMilestonePublish, uploadMilestoneReport, scheduleMeeting, updateMeetingStatus, editMilestone, deleteMilestone, editMeeting, deleteMeeting, updateMeetingPublish } from "@/actions/project-actions";
 import Link from "next/link";
 import { ArrowLeft, Edit, Trash2 } from "lucide-react";
+import { cn, getProjectStatusColor, getMilestoneStatusColor, getMeetingStatusColor } from "@/lib/utils";
 import "react-quill/dist/quill.snow.css";
 
 export default function AdminProjectDetailsPage({ params }: { params: { id: string } }) {
@@ -319,7 +320,7 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
           </div>
           <div className="flex items-center gap-4">
             <Select value={project.status} onValueChange={handleStatusChange} disabled={updatingStatus}>
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className={cn("w-[180px]", getProjectStatusColor(project.status))}>
                 <SelectValue placeholder="Status" />
               </SelectTrigger>
               <SelectContent>
@@ -548,7 +549,7 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
                               value={milestone.status} 
                               onValueChange={(val) => handleMilestoneStatusChange(milestone.id, val)}
                             >
-                              <SelectTrigger className="w-[120px] h-8 text-xs">
+                              <SelectTrigger className={cn("w-[120px] h-8 text-xs capitalize", getMilestoneStatusColor(milestone.status))}>
                                 <SelectValue />
                               </SelectTrigger>
                               <SelectContent>
@@ -648,7 +649,7 @@ export default function AdminProjectDetailsPage({ params }: { params: { id: stri
                               value={meeting.status} 
                               onValueChange={(val) => handleMeetingStatusChange(meeting.id, val)}
                             >
-                            <SelectTrigger className="w-[130px] h-8 text-xs">
+                            <SelectTrigger className={cn("w-[130px] h-8 text-xs capitalize", getMeetingStatusColor(meeting.status))}>
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>

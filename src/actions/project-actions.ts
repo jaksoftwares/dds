@@ -158,7 +158,8 @@ export async function updateProjectStatus(projectId: string, status: string) {
         { title: "Post-Launch Handover & Support Initiation", description: "Delivering credentials, documentation, and transitioning into maintenance.", due_date: addDays(65), status: "pending", is_published: false, project_id: projectId },
       ];
 
-      await supabase.from("project_milestones").insert(presetMilestones);
+      const { error: milestoneError } = await supabase.from("project_milestones").insert(presetMilestones);
+      if (milestoneError) throw new Error("Milestones insert failed: " + milestoneError.message);
 
       const addTime = (days: number, timeStr: string) => {
         const d = new Date(now);
@@ -176,7 +177,8 @@ export async function updateProjectStatus(projectId: string, status: string) {
         { title: "Project Handover & Retrospective", description: "Handing over credentials and discussing the project.", meeting_date: addTime(65, "T14:00:00Z"), meeting_link: "https://meet.google.com/new", status: "scheduled", is_published: false, project_id: projectId },
       ];
 
-      await supabase.from("project_meetings").insert(presetMeetings);
+      const { error: meetingError } = await supabase.from("project_meetings").insert(presetMeetings);
+      if (meetingError) throw new Error("Meetings insert failed: " + meetingError.message);
     }
   }
 

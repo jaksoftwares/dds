@@ -1,6 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Calendar, Video } from "lucide-react";
+import Link from "next/link";
 
 export default async function ClientDashboardPage() {
   const supabase = await createClient();
@@ -21,6 +23,15 @@ export default async function ClientDashboardPage() {
     .select("*")
     .eq("user_id", user.id)
     .order("created_at", { ascending: false });
+
+  // Fetch Upcoming Meetings
+  const { data: upcomingMeetings } = await supabase
+    .from("project_meetings")
+    .select("*, client_projects(title)")
+    .eq("is_published", true)
+    .gte("meeting_date", new Date().toISOString())
+    .order("meeting_date", { ascending: true })
+    .limit(3);
 
   // Fetch Contact Messages
   const { data: messages } = await supabase
@@ -47,6 +58,43 @@ export default async function ClientDashboardPage() {
           Start New Project
         </a>
       </header>
+
+      {/* Upcoming Meetings Section */}
+      {upcomingMeetings && upcomingMeetings.length > 0 && (
+        <section className="space-y-4">
+          <h2 className="text-xl font-semibold text-slate-800 flex items-center gap-2">
+            <Calendar className="w-5 h-5 text-customBlueBase" />
+            Upcoming Meetings
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {upcomingMeetings.map((meeting: any) => (
+              <Card key={meeting.id} className="p-5 border-blue-100 bg-blue-50/50 shadow-sm flex flex-col justify-between">
+                <div>
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="font-semibold text-blue-900 line-clamp-1" title={meeting.title}>
+                      {meeting.title}
+                    </h3>
+                  </div>
+                  <p className="text-sm text-blue-700 font-medium mb-1">
+                    {meeting.client_projects?.title}
+                  </p>
+                  <p className="text-xs text-slate-500 mb-4">
+                    {new Date(meeting.meeting_date).toLocaleString()}
+                  </p>
+                </div>
+                <Link 
+                  href={meeting.meeting_link} 
+                  target="_blank"
+                  className="inline-flex items-center justify-center gap-2 w-full py-2 bg-white border border-blue-200 text-blue-700 text-sm font-medium rounded-md hover:bg-blue-50 transition-colors"
+                >
+                  <Video className="w-4 h-4" />
+                  Join Meeting
+                </Link>
+              </Card>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Projects Section */}
       <section className="space-y-4">

@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 import { addProjectCommunication } from "@/actions/project-actions";
+import { Calendar, Video, ExternalLink, FileText, CheckCircle2, Clock, PlayCircle } from "lucide-react";
 import "react-quill/dist/quill.snow.css";
 
 export default function ClientProjectDetailsPage({ params }: { params: { id: string } }) {
@@ -106,17 +107,123 @@ export default function ClientProjectDetailsPage({ params }: { params: { id: str
       </div>
 
       <Tabs defaultValue="overview">
-        <TabsList className="grid w-full grid-cols-6 mb-6">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="financials">Financials</TabsTrigger>
-          <TabsTrigger value="assets">Assets</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-4 mb-6">
+          <TabsTrigger value="overview">Overview Hub</TabsTrigger>
           <TabsTrigger value="communications">Communications</TabsTrigger>
-          <TabsTrigger value="milestones">Milestones</TabsTrigger>
-          <TabsTrigger value="meetings">Meetings</TabsTrigger>
+          <TabsTrigger value="assets">Files & Assets</TabsTrigger>
+          <TabsTrigger value="financials">Financials</TabsTrigger>
         </TabsList>
         
         {/* Overview Tab */}
-        <TabsContent value="overview">
+        <TabsContent value="overview" className="space-y-6">
+          {/* Upcoming Meetings Hub */}
+          {(() => {
+            const upcomingMeetings = meetings.filter(m => new Date(m.meeting_date) >= new Date() && m.status === 'scheduled');
+            if (upcomingMeetings.length === 0) return null;
+            return (
+              <Card className="border-blue-100 bg-blue-50/30">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-blue-900 flex items-center gap-2 text-lg">
+                    <Calendar className="w-5 h-5 text-customBlueBase" />
+                    Upcoming Meetings
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {upcomingMeetings.map(meeting => (
+                      <div key={meeting.id} className="bg-white p-4 rounded-lg shadow-sm border border-blue-100 flex flex-col justify-between">
+                        <div>
+                          <h4 className="font-semibold text-slate-800 mb-1">{meeting.title}</h4>
+                          <p className="text-xs text-slate-500 mb-4">{new Date(meeting.meeting_date).toLocaleString()}</p>
+                        </div>
+                        <a 
+                          href={meeting.meeting_link} 
+                          target="_blank" 
+                          rel="noreferrer"
+                          className="inline-flex items-center justify-center gap-2 w-full py-2 bg-customBlueExtraDark text-white text-xs font-medium rounded hover:bg-customBlueDark transition-colors"
+                        >
+                          <Video className="w-4 h-4" />
+                          Join Meeting
+                        </a>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })()}
+
+          {/* Milestone Stepper */}
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="flex justify-between items-end">
+                <span>Project Timeline & Progress</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {(() => {
+                const publishedMilestones = milestones.filter(m => m.is_published);
+                const completedMilestones = publishedMilestones.filter(m => m.status === 'completed');
+                const progressPercent = publishedMilestones.length > 0 ? Math.round((completedMilestones.length / publishedMilestones.length) * 100) : 0;
+                
+                return publishedMilestones.length === 0 ? <p className="text-muted-foreground text-sm">Timeline is being set up by your project manager.</p> : (
+                  <div className="space-y-6 pt-4">
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-sm font-medium text-slate-600">
+                        <span>Overall Progress</span>
+                        <span className="text-slate-800">{progressPercent}%</span>
+                      </div>
+                      <Progress value={progressPercent} className="h-2.5" />
+                    </div>
+                    
+                    <div className="overflow-x-auto pb-6 custom-scrollbar">
+                      <div className="min-w-[800px] flex items-center justify-between relative mt-8 px-4">
+                        {/* Connecting Line */}
+                        <div className="absolute top-5 left-4 right-4 h-1 bg-slate-100 z-0" />
+                        <div 
+                          className="absolute top-5 left-4 h-1 bg-customBlueBase z-0 transition-all duration-500" 
+                          style={{ width: `calc(${progressPercent}% - 2rem)` }} 
+                        />
+                        
+                        {/* Nodes */}
+                        {publishedMilestones.map((milestone, index) => (
+                          <div key={milestone.id} className="relative z-10 flex flex-col items-center group w-24 shrink-0">
+                            <div className={`w-8 h-8 rounded-full border-[3px] border-white shrink-0 shadow-sm transition-all duration-300 ${milestone.status === 'completed' ? 'bg-green-500 ring-2 ring-green-200' : milestone.status === 'in_progress' ? 'bg-orange-500 ring-4 ring-orange-200 animate-pulse' : 'bg-slate-200'}`} />
+                            
+                            <div className="mt-3 text-center">
+                              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Step {index + 1}</p>
+                              <h4 className="text-xs font-semibold text-slate-700 leading-tight line-clamp-2">{milestone.title}</h4>
+                            </div>
+                            
+                            {/* Tooltip on hover */}
+                            <div className="absolute bottom-full mb-4 w-56 p-3 bg-slate-900 text-white text-xs rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all shadow-xl pointer-events-none z-50">
+                              <p className="font-semibold mb-1">{milestone.title}</p>
+                              <p className="text-slate-300 mb-2">{milestone.description || "No description provided."}</p>
+                              <div className="flex justify-between items-center border-t border-slate-700 pt-2 mt-2">
+                                <span className={`px-1.5 py-0.5 rounded text-[9px] uppercase font-bold tracking-wider ${milestone.status === 'completed' ? 'bg-green-500/20 text-green-300' : milestone.status === 'in_progress' ? 'bg-orange-500/20 text-orange-300' : 'bg-slate-700 text-slate-300'}`}>
+                                  {milestone.status.replace('_', ' ')}
+                                </span>
+                                {milestone.due_date && <span className="text-[9px] text-slate-400">Due: {new Date(milestone.due_date).toLocaleDateString()}</span>}
+                              </div>
+                              {/* Document Link inside tooltip */}
+                              {milestone.report_file_url && (
+                                <div className="mt-2 text-[10px] text-blue-300 flex items-center gap-1">
+                                  <FileText className="w-3 h-3" /> Report Available
+                                </div>
+                              )}
+                              {/* Arrow */}
+                              <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-900" />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })()}
+            </CardContent>
+          </Card>
+
           <Card>
             <CardHeader>
               <CardTitle>Project Brief</CardTitle>
@@ -125,19 +232,19 @@ export default function ClientProjectDetailsPage({ params }: { params: { id: str
               {project.project_briefs && project.project_briefs.length > 0 ? (
                 <>
                   <div>
-                    <h4 className="font-semibold">Company</h4>
-                    <p>{project.project_briefs[0].company_name}</p>
+                    <h4 className="font-semibold text-slate-700">Company</h4>
+                    <p className="text-slate-600">{project.project_briefs[0].company_name}</p>
                   </div>
                   <div>
-                    <h4 className="font-semibold">Goals</h4>
+                    <h4 className="font-semibold text-slate-700">Goals</h4>
                     <div 
-                      className="text-sm ql-editor px-0" 
+                      className="text-sm ql-editor px-0 text-slate-600" 
                       dangerouslySetInnerHTML={{ __html: project.project_briefs[0].project_goals }} 
                     />
                   </div>
                 </>
               ) : (
-                <p>No brief found.</p>
+                <p className="text-muted-foreground text-sm">No brief found.</p>
               )}
             </CardContent>
           </Card>
@@ -215,108 +322,6 @@ export default function ClientProjectDetailsPage({ params }: { params: { id: str
           </Card>
         </TabsContent>
         
-        {/* Milestones Tab */}
-        <TabsContent value="milestones">
-           <Card>
-             <CardHeader>
-               <CardTitle>Milestones & Progress</CardTitle>
-             </CardHeader>
-             <CardContent>
-               {(() => {
-                 const publishedMilestones = milestones.filter(m => m.is_published);
-                 const completedMilestones = publishedMilestones.filter(m => m.status === 'completed');
-                 const progressPercent = publishedMilestones.length > 0 ? Math.round((completedMilestones.length / publishedMilestones.length) * 100) : 0;
-                 
-                 return publishedMilestones.length === 0 ? <p className="text-muted-foreground">Milestones will be set up by your project manager shortly.</p> : (
-                   <div className="space-y-6">
-                     <div className="space-y-2">
-                       <div className="flex justify-between text-sm font-medium">
-                         <span>Overall Progress</span>
-                         <span>{progressPercent}%</span>
-                       </div>
-                       <Progress value={progressPercent} className="h-2" />
-                     </div>
-                     <div className="space-y-4 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-200 before:to-transparent">
-                       {publishedMilestones.map((milestone, index) => (
-                         <div key={milestone.id} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                           <div className={`flex items-center justify-center w-10 h-10 rounded-full border-4 border-white shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-sm ${milestone.status === 'completed' ? 'bg-green-500' : milestone.status === 'in_progress' ? 'bg-blue-500' : 'bg-slate-300'}`}>
-                             <span className="text-white text-xs font-bold">{index + 1}</span>
-                           </div>
-                           <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-xl border bg-white shadow-sm">
-                             <div className="flex justify-between items-start mb-2">
-                               <h4 className="font-semibold">{milestone.title}</h4>
-                               <span className={`px-2 py-1 text-[10px] uppercase tracking-wider font-semibold rounded-full ${
-                                 milestone.status === 'completed' ? 'bg-green-100 text-green-700' :
-                                 milestone.status === 'in_progress' ? 'bg-blue-100 text-blue-700' :
-                                 'bg-slate-100 text-slate-700'
-                               }`}>
-                                 {milestone.status.replace('_', ' ')}
-                               </span>
-                             </div>
-                             {milestone.description && <p className="text-sm text-slate-600 mb-2">{milestone.description}</p>}
-                             {milestone.due_date && <p className="text-xs text-slate-500 font-medium">Due: {new Date(milestone.due_date).toLocaleDateString()}</p>}
-                             
-                             {milestone.report_file_url && (
-                               <div className="mt-3 pt-3 border-t">
-                                 <Button variant="outline" size="sm" className="w-full text-xs h-8" asChild>
-                                   <a href={milestone.report_file_url} target="_blank" rel="noreferrer">
-                                     {milestone.report_file_name || 'Download Milestone Report'}
-                                   </a>
-                                 </Button>
-                               </div>
-                             )}
-                           </div>
-                         </div>
-                       ))}
-                     </div>
-                   </div>
-                 );
-               })()}
-             </CardContent>
-           </Card>
-        </TabsContent>
-
-        {/* Meetings Tab */}
-        <TabsContent value="meetings">
-          <Card>
-            <CardHeader>
-              <CardTitle>Scheduled Meetings</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {meetings.length === 0 ? <p className="text-muted-foreground">You have no upcoming meetings.</p> : (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {meetings.map(meeting => (
-                    <div key={meeting.id} className="p-4 border rounded-lg bg-white shadow-sm flex flex-col h-full">
-                      <div className="flex justify-between items-start mb-2">
-                        <h4 className="font-semibold text-lg">{meeting.title}</h4>
-                        <span className={`px-2 py-1 text-xs rounded-full ${
-                          meeting.status === 'completed' ? 'bg-green-100 text-green-700' :
-                          meeting.status === 'cancelled' ? 'bg-red-100 text-red-700' :
-                          'bg-blue-100 text-blue-700'
-                        }`}>
-                          {meeting.status}
-                        </span>
-                      </div>
-                      {meeting.description && <p className="text-sm text-slate-600 mb-4 flex-1">{meeting.description}</p>}
-                      <div className="mt-auto space-y-4">
-                        <div className="text-sm bg-slate-50 p-2 rounded border">
-                          <p><span className="font-medium text-slate-500">Date & Time:</span> <br/>{new Date(meeting.meeting_date).toLocaleString()}</p>
-                        </div>
-                        {meeting.status === 'scheduled' && (
-                          <Button asChild className="w-full">
-                            <a href={meeting.meeting_link} target="_blank" rel="noreferrer">
-                              Join Meeting
-                            </a>
-                          </Button>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </TabsContent>
       </Tabs>
     </div>
   );

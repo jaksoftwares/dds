@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { FolderKanban } from "lucide-react";
 import Link from "next/link";
+import { cn, getProjectStatusColor } from "@/lib/utils";
 
 export default async function AdminProjectsPage() {
   const supabase = await createClient();
@@ -43,10 +44,7 @@ export default async function AdminProjectsPage() {
                       </CardDescription>
                     </div>
                   </div>
-                  <Badge variant="outline" className={
-                    project.status === "completed" ? "text-green-600 border-green-200 bg-green-50" : 
-                    "text-slate-600"
-                  }>
+                  <Badge variant="outline" className={cn("capitalize", getProjectStatusColor(project.status))}>
                     {project.status || "active"}
                   </Badge>
                 </div>

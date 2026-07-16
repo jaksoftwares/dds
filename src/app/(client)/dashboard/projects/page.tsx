@@ -2,8 +2,9 @@ import { createClient } from "@/lib/supabase/server";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { CheckCircle2, Clock, PlayCircle, ExternalLink, FolderKanban } from "lucide-react";
+import { CheckCircle2, Clock, PlayCircle, ExternalLink, FolderKanban, Calendar } from "lucide-react";
 import Link from "next/link";
+import { cn, getProjectStatusColor, getMilestoneStatusColor } from "@/lib/utils";
 
 export default async function ClientProjectsPage() {
   const supabase = await createClient();
@@ -11,12 +12,13 @@ export default async function ClientProjectsPage() {
 
   if (!user) return null;
 
-  // Fetch Projects with their milestones
+  // Fetch Projects with their milestones and meetings
   const { data: projects } = await supabase
     .from("client_projects")
     .select(`
       *,
-      project_milestones (*)
+      project_milestones (*),
+      project_meetings (*)
     `)
     .eq("client_id", user.id)
     .order("created_at", { ascending: false });
@@ -46,7 +48,7 @@ export default async function ClientProjectsPage() {
                       </CardDescription>
                     )}
                   </div>
-                  <Badge variant={project.status === "completed" ? "default" : "outline"} className={project.status === "completed" ? "bg-green-600" : "bg-white"}>
+                  <Badge variant="outline" className={cn("capitalize", getProjectStatusColor(project.status))}>
                     {project.status || "In Progress"}
                   </Badge>
                 </div>
@@ -60,54 +62,63 @@ export default async function ClientProjectsPage() {
                 </div>
               </CardHeader>
               
-              <CardContent className="p-0">
-                {project.project_milestones && project.project_milestones.length > 0 ? (
-                  <div className="divide-y divide-slate-100">
-                    {project.project_milestones
-                      .sort((a: any, b: any) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
-                      .map((milestone: any) => (
-                        <div key={milestone.id} className="p-4 md:p-6 hover:bg-slate-50/50 transition-colors flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-                          <div className="flex items-start gap-4">
-                            <div className="mt-1">
-                              {milestone.status === 'completed' ? (
-                                <CheckCircle2 className="w-5 h-5 text-green-500" />
-                              ) : milestone.status === 'in_progress' ? (
-                                <PlayCircle className="w-5 h-5 text-customOrange" />
-                              ) : (
-                                <Clock className="w-5 h-5 text-slate-300" />
-                              )}
-                            </div>
-                            <div>
-                              <h4 className="font-medium text-slate-800">{milestone.title}</h4>
-                              {milestone.description && (
-                                <p className="text-sm text-slate-500 mt-1">{milestone.description}</p>
-                              )}
-                            </div>
-                          </div>
-                          
-                          <div className="flex items-center gap-3 w-full sm:w-auto">
-                            <Badge variant="secondary" className="capitalize shrink-0">
-                              {milestone.status.replace("_", " ")}
-                            </Badge>
-                            {milestone.preview_url && (
-                              <Link 
-                                href={milestone.preview_url} 
-                                target="_blank"
-                                className="flex items-center gap-1.5 text-xs font-medium text-customOrange hover:text-customOrange/80 bg-orange-50 px-3 py-1.5 rounded-full transition-colors shrink-0"
-                              >
-                                <ExternalLink className="w-3.5 h-3.5" />
-                                Preview
-                              </Link>
-                            )}
-                          </div>
+              <CardContent className="p-5 md:p-6 bg-white flex flex-col sm:flex-row gap-6 items-center justify-between">
+                <div className="flex-1 space-y-3 w-full">
+                  {/* Next Milestone Summary */}
+                  {(() => {
+                    const milestones = project.project_milestones || [];
+                    const nextMilestone = milestones.find((m: any) => m.status === 'in_progress') || milestones.find((m: any) => m.status === 'pending');
+                    
+                    return nextMilestone ? (
+                      <div className="flex items-center gap-3 text-sm">
+                        <div className="p-2 bg-orange-50 text-customOrange rounded-md shrink-0">
+                          <PlayCircle className="w-5 h-5" />
                         </div>
-                      ))}
-                  </div>
-                ) : (
-                  <div className="p-8 text-center text-slate-500 text-sm">
-                    No milestones defined for this project yet.
-                  </div>
-                )}
+                        <div>
+                          <p className="text-slate-500 font-medium text-xs uppercase tracking-wider">Current Focus</p>
+                          <p className="font-semibold text-slate-800">{nextMilestone.title}</p>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-3 text-sm text-slate-500">
+                        <div className="p-2 bg-slate-50 text-slate-400 rounded-md shrink-0">
+                          <CheckCircle2 className="w-5 h-5" />
+                        </div>
+                        <p>All milestones completed or pending setup.</p>
+                      </div>
+                    );
+                  })()}
+
+                  {/* Next Meeting Summary */}
+                  {(() => {
+                    const meetings = project.project_meetings || [];
+                    const nextMeeting = meetings
+                      .filter((m: any) => m.status === 'scheduled' && new Date(m.meeting_date) >= new Date())
+                      .sort((a: any, b: any) => new Date(a.meeting_date).getTime() - new Date(b.meeting_date).getTime())[0];
+                    
+                    return nextMeeting && (
+                      <div className="flex items-center gap-3 text-sm mt-3 pt-3 border-t border-slate-100">
+                        <div className="p-2 bg-blue-50 text-customBlueBase rounded-md shrink-0">
+                          <Calendar className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <p className="text-slate-500 font-medium text-xs uppercase tracking-wider">Next Meeting</p>
+                          <p className="font-semibold text-slate-800">{new Date(nextMeeting.meeting_date).toLocaleString()}</p>
+                        </div>
+                      </div>
+                    );
+                  })()}
+                </div>
+
+                <div className="w-full sm:w-auto shrink-0">
+                  <Link 
+                    href={`/dashboard/projects/${project.id}`}
+                    className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 bg-customBlueExtraDark text-white text-sm font-medium rounded-lg hover:bg-customBlueDark transition-colors shadow-sm"
+                  >
+                    View Project Workspace
+                    <ExternalLink className="w-4 h-4" />
+                  </Link>
+                </div>
               </CardContent>
             </Card>
           ))}
